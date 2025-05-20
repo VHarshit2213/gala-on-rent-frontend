@@ -11,7 +11,7 @@ const Landing = () => {
   return (
     <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
       <div className="grid grid-cols-3 gap-10">
-        <div className="col-span-2 space-y-6">
+        <div className="col-span-2 space-y-6 flex flex-col justify-center">
           <img
             src={Gala_On_RenT_LOGO}
             alt="Gala On Rent Logo"
