@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
-@theme{
-  --color-orange : #E56C06
+@theme {
+  --color-orange: #e56c06;
+  /* --breakpoint-xxl: 1440px; */
 }
 
-body{
+body {
   overflow: hidden;
 }
