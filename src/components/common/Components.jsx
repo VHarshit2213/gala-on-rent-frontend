@@ -1,6 +1,9 @@
-import React from 'react'
-import { Listbox } from '@headlessui/react'
-import { Check, ChevronDown } from 'lucide-react'
+import React, { Fragment } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { IoIosArrowDown } from 'react-icons/io'
+function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}
 
 export const Button = ({ children, ...rest }) => {
     return (
@@ -26,50 +29,101 @@ export const CardHeader = ({ headerClassName, children }) => {
     )
 }
 
+export const CardFooter = ({ headerClassName, children }) => {
+    return (
+        <div className={headerClassName}>
+            {children}
+        </div>
+    )
+}
+
 export const Select = ({
     options = [],
     value,
     onChange,
     label = '',
     className = '',
+    listBoxClass, listButtonClass, defaultText
 }) => {
     return (
         <div className={`w-full ${className}`}>
             {label && <label className="block mb-1 text-sm font-medium text-gray-700">{label}</label>}
             <Listbox value={value} onChange={onChange}>
-                <div className="relative">
-                    <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                        <span className="block truncate">{value.label || value.name}</span>
-                        <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-                            <ChevronDown className="w-4 h-4 text-gray-500" />
-                        </span>
-                    </Listbox.Button>
-                    <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" style={{zIndex:999}}>
-                        {options.map((option, idx) => (
-                            <Listbox.Option
-                                key={idx}
-                                value={option}
-                                className={({ active, selected }) =>
-                                    `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'
-                                    }`
-                                }
-                            >
-                                {({ selected }) => (
-                                    <>
-                                        <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                                            {option.label || option.name}
+                {({ open }) => (
+                    <>
+                        <div className={`${listBoxClass} relative mt-1`}>
+                            <Listbox.Button
+                                className={`${listButtonClass} relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-[#00000066] focus:outline-none sm:leading-6`} >
+                                <span className="flex items-center">
+                                    {value ? (
+                                        <span className="ml-3 block truncate text-xl">
+                                            {value.value}
                                         </span>
-                                        {selected && (
-                                            <span className="absolute inset-y-0 left-2 flex items-center text-blue-600">
-                                                <Check className="w-4 h-4" />
-                                            </span>
-                                        )}
-                                    </>
-                                )}
-                            </Listbox.Option>
-                        ))}
-                    </Listbox.Options>
-                </div>
+                                    ) : (
+                                        <span className="ml-3 block text-gray-500 text-xl whitespace-nowrap">
+                                            {defaultText}
+                                        </span>
+                                    )}
+                                </span>
+                                <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                                    <IoIosArrowDown
+                                        className="h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            </Listbox.Button>
+
+                            <Transition
+                                show={open}
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0">
+                                <Listbox.Options
+                                    className={`listbox-option absolute z-50 mt-1 max-h-56 w-auto overflow-auto rounded-md bg-white py-1 text-base shadow-lg border border-gray-300 focus:outline-none sm:text-sm`}
+                                    style={{
+                                        maxHeight: "300px",
+                                        overflowY: "auto",
+                                    }}>
+                                    {options.length > 0 ? (
+                                        options.map((option) => (
+                                            <Listbox.Option
+                                                key={option.id}
+                                                value={option}
+                                                className={({ active }) =>
+                                                    classNames(
+                                                        active ? "bg-indigo-500 text-white" : "text-gray-600",
+                                                        "relative cursor-default select-none py-2 pl-3 pr-9 text-sm border-0",
+                                                    )} >
+                                                {({ selected, active }) => (
+                                                    <div className="flex items-center">
+                                                        <span className={classNames(
+                                                            selected ? "font-semibold" : "font-normal",
+                                                            "ml-3 block truncate text-sm"
+                                                        )}  >
+                                                            {option.value}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </Listbox.Option>
+                                        ))
+                                    ) : (
+                                        <Listbox.Option
+                                            value=""
+                                            disabled
+                                            className="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-500">
+                                            <div className="flex items-center">
+                                                <span className="ml-3 text-sm block truncate">
+                                                    no data
+                                                </span>
+                                            </div>
+                                        </Listbox.Option>
+                                    )}
+                                </Listbox.Options>
+                            </Transition>
+                        </div>
+                    </>
+                )}
             </Listbox>
         </div>
     )

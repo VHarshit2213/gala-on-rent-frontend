@@ -2,9 +2,13 @@
 
 @theme {
   --color-orange: #e56c06;
-  /* --breakpoint-xxl: 1440px; */
 }
 
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
+  height: 100vh;
+}
+
+.listbox-option{
+  width: -webkit-fill-available;
 }
