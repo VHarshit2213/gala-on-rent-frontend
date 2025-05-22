@@ -28,10 +28,17 @@ export const CardHeader = ({ headerClassName, children }) => {
         </div>
     )
 }
-
-export const CardFooter = ({ headerClassName, children }) => {
+export const CardBody = ({ bodyClassName, children }) => {
     return (
-        <div className={headerClassName}>
+        <div className={bodyClassName}>
+            {children}
+        </div>
+    )
+}
+
+export const CardFooter = ({ footerClassName, children }) => {
+    return (
+        <div className={footerClassName}>
             {children}
         </div>
     )
