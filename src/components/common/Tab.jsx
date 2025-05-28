@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 export const Tabs = ({
+    className = '',
     defaultActive,
     tabClassName = '',
     tabButton = '',
@@ -17,7 +18,7 @@ export const Tabs = ({
         disabled: child.props.disabled,
     }));
     return (
-        <div>
+        <div className={className}>
             <div className={tabClassName}>
                 {tabs.map(tab => (
                     <button

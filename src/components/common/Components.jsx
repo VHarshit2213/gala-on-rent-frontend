@@ -1,10 +1,28 @@
 import React, { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { IoIosArrowDown } from 'react-icons/io'
+import { GrLinkNext } from 'react-icons/gr';
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
+export const ThemeButton = ({ className, title, icon, children, ...rest }) => {
+    return (
+        <div
+            className={`${className} group bg-orange hover:bg-dark border hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-[300px] flex justify-between items-center text-center mx-auto border-0`}
+            {...rest}
+        >
+            <Button className="uppercase">
+                {title}
+            </Button>
+
+            <div className="p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
+                {icon ? icon : <GrLinkNext />}
+            </div>
+        </div>
+
+    )
+}
 export const Button = ({ children, ...rest }) => {
     return (
         <button {...rest}>
@@ -13,9 +31,9 @@ export const Button = ({ children, ...rest }) => {
     )
 }
 
-export const Card = ({ cardClassName, children }) => {
+export const Card = ({ cardClassName, children, ...rest }) => {
     return (
-        <div className={cardClassName}>
+        <div className={cardClassName} {...rest}>
             {children}
         </div>
     )

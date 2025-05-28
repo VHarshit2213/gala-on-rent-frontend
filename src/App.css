@@ -1,10 +1,17 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 @theme {
   --color-orange: #e56c06;
+  --color-dark:#192E3F;
   --color-muted : #000929;
+  --color-muted-transparent : #767676;
   --radius-50: 50%; 
+  --breakpoint-2xl : 1920px;
+  --breakpoint-xl : 1440px;
+  --breakpoint-lg : 1024px;
+  --breakpoint-md : 768px;
+  --breakpoint-sm : 567px;
+  --breakpoint-xsm : 425px;
 }
 
 body {
@@ -14,4 +21,23 @@ body {
 
 .listbox-option{
   width: -webkit-fill-available;
+}
+
+.slick-track{
+  display: flex !important;
+  gap:30px !important;
+}
+
+.client_slider .slick-slider .slick-list{
+padding-top: 40px;
+}
+
+.custom-dots .slick-active button::before{
+  background: #FF5D22 !important;
+}
+.custom-dots li button::before{
+  content:"-" !important;
+  height: 5px !important;
+  background: #FF5D2280 !important;
+  border-radius: 50px !important;
 }

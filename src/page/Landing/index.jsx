@@ -30,7 +30,8 @@ const Landing = () => {
               >
                 RENT YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
-              <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#EA982C]">
+              <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#EA982C]" 
+              onClick={() => navigate("/home")}>
                 FIND COMMERCIAL PROPERTY / OFFICE / SHOP ON RENT
               </p>
               <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#358E54]">
