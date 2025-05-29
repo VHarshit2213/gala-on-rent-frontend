@@ -41,3 +41,12 @@ padding-top: 40px;
   background: #FF5D2280 !important;
   border-radius: 50px !important;
 }
+[role="combobox"]  {
+  border : 0 !important
+}
+
+.react-international-phone-input{
+  border-bottom: 1px solid #D9D9D9 !important;
+  border-inline : 0 !important;
+  border-top: 0 !important;
+}
