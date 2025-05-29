@@ -14,7 +14,7 @@ const TabContent = () => {
         <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8'>
             {
                 [1, 2, 3, 4, 5, 6]?.map((item) => (
-                    <Card cardClassName="bg-white w-full" >
+                    <Card cardClassName="bg-white w-full rounded-lg border border-[#F0EFFB]" >
                         <div className='relative'>
                             {[1, 2, 3]?.includes(item) &&
                                 <div className={`absolute -bottom-9 -translate-y-1/2 left-[-3%] bg-orange text-white flex justify-start items-center gap-2 uppercase text-sm font-semibold p-2 rounded-tl-lg rounded-r-lg`}>
@@ -75,7 +75,7 @@ const BasedOnLocation = () => {
                     <TabContent />
                 </Tab>
             </Tabs>
-            <ThemeButton title={'Browse more properties'} />
+            <ThemeButton title={'Browse more properties'} className={"!pl-5"} />
         </div>
     )
 }

@@ -10,8 +10,8 @@ const SignInUp = () => {
   const [phone, setPhone] = useState('');
   return (
     <div className='w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center'>
-      <div className='flex lg:gap-20 gap-4 lg:justify-center justify-between  w-full'>
-        <div className='flex flex-col xl:justify-evenly justify-start xl:gap-y-0 gap-y-10'>
+      <div className='flex lg:gap-20 gap-4 justify-center  w-full'>
+        <div className='lg:flex hidden flex-col xl:justify-evenly justify-start xl:gap-y-0 gap-y-10'>
           <img
             src={Gala_On_RenT_LOGO}
             alt="Gala On Rent Logo"
@@ -26,7 +26,7 @@ const SignInUp = () => {
             </div>
           </div>
         </div>
-        <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white rounded-xl lg:p-14 p-10 lg:max-w-lg max-w-sm w-full">
+        <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white rounded-xl p-14 max-w-lg w-full">
           <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
             <div className='flex flex-col gap-y-9'>
               <p className='font-normal lg:text-xl text-md capitalize text-center'>New to <span className='text-orange font-semibold'>Housing</span>? Let’s get you started</p>
@@ -55,7 +55,7 @@ const SignInUp = () => {
                     />
                   </Tab>
                 </Tabs>
-                <ThemeButton title={"PROCEED"} className="!justify-center gap-3 !max-w-[420px] mt-4" />
+                <ThemeButton title={"PROCEED"} className="!justify-center !max-w-[420px] mt-4" />
               </div>
             </div>
             <p className='text-base font-semibold uppercase text-center'>Existing User? <span className='text-orange'>Login Here</span></p>

@@ -1,10 +1,14 @@
 import React from "react";
 import Gala_On_RenT_LOGO from "../assets/Landing/Gala_On_RenT_LOGO.png";
 import { FaCircleUser } from "react-icons/fa6";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation()  
+  const isShowShadow = ["/about-us"]?.includes(location.pathname)
+  
   return (
-      <div className="flex justify-between px-10">
+      <div className={`flex justify-between px-10 ${!isShowShadow ? "shadow-[0px_2px_12px_0px_#00000033]" : ""} `}>
         <img
           src={Gala_On_RenT_LOGO}
           alt="Gala On Rent Logo"

@@ -9,7 +9,7 @@ function classNames(...classes) {
 export const ThemeButton = ({ className, title, icon, children, ...rest }) => {
     return (
         <div
-            className={`${className} group bg-orange hover:bg-dark border hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-[300px] flex justify-between items-center text-center mx-auto border-0`}
+            className={`${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0`}
             {...rest}
         >
             <Button className="uppercase">

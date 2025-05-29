@@ -14,7 +14,27 @@ const settings = {
   speed: 500,
   slidesToShow: 3,
   slidesToScroll: 3,
-  dotsClass:"slick-dots custom-dots"
+  dotsClass: "slick-dots custom-dots",
+  responsive: [
+    {
+      breakpoint: 1116,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true
+      }
+    }
+  ]
 };
 
 const WhatClientSays = () => {

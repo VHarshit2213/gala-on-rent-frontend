@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { IoSearchOutline } from "react-icons/io5";
-import { Card, Tabs, Tab, Button, Select, ThemeButton, Footer } from '../../components/common';
+import { Card, Tabs, Tab, Button, Select, ThemeButton } from '../../components/common';
 import BasedOnLocation from './BasedOnLocation';
 import FindProperties from './FindProperties';
 import HighDemandProject from './HighDemandProject';
@@ -116,10 +116,9 @@ const Home = () => {
           <h3 className='text-3xl font-bold'>Ready to find your next office or warehouse?</h3>
           <p className='text-base mb-3 opacity-80'>There are many variations of passages of Lorem Ipsum available, but the majority have
             suffered alteration in some form, by injected humour.</p>
-          <ThemeButton className={"!max-w-[150px] text-sm"} title={'Rent Now '} />
+          <ThemeButton className={"!pl-5 !justify-center gap-2 text-sm"} title={'Rent Now '} />
         </div>
       </div>
-      <Footer />
     </>
   )
 }

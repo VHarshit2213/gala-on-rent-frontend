@@ -14,13 +14,13 @@ import { GrSend } from "react-icons/gr";
 const Footer = () => {
     return (
         <div>
-            <div className='relative bg-dark h-[480px] w-full overflow-hidden px-[120px]'>
+            <div className='relative bg-dark h-auto w-full overflow-x-hidden px-[120px]'>
                 <div className="relative h-20 bg-dark overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-0 border-t-[64px] border-t-[#E46900] border-l-[40vw] border-l-transparent border-r-[40vw] border-r-transparent" />
+                    <div className="absolute top-0 left-0 w-full h-0 xl:border-t-64 lg:border-t-55 border-t-40 border-t-[#E46900] xl:border-l-[45vw] lg:border-l-[41vw] md:border-l-[39vw] border-l-[50vw] border-l-transparent xl:border-r-[45vw] lg:border-r-[41vw] md:border-r-[39vw] border-r-[50vw] border-r-transparent" />
                 </div>
                 <div className="text-white py-8">
-                    <div className="grid grid-cols-1 md:grid-cols-10 gap-3">
-                        <div className="flex flex-col gap-y-4 col-span-3">
+                    <div className="grid grid-cols-10 lg:gap-3 gap-y-10">
+                        <div className="flex flex-col gap-y-4 lg:col-span-3 col-span-6">
                             <img src={logo} alt="Logo" className="w-32" />
                             <p className="leading-6 text-base">
                                 We are many variations of passages available, but the majority have suffered alteration in some form by injected humour.
@@ -41,7 +41,7 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <div className='flex flex-col items-center gap-y-8 col-span-2'>
+                        <div className='flex flex-col items-center gap-y-8 lg:col-span-2 col-span-4'>
                             <div className="flex flex-col justify-center gap-y-5">
                                 <p className="text-xl font-medium">Quick Links</p>
                                 <div className="flex gap-2">
@@ -50,14 +50,14 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div className='flex flex-col justify-center gap-y-4 whitespace-nowrap leading-7'>
-                                <p className='text-[#ffffffda] hover:text-orange flex gap-2 items-center transform hover:translate-x-[10px] '><IoMdArrowDropright className='text-orange' size={20} /> <span className='font-normal hover:text-orange'>About Us</span></p>
+                                <a href='/about-us' className='text-[#ffffffda] hover:text-orange flex gap-2 items-center transform hover:translate-x-[10px] '><IoMdArrowDropright className='text-orange' size={20} /> <span className='font-normal hover:text-orange'>About Us</span></a>
                                 <p className='text-[#ffffffda] hover:text-orange flex gap-2 items-center transform hover:translate-x-[10px] '><IoMdArrowDropright className='text-orange' size={20} /> <span className='font-normal hover:text-orange'>FAQ's</span></p>
                                 <p className='text-[#ffffffda] hover:text-orange flex gap-2 items-center transform hover:translate-x-[10px] '><IoMdArrowDropright className='text-orange' size={20}/> <span className='font-normal hover:text-orange'>Our Services</span></p>
                                 <p className='text-[#ffffffda] hover:text-orange flex gap-2 items-center transform hover:translate-x-[10px] '><IoMdArrowDropright className='text-orange' size={20} /> <span className='font-normal hover:text-orange'>Latest Blog</span></p>
                             </div>
                         </div>
 
-                        <div className='flex flex-col items-start gap-y-8 col-span-3'>
+                        <div className='flex flex-col items-start gap-y-8 lg:col-span-3 col-span-5'>
                             <div className="flex flex-col gap-y-5">
                                 <p className="text-xl font-medium">Our Services</p>
                                 <div className="flex gap-2">
@@ -65,7 +65,7 @@ const Footer = () => {
                                     <span className="border-2 border-orange w-9"></span>
                                 </div>
                             </div>
-                            <div className='flex flex-col gap-y-4 whitespace-nowrap text-[#ffffffda] leading-7'>
+                            <div className='flex flex-col gap-y-4 text-[#ffffffda] leading-7'>
                                 <p className='flex gap-2 items-center'><FaLocationDot className='text-orange w-6' /> <span className='font-normal'>25/B Milford Road, New York, USA</span></p>
                                 <p className='flex gap-2 items-center'><AiOutlinePhone className='text-orange' /> <span className='font-normal'>+2 123 654 7898</span></p>
                                 <p className='flex gap-2 items-center'><MdOutlineMailOutline className='text-orange' /> <span className='font-normal'>support@example.com</span></p>
@@ -73,7 +73,7 @@ const Footer = () => {
 
                         </div>
 
-                        <div className='flex flex-col gap-y-8 col-span-2'>
+                        <div className='flex flex-col gap-y-8 lg:col-span-2 col-span-5'>
                             <div className="flex flex-col gap-y-5">
                                 <p className="text-xl font-medium">Newsletter</p>
                                 <div className="flex gap-2">
@@ -85,9 +85,9 @@ const Footer = () => {
                                 <p className='text-[#ffffffda] flex gap-2 items-center leading-7'>Subscribe Our Newsletter To Get
                                     Latest Update And News</p>
                                     <div className='border-2 border-white rounded-4xl px-4 py-3'>
-                                        <input type='email' placeholder='Your Email' />
+                                        <input type='email' placeholder='Your Email' className='focus-visible:outline-0' />
                                     </div>
-                                    <ThemeButton className={"text-sm"} title={'Subscribe Now '} icon={<GrSend />}/>
+                                    <ThemeButton className={"text-sm !mx-0 !pl-5"} title={'Subscribe Now '} icon={<GrSend />}/>
                             </div>
                         </div>
                     </div>

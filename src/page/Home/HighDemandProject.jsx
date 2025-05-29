@@ -23,7 +23,7 @@ const HighDemandProject = () => {
                     title="High-demand"
                     highlightTitle="Project"
                     description="Leading project  in high demand" />
-                <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8'>
+                <div className='grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-8'>
                     {
                         [1, 2, 3, 4, 5, 6]?.map((item) => (
                             <Card cardClassName="w-full border border-[#D9D9D9] rounded-lg overflow-clip" >
@@ -48,24 +48,24 @@ const HighDemandProject = () => {
                     }
                 </div>
             </div>
-            <div className="relative px-[135px] py-15 w-full h-[620px] overflow-hidden">
+            <div className="relative px-[135px] py-15 w-full auto overflow-x-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-no-repeat bg-center opacity-[0.15]"
                     style={{ backgroundImage: `url(${HighDemandProjectImage})` }}
                 ></div>
 
-                <div className="relative z-10 grid grid-cols-3 2xl:gap-18 gap-16">
-                    <div className='flex flex-col border border-orange rounded-lg p-5'>
+                <div className="relative z-10 grid grid-cols-9 2xl:gap-18 gap-16">
+                    <div className='flex flex-col border border-orange rounded-lg p-5 lg:col-span-3 md:col-span-5 col-span-9'>
                         <div className='pr-5 flex flex-col justify-start gap-4'>
                             <p className="text-orange font-semibold text-3xl">
                                 The new way to find your new home
                             </p>
                             <p className='text-[#757F95] font-normal text-sm opacity-70'>Find your dream place to live in with more than 10k+ properties listed.</p>
-                            <ThemeButton className="!max-w-[200px] !justify-center gap-2 !mx-0" title="Discover More " />
+                            <ThemeButton className="!max-w-[200px] !justify-center gap-2 !mx-0 whitespace-nowrap" title="Discover More " />
                         </div>
                         <img src={illustration} alt="illustration" className='max-w-[324px] w-full' />
                     </div>
-                    <div className='flex flex-col gap-16'>
+                    <div className='flex md:flex-col flex-row gap-16 lg:col-span-3 md:col-span-4 col-span-9'>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
                                 <img src={propertyIcon} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
@@ -87,7 +87,7 @@ const HighDemandProject = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-16'>
+                    <div className='flex lg:flex-col flex-row gap-16 lg:col-span-3 md:col-span-9 col-span-9'>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
                                 <img src={dollar1} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
