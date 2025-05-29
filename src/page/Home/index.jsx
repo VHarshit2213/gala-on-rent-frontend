@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IoSearchOutline } from "react-icons/io5";
 import { Card, Tabs, Tab, Button, Select, ThemeButton, Footer } from '../../components/common';
-import BasedOnLocation from './Basedonlocation';
+import BasedOnLocation from './BasedOnLocation';
 import FindProperties from './FindProperties';
 import HighDemandProject from './HighDemandProject';
 import TopCities from './TopCities';
