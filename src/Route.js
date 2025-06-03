@@ -5,7 +5,7 @@ import Landing from "./page/Landing";
 import PropertyDetails from "./page/PropertyDetails";
 import SearchProperty from "./page/SearchProperty";
 import AddProperty from "./page/SellProperty/AddProperty";
-import Dashboard from "./page/SellProperty/dashboard";
+import Dashboard from "./page/SellProperty/Dashboard";
 import PropertyList from "./page/SellProperty/PropertyList";
 
 // Non Private route
