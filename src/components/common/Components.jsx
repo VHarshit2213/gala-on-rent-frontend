@@ -68,7 +68,7 @@ export const Select = ({
     onChange,
     label = '',
     className = '',
-    listBoxClass, listButtonClass, defaultText
+    listBoxClass, listButtonClass, defaultText,textClass,
 }) => {
     return (
         <div className={`w-full ${className}`}>
@@ -81,11 +81,11 @@ export const Select = ({
                                 className={`${listButtonClass} relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-[#00000066] focus:outline-none sm:leading-6`} >
                                 <span className="flex items-center">
                                     {value ? (
-                                        <span className="ml-3 block truncate text-xl">
+                                        <span className={`ml-3 block truncate text-xl ${textClass}`}>
                                             {value.value}
                                         </span>
                                     ) : (
-                                        <span className="ml-3 block text-gray-500 text-xl whitespace-nowrap">
+                                        <span className={`ml-3 block text-gray-500 text-xl whitespace-nowrap ${textClass}`}>
                                             {defaultText}
                                         </span>
                                     )}

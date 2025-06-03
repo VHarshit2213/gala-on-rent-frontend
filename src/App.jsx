@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { nonPrivateRoute, privateRoute } from "./Route";
+import { nonPrivateRoute, privateRoute, sellRoute } from "./Route";
 import AuthProtected from "./components/AuthProtected";
+import SellPropertySidebarHeader from "./components/common/SellPropertySidebarHeader";
 
 function App() {
   return (
@@ -16,6 +17,16 @@ function App() {
             <AuthProtected>
               <route.component />
             </AuthProtected>
+          }
+        />
+      ))}
+      {sellRoute?.map((route) => (
+        <Route
+          path={route.path}
+          element={
+            <SellPropertySidebarHeader>
+              <route.component />
+            </SellPropertySidebarHeader>
           }
         />
       ))}

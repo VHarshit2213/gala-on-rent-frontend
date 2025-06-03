@@ -45,7 +45,7 @@ const TabContent = () => {
                                 <img src={squareMeters} />
                                 <span className='opacity-50 text-sm'>5,000 sq.ft.</span>
                             </div>
-                            <div className='p-3 rounded-50 border border-orange bg-[#E56C061A]'>
+                            <div className='p-3 rounded-50 border border-orange bg-orange-transparent'>
                                 <GrLinkNext className='text-orange' />
                             </div>
                         </CardFooter>

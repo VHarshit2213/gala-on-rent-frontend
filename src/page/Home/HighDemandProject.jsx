@@ -26,7 +26,7 @@ const HighDemandProject = () => {
                 <div className='grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-8'>
                     {
                         [1, 2, 3, 4, 5, 6]?.map((item) => (
-                            <Card cardClassName="w-full border border-[#D9D9D9] rounded-lg overflow-clip" >
+                            <Card cardClassName="w-full border border-gray rounded-lg overflow-clip" >
                                 <CardBody>
                                     <div className='flex'>
                                         <img src={highDemandProject} className='w-[150px] h-[150px]' />
@@ -68,7 +68,7 @@ const HighDemandProject = () => {
                     <div className='flex md:flex-col flex-row gap-16 lg:col-span-3 md:col-span-4 col-span-9'>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
-                                <img src={propertyIcon} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
+                                <img src={propertyIcon} className='absolute rounded-full border-4 border-white p-3 bg-orange-transparent' />
                                 <img src={insurance} className='absolute -right-[5px] -bottom-[1px]' />
                             </div>
                             <div className='flex flex-col gap-4'>
@@ -78,7 +78,7 @@ const HighDemandProject = () => {
                         </div>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
-                                <img src={modulor} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
+                                <img src={modulor} className='absolute rounded-full border-4 border-white p-3 bg-orange-transparent' />
                                 <img src={dollar} className='absolute -right-[5px] -bottom-[1px]' />
                             </div>
                             <div className='flex flex-col gap-4'>
@@ -90,7 +90,7 @@ const HighDemandProject = () => {
                     <div className='flex lg:flex-col flex-row gap-16 lg:col-span-3 md:col-span-9 col-span-9'>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
-                                <img src={dollar1} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
+                                <img src={dollar1} className='absolute rounded-full border-4 border-white p-3 bg-orange-transparent' />
                                 <img src={modulor1} className='absolute -right-[5px] -bottom-[1px]' />
                             </div>
                             <div className='flex flex-col gap-4'>
@@ -100,7 +100,7 @@ const HighDemandProject = () => {
                         </div>
                         <div className='flex flex-col gap-6'>
                             <div className='border-2 border-orange rounded-50 w-16 h-16 flex justify-center items-center relative'>
-                                <img src={location1} className='absolute rounded-full border-4 border-white p-3 bg-[#E56C061A]' />
+                                <img src={location1} className='absolute rounded-full border-4 border-white p-3 bg-orange-transparent' />
                                 <img src={home1} className='absolute -right-[5px] -bottom-[1px]' />
                             </div>
                             <div className='flex flex-col gap-4'>

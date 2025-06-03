@@ -36,7 +36,7 @@ const SignInUp = () => {
                   className='flex flex-col gap-y-3'
                   defaultActive="Rent"
                   tabClassName="flex xl:gap-6 gap-4"
-                  tabButton="lg:py-4 py-3 lg:px-9 px-6 font-medium text-base border border-[#D9D9D9] rounded-md"
+                  tabButton="lg:py-4 py-3 lg:px-9 px-6 font-medium text-base border border-gray rounded-md"
                   active="bg-[#E56C0633] text-orange border border-transparent font-medium"
                   tabContent="py-3"
                 >

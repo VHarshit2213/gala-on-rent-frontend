@@ -39,7 +39,7 @@ const FindProperties = () => {
                 <Title
                     title="Have a property"
                     highlightTitle="to sell?" />
-                <div className='flex justify-between border border-[#D9D9D9] rounded-[30px] h-fit'>
+                <div className='flex justify-between border border-gray rounded-[30px] h-fit'>
                     <div className='relative h-50'>
                         <img src={sellKey} className='relative z-50' />
                         <img src={sellPropertyKey} className='relative z-10 bottom-32.5 left-5' />
