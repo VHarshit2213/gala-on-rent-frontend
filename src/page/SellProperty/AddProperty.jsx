@@ -8,7 +8,7 @@ import AddPhotos from './AddPhotos';
 
 const AddProperty = () => {
 
-  const navTab = ["Basic Details", "Property Details", "Price Details", "Amenities","Photos","Review"]
+  const navTab = ["Basic Details", "Property Details", "Price Details", "Amenities","Photos"]
   const [activeTab, setActiveTab] = React.useState(0);
 
   return (
