@@ -62,7 +62,7 @@ const PropertyDetails = () => {
                     </div>
                     <div className='flex flex-col items-end gap-y-2.5'>
                         <p className='text-muted font-bold text-2xl'>Price on Request</p>
-                        <Button className="bg-orange text-white py-3 px-14 rounded-lg text-sm">Contact Developer</Button>
+                        <Button className="bg-orange text-white py-3 px-8 rounded-lg text-sm">Contact Developer</Button>
                     </div>
 
                 </div>

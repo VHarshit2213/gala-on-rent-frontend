@@ -4,14 +4,15 @@ import BasicProperty from './AddBasicProperty';
 import AddPropertyDetails from './AddPropertyDetails';
 import AddPriceDetails from './AddPriceDetails';
 import AddAmenities from './AddAmenities';
+import AddPhotos from './AddPhotos';
 
 const AddProperty = () => {
 
-  const navTab = ["Basic Details", "Property Details", "Price Details", "Amenities"]
+  const navTab = ["Basic Details", "Property Details", "Price Details", "Amenities","Photos","Review"]
   const [activeTab, setActiveTab] = React.useState(0);
 
   return (
-    <div className='pt-15 flex justify-center'>
+    <div className='py-15 flex justify-center'>
       <div className='flex flex-col justify-center border border-gray rounded-lg max-w-250 w-full h-full'>
         <div className='bg-orange-transparent p-3 px-20 flex justify-around items-center gap-15 w-full overflow-y-auto scrollbar-hide'>
           {
@@ -46,6 +47,7 @@ const AddProperty = () => {
         { activeTab === 1 && <AddPropertyDetails setActiveTab={setActiveTab} activeTab={activeTab}  />}
         { activeTab === 2 && <AddPriceDetails setActiveTab={setActiveTab} activeTab={activeTab}  />}
         { activeTab === 3 && <AddAmenities setActiveTab={setActiveTab} activeTab={activeTab}  />}
+        { activeTab === 4 && <AddPhotos setActiveTab={setActiveTab} activeTab={activeTab}  />}
       </div>
     </div>
   )
