@@ -1,5 +1,5 @@
 import React from "react";
-import Property from "../../assets/Property/Property.png";
+import Property from "../../assets/Property/property.png";
 import squareMeters from "../../assets/Home/squareMeters.png";
 import { Card, CardBody, CardFooter } from "../../components/common";
 import { FaRegHeart } from "react-icons/fa6";
