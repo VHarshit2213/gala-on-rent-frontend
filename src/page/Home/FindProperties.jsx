@@ -13,7 +13,7 @@ const Image = ({ src, title, properties, imageClass }) => {
         <div className="relative overflow-clip rounded-xl">
             <img src={src} alt={src} className={`${imageClass} w-full h-full object-cover transition-transform duration-500 ease-in-out hover:[transform:rotate(-3deg)_scale(1.1)]`} />
             <div className="absolute h-1/2 top-1/2 inset-0 bg-gradient-to-t from-[#FFEEE0]/50 to-transparent"></div>
-            <div className='absolute bottom-10 left-1/3 text-center'>
+            <div className='absolute bottom-10 left-1/2 -translate-x-1/2 text-center'>
                 <h4 className='text-white font-semibold text-xl'>{title}</h4>
                 <p className='text-white font-normal'>{properties} Properties</p>
             </div>
@@ -29,10 +29,10 @@ const FindProperties = () => {
                     highlightTitle="These Cities"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
                 <div className='flex flex-wrap justify-center gap-7.5 w-full'>
-                    <Image src={miami} title={"Miami"} properties={"24"} imageClass="xl:w-[600px] lg:w-[350px] md:w-[300px]" />
-                    <Image src={losAngeles} title={"Los Angeles"} properties={"18"} imageClass="xl:w-[1000px] lg:w-[600px] md:w-[500px]" />
-                    <Image src={newYork} title={"New York"} properties={"89"} imageClass="xl:w-[1000px] lg:w-[600px] md:w-[400px]" />
-                    <Image src={florida} title={"Florida"} properties={"47"} imageClass="xl:w-[600px] lg:w-[350px] md:w-[300px]" />
+                    <Image src={miami} title={"Miami"} properties={"24"} imageClass="xxl:w-[600px] xl:w-[450px] lg:w-[350px] md:w-[300px]" />
+                    <Image src={losAngeles} title={"Los Angeles"} properties={"18"} imageClass="xxl:w-[1000px] xl:w-[850px] lg:w-[600px] md:w-[500px]" />
+                    <Image src={newYork} title={"New York"} properties={"89"} imageClass="xxl:w-[1000px] xl:w-[850px] lg:w-[600px] md:w-[500px]" />
+                    <Image src={florida} title={"Florida"} properties={"47"} imageClass="xxl:w-[600px] xl:w-[450px] lg:w-[350px] md:w-[300px]" />
                 </div>
             </div>
             <div className='p-10 flex flex-col gap-7.5 w-full 2px-[200px] px-[135px]'>
