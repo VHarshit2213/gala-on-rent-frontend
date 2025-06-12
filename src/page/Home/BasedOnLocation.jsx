@@ -109,7 +109,7 @@ const BasedOnLocation = () => {
           <TabContent />
         </Tab>
       </Tabs>
-      <ThemeButton title={"Browse more properties"} className={"!pl-5"} />
+      <ThemeButton title={"Browse more properties"} className={"!pl-5 mb-8"} />
     </div>
   );
 };

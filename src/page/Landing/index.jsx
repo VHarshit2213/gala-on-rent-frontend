@@ -4,8 +4,11 @@ import Gala from "./../../assets/Landing/Gala.png";
 import Office from "./../../assets/Landing/Office.png";
 import Shed from "./../../assets/Landing/Shed.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPropertyType } from "../../reducer/propertyType/redux";
 
 const Landing = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
@@ -26,7 +29,9 @@ const Landing = () => {
             <div className="flex flex-col gap-[20px]">
               <p
                 className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#3D88E5] cursor-pointer"
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  dispatch(setPropertyType("rent"));
+                  navigate("/login")}}
               >
                 RENT YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
@@ -35,7 +40,9 @@ const Landing = () => {
                 FIND COMMERCIAL PROPERTY / OFFICE / SHOP ON RENT
               </p>
               <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#358E54] cursor-pointer"
-               onClick={() => navigate("/dashboard")}>
+               onClick={() => {
+                  dispatch(setPropertyType("sell"));
+                  navigate("/login")}}>
                 SELL YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
               <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#D04F4D] cursor-pointer">

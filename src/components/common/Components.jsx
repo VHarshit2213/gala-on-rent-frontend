@@ -6,22 +6,19 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export const ThemeButton = ({ className,titleClass, title, icon, children, ...rest }) => {
+export const ThemeButton = ({ className,titleClass, title, icon, children, type="button",...rest }) => {
     return (
-        <div
-            className={`${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0 cursor-pointer`}
-            {...rest}
-        >
-            <Button className={`uppercase ${titleClass}`}>
-                {title}
-            </Button>
-
-            <div className="p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
-                {icon ? icon : <GrLinkNext />}
-            </div>
+      <Button
+        className={`uppercase ${titleClass} ${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0 cursor-pointer`}
+        type={type}
+        {...rest}
+      >
+        {title}
+        <div className="p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
+          {icon ? icon : <GrLinkNext />}
         </div>
-
-    )
+      </Button>
+    );
 }
 export const Button = ({ children, ...rest }) => {
     return (
@@ -75,7 +72,6 @@ export const Select = ({
             {label && <label className="block mb-1 text-sm font-medium text-gray-700">{label}</label>}
             <Listbox value={value} onChange={onChange}>
                 {({ open }) => (
-                    <>
                         <div className={`${listBoxClass} relative mt-1`}>
                             <Listbox.Button
                                 className={`${listButtonClass} relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-[#00000066] focus:outline-none sm:leading-6`} >
@@ -147,7 +143,6 @@ export const Select = ({
                                 </Listbox.Options>
                             </Transition>
                         </div>
-                    </>
                 )}
             </Listbox>
         </div>

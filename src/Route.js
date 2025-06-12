@@ -1,4 +1,5 @@
 import AboutUs from "./page/AboutUs";
+import SellRegisterForm from "./page/Auth/SellRegisterForm";
 import SignInUp from "./page/Auth/SignInUp";
 import Home from "./page/Home";
 import Landing from "./page/Landing";
@@ -13,6 +14,7 @@ export const nonPrivateRoute = [
   { path: "/", component: Landing },
   { path: "/login", component: SignInUp },
   { path: "/about-us", component: AboutUs },
+  { path: "/sell-register-form", component: SellRegisterForm },
 ];
 
 // Private routes
@@ -21,6 +23,7 @@ export const privateRoute = [
   { path: "/property-details", component: PropertyDetails },
   { path: "/search-property", component: SearchProperty },
 ];
+
 // sellRoute routes
 export const sellRoute = [
   { path: "/dashboard", component: Dashboard },
