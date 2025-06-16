@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
 import { Card, CardBody, Select, ThemeButton } from "../../components/common";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { appendUserData, resetUserData } from "../../reducer/auth/redux";
+import { fetchSignUp } from "../../reducer/auth/thunk";
 
 const options = [
   { id: "MUMBAI", value: "MUMBAI" },
@@ -15,19 +18,21 @@ const options = [
 
 const sellRegisterValidationSchema = () =>
   Yup.object().shape({
-    first_name: Yup.string().required("First Name is required"),
-    last_name: Yup.string().required("Last Name is required"),
-    property_belongs_to: Yup.string().required("Please select one option"),
+    person_name: Yup.string().required("person Name is required"),
+    // last_name: Yup.string().required("Last Name is required"),
+    Property_belongsto: Yup.string().required("Please select one option"),
     city: Yup.string().required("Please select a city"),
     email: Yup.string().email("Invalid email").required("email is required"),
   });
 
 const SellRegisterForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
+
   const [select, setSelected] = useState(null);
   const [generatedCode, setGeneratedCode] = useState("");
   const [showModal, setShowModal] = useState(false);
-
-  const navigate = useNavigate();
 
   const cityPrefixes = {
     MUMBAI: "MUM",
@@ -53,23 +58,37 @@ const SellRegisterForm = () => {
     return `${propertyCode}${cityCode}${random}`;
   };
 
-  const handleCopyCode = async () => {
-    try {
-      await navigator.clipboard.writeText(generatedCode);
-      toast.success("Code has been copied");
-      setShowModal(false);
-      navigate("/dashboard");
-    } catch (error) {
-      toast.error(error.massage);
+  useEffect(() => {
+    if (!userData || Object.keys(userData).length === 0) {
+      navigate("/");
     }
+  }, []);
+
+  const handleCopyCode = async () => {
+    dispatch(fetchSignUp(userData)).then(async (res) => {
+      if (res.payload.data?.status === 200) {
+        try {
+          await navigator.clipboard.writeText(generatedCode);
+          toast.success("Code has been copied");
+          toast.success(res.payload.data?.message);
+          dispatch(resetUserData({}));
+          setShowModal(false);
+          navigate("/dashboard");
+        } catch (error) {
+          toast.error(error.message || "Failed to copy code");
+        }
+      } else {
+        toast.error(res.payload.data?.message);
+      }
+    });
   };
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      first_name: "",
-      last_name: "",
-      property_belongs_to: "",
+      person_name: "",
+      // last_name: "",
+      Property_belongsto: "",
       city: "",
       email: "",
     },
@@ -77,11 +96,11 @@ const SellRegisterForm = () => {
     onSubmit: (values) => {
       const fullCode = generateRandomCode(
         values.city,
-        values.property_belongs_to
+        values.Property_belongsto
       );
+      dispatch(appendUserData({ ...values, uniqueCode: fullCode }));
       setGeneratedCode(fullCode);
       setShowModal(true);
-      console.log("values", values, "fullCode", fullCode);
     },
   });
 
@@ -100,26 +119,26 @@ const SellRegisterForm = () => {
                 className="grid grid-cols-2 gap-6"
                 onSubmit={formik.handleSubmit}
               >
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="firstName" className="font-medium">
-                    First Name
+                <div className="flex flex-col gap-1 col-span-2">
+                  <label htmlFor="fullName" className="font-medium">
+                    Full Name
                   </label>
                   <input
                     type="text"
-                    id="first_name"
-                    name="first_name"
+                    id="person_name"
+                    name="person_name"
                     placeholder="Enter Your First Name"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values?.first_name}
+                    value={formik.values?.person_name}
                     className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${
-                      formik.touched.first_name && formik.errors.first_name
+                      formik.touched.person_name && formik.errors.person_name
                         ? "border-red-500"
                         : "border-gray-300"
                     }`}
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                {/* <div className="flex flex-col gap-1">
                   <label htmlFor="lastName" className="font-medium">
                     Last Name
                   </label>
@@ -137,7 +156,7 @@ const SellRegisterForm = () => {
                         : "border-gray-300"
                     }`}
                   />
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-1">
                   <label htmlFor="email" className="font-medium">
                     Email Id
@@ -189,13 +208,11 @@ const SellRegisterForm = () => {
                         >
                           <input
                             type="radio"
-                            name="property_belongs_to"
+                            name="Property_belongsto"
                             value={label}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            checked={
-                              formik.values.property_belongs_to === label
-                            }
+                            checked={formik.values.Property_belongsto === label}
                             className="w-5 h-5 hue-rotate-[163deg]"
                           />
                           <span className="text-sm">{label}</span>
@@ -203,10 +220,10 @@ const SellRegisterForm = () => {
                       )
                     )}
                   </div>
-                  {formik.touched.property_belongs_to &&
-                    formik.errors.property_belongs_to && (
+                  {formik.touched.Property_belongsto &&
+                    formik.errors.Property_belongsto && (
                       <p className="text-sm text-red-500">
-                        {formik.errors.property_belongs_to}
+                        {formik.errors.Property_belongsto}
                       </p>
                     )}
                 </div>

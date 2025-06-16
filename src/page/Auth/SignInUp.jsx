@@ -4,19 +4,40 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { Card, CardBody, ThemeButton } from "../../components/common";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { appendUserData } from "../../reducer/auth/redux";
 
+//firebase
+import { auth } from "../../firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+
+const PhoneValidationSchema = () =>
+  Yup.object().shape({
+    phone: Yup.string()
+      .required("Phone number is required")
+      .test("valid-phone", "Please enter your phone number", (value) => {
+        const digits = value?.replace(/\D/g, "");
+        return digits && digits.length > 4;
+      }),
+  });
 const SignInUp = () => {
+  const dispatch = useDispatch();
   const propertyType = useSelector((state) => state.propertyType.type);
-  const [phone, setPhone] = useState("");
+  const inputsRef = useRef([]);
+  const navigate = useNavigate();
+
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [tab, setTab] = useState(0);
+  const [dummyOtp, setDummyOtp] = useState("123456");
+  // const [showOTP,setShowOTP] = useState(false);
 
   const otpLength = 6;
   const [otp, setOtp] = useState(new Array(otpLength).fill(""));
-  const inputsRef = useRef([]);
-  const navigate = useNavigate();
 
   const handleChange = (element, index) => {
     const value = element.value.replace(/\D/, ""); // only digits
@@ -59,7 +80,6 @@ const SignInUp = () => {
         inputsRef.current[i].value = pastedData[i];
       }
     }
-
     setOtp(newOtp);
 
     // Focus the last filled input
@@ -78,11 +98,72 @@ const SignInUp = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleVerifyOTP = async () => {
     const otpCode = otp.join("");
     console.log("Entered OTP:", otpCode);
-    navigate("/sell-register-form");
+    // try {
+    //   await  window.confirmationResult.confirm(otpCode);
+    //   navigate("/sell-register-form");
+    // } catch (error) {
+    //    toast.error({error});
+    // }
+
+    //for dummy otp
+    if (otpCode === dummyOtp) {
+      toast.success("OTP verified successfully!");
+      navigate("/sell-register-form");
+    } else {
+      toast.error("Invalid OTP. Try again.");
+    }
   };
+
+  // for firebase
+  // const generateRecaptcha = () => {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //       auth,
+  //       "recaptcha-container",
+  //       {
+  //         size: "invisible",
+  //         callback: (response) => {},
+  //         "expired-callback": () => {},
+  //       }
+  //     );
+  //   }
+  // };
+
+  const formik = useFormik({
+    initialValues: {
+      phone: "",
+    },
+    validationSchema: PhoneValidationSchema,
+    onSubmit: async (values) => {
+      // generateRecaptcha();
+      // const appVerifier = window.recaptchaVerifier;
+
+      try {
+        // const confirmationResult = await signInWithPhoneNumber(
+        //   auth,
+        //   values.phone,
+        //   appVerifier
+        // );
+        // window.confirmationResult = confirmationResult;
+        // toast.success("OTP sent successfully!");
+        dispatch(
+          appendUserData({
+            Phone_number: values.phone,
+            user_type: propertyType,
+          })
+        );
+        setDummyOtp("123456");
+        setTab(1);
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+        toast.error("Failed to send OTP. Try again.");
+        // setTab(0);
+      }
+    },
+  });
 
   return (
     <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
@@ -138,20 +219,28 @@ const SignInUp = () => {
                     </button>
                   </div>
 
-                  <PhoneInput
-                    defaultCountry="in"
-                    // value={phone}
-                    // onChange={(phone) => setPhone(phone)}
-                    className="my-3"
-                  />
+                  <form onSubmit={formik.handleSubmit}>
+                    <PhoneInput
+                      defaultCountry="in"
+                      value={formik.values.phone}
+                      onChange={(phone) => {
+                        formik.setFieldValue("phone", phone);
+                      }}
+                      onBlur={() => formik.setFieldTouched("phone", true)}
+                      className="my-3"
+                    />
+                    {formik.touched.phone && formik.errors.phone && (
+                      <p className="text-red-500 text-sm">
+                        {formik.errors.phone}
+                      </p>
+                    )}
 
-                  <ThemeButton
-                    title={"PROCEED"}
-                    className="!justify-center !max-w-[420px] mt-4"
-                    onClick={() => {
-                      setTab(1);
-                    }}
-                  />
+                    <ThemeButton
+                      title={"Send OTP"}
+                      className="!justify-center !max-w-[420px] mt-4"
+                      type="submit"
+                    />
+                  </form>
                 </div>
               </div>
               <p className="text-base font-semibold uppercase text-center">
@@ -188,9 +277,9 @@ const SignInUp = () => {
                   </div>
 
                   <ThemeButton
-                    title={"Submit"}
+                    title={"Verify OTP"}
                     className="!justify-center !max-w-[420px] mt-4"
-                    onClick={handleSubmit}
+                    onClick={handleVerifyOTP}
                   />
                 </div>
               </div>
@@ -198,6 +287,7 @@ const SignInUp = () => {
           </Card>
         )}
       </div>
+      <div id="recaptcha-container"></div>
     </div>
   );
 };

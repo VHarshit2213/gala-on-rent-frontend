@@ -1,2 +1,5 @@
 // auth
-// export const singUp = "/user/Signup";
+export const signUp = "/user/Signup";
+
+//properties
+export const createProperties = "/properties/createProperties";
