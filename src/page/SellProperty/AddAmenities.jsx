@@ -50,7 +50,9 @@ const AddAmenities = ({ activeTab, setActiveTab }) => {
     } else {
       formik.setFieldValue("Amenities", [...selected, id]);
     }
-    formik.setFieldTouched("Amenities", true, true);
+    if (!formik.touched.Amenities) {
+      formik.setFieldTouched("Amenities", true);
+    }
   };
 
   return (

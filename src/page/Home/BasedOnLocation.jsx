@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PiKeyBold } from "react-icons/pi";
 import { RiHomeLine } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
@@ -13,67 +13,102 @@ import {
   ThemeButton,
 } from "../../components/common/Components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllProperties } from "../../reducer/properties/thunk";
+import Spinner from "../../components/common/Spinner";
 
-const TabContent = () => {
+const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
+
+const TabContent = ({ allProperty, loading }) => {
   const navigate = useNavigate();
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-      {[1, 2, 3, 4, 5, 6]?.map((item) => (
-        <Card
-          cardClassName="bg-white w-full rounded-lg border border-[#F0EFFB] cursor-pointer"
-          onClick={() => navigate("/property-details")}
-        >
-          <div className="relative">
-            {[1, 2, 3]?.includes(item) && (
-              <div
-                className={`absolute -bottom-9 -translate-y-1/2 left-[-3%] bg-orange text-white flex justify-start items-center gap-2 uppercase text-sm font-semibold p-2 rounded-tl-lg rounded-r-lg`}
+    <>
+      {allProperty && allProperty?.length > 0 ? (
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+          {allProperty.map((property, index) => {
+            const {
+              _id,
+              image,
+              Financials,
+              address,
+              Carpet_Area,
+              type_of_property,
+            } = property;
+            return (
+              <Card
+                key={_id}
+                cardClassName="bg-white w-full rounded-lg border border-[#F0EFFB] cursor-pointer"
+                onClick={() => navigate(`/property-details/${_id}`)}
               >
-                <div className="absolute top-9 -left-0 w-0 h-0 border-b-[10px] border-l-transparent border-l-[10px] border-b-[#934300] rotate-[271deg]"></div>
-                <img src={popular} /> popular
-              </div>
-            )}
-            <img src={maskGroup} className="w-full" />
-          </div>
-          <CardBody>
-            <div className="p-6 flex flex-col gap-y-3">
-              <div className="flex justify-between items-center">
-                <div className="flex items-end gap-1">
-                  <span className="text-orange text-xl font-semibold">
-                    $2,095
-                  </span>
-                  <span className="text-muted opacity-50 font-medium">
-                    /month
-                  </span>
+                <div className="relative">
+                  {index < 3 && (
+                    <div className="absolute -bottom-9 -translate-y-1/2 left-[-3%] bg-orange text-white flex justify-start items-center gap-2 uppercase text-sm font-semibold p-2 rounded-tl-lg rounded-r-lg">
+                      <div className="absolute top-9 -left-0 w-0 h-0 border-b-[10px] border-l-transparent border-l-[10px] border-b-[#934300] rotate-[271deg]"></div>
+                      <img src={popular} alt="Popular" /> popular
+                    </div>
+                  )}
+                  <img
+                    src={`${BASE_URL}/${image?.[0]}`}
+                    className="w-full h-[250px] rounded-tr-lg rounded-tl-lg"
+                    alt="Property"
+                  />
                 </div>
-                <div className="p-3.5 rounded-50 border border-[#e56c064d]">
-                  <FaRegHeart size={20} className="text-orange" />
-                </div>
-              </div>
-              <div className="text-muted flex flex-col gap-y-1">
-                <h2 className="font-bold text-2xl">Palm Harbor</h2>
-                <p className="opacity-50 text-sm">
-                  2699 Green Valley, Highland Lake, FL
-                </p>
-              </div>
-            </div>
-            <hr className="border-b-0 border-[#F0EFFB]" />
-          </CardBody>
-          <CardFooter footerClassName="flex justify-between items-center p-6">
-            <div className="flex gap-2 text-muted">
-              <img src={squareMeters} />
-              <span className="opacity-50 text-sm">5,000 sq.ft.</span>
-            </div>
-            <div className="p-3 rounded-50 border border-orange bg-orange-transparent">
-              <GrLinkNext className="text-orange" />
-            </div>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+                <CardBody>
+                  <div className="p-6 flex flex-col gap-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-end gap-1">
+                        <span className="text-orange text-xl font-semibold">
+                          ₹{Financials}
+                        </span>
+                        <span className="text-muted opacity-50 font-medium">
+                          /month
+                        </span>
+                      </div>
+                      <div className="p-3.5 rounded-50 border border-[#e56c064d]">
+                        <FaRegHeart size={20} className="text-orange" />
+                      </div>
+                    </div>
+                    <div className="text-muted flex flex-col gap-y-1">
+                      <h2 className="font-bold text-2xl">{type_of_property}</h2>
+                      <p className="opacity-50 text-sm">{address}</p>
+                    </div>
+                  </div>
+                  <hr className="border-b-0 border-[#F0EFFB]" />
+                </CardBody>
+                <CardFooter footerClassName="flex justify-between items-center p-6">
+                  <div className="flex gap-2 text-muted">
+                    <img src={squareMeters} alt="Square Meters" />
+                    <span className="opacity-50 text-sm">{Carpet_Area}</span>
+                  </div>
+                  <div className="p-3 rounded-50 border border-orange bg-orange-transparent">
+                    <GrLinkNext className="text-orange" />
+                  </div>
+                </CardFooter>
+              </Card>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500 text-2xl py-10">
+          No properties found.
+        </p>
+      )}
+    </>
   );
 };
 const BasedOnLocation = () => {
+  const dispatch = useDispatch();
+  const { allProperty, loading } = useSelector((state) => state.property);
+
+  useEffect(() => {
+    dispatch(fetchAllProperties());
+  }, [dispatch]);
+
   return (
     <div className="mt-15 bg-linear-to-t from-[#FFEEE0] to-[#FFFFFF] flex flex-col gap-[50px] px-20">
       <Title
@@ -96,7 +131,7 @@ const BasedOnLocation = () => {
             </>
           }
         >
-          <TabContent />
+          <TabContent allProperty={allProperty} loading={loading} />
         </Tab>
         <Tab
           eventKey="Industrial Area"
@@ -106,10 +141,15 @@ const BasedOnLocation = () => {
             </>
           }
         >
-          <TabContent />
+          <TabContent allProperty={allProperty} loading={loading} />
         </Tab>
       </Tabs>
-      <ThemeButton title={"Browse more properties"} className={"!pl-5 mb-8"} />
+      {allProperty && allProperty?.length > 0 && (
+        <ThemeButton
+          title={"Browse more properties"}
+          className={"!pl-5 mb-8"}
+        />
+      )}
     </div>
   );
 };

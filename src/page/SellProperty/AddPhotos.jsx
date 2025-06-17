@@ -47,6 +47,22 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
     formik.setFieldValue("image", updatedFiles);
   };
 
+  const handleReplaceImage = (e, indexToReplace) => {
+    const newFile = e.target.files[0];
+    if (!newFile) return;
+
+    // Clean up old preview URL
+    URL.revokeObjectURL(files[indexToReplace]?.preview);
+
+    newFile.preview = URL.createObjectURL(newFile);
+
+    const updatedFiles = [...files];
+    updatedFiles[indexToReplace] = newFile;
+
+    setFiles(updatedFiles);
+    formik.setFieldValue("image", updatedFiles);
+  };
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -94,7 +110,6 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
         dispatch(resetPropertyDetails([]));
         navigate("/property-list");
       } catch (error) {
-        console.error(error);
         toast.error(
           error?.message || "Failed to add property. Please try again."
         );
@@ -139,10 +154,17 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
                       e.stopPropagation();
                       handleDeleteImage(idx);
                     }}
-                    className="absolute top-1 right-1 bg-white rounded-full p-1 shadow hover:bg-red-500 hover:text-white transition"
+                    className="absolute z-10 top-1 right-1 bg-white rounded-full p-1 shadow hover:bg-red-500 hover:text-white transition"
                   >
                     <FaTimes size={12} />
                   </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    title=""
+                    onChange={(e) => handleReplaceImage(e, idx)}
+                  />
                 </div>
               ))}
             </div>

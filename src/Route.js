@@ -20,7 +20,7 @@ export const nonPrivateRoute = [
 // Private routes
 export const privateRoute = [
   { path: "/home", component: Home },
-  { path: "/property-details", component: PropertyDetails },
+  { path: "/property-details/:id", component: PropertyDetails },
   { path: "/search-property", component: SearchProperty },
 ];
 
