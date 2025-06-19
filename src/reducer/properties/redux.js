@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllProperties, fetchSingleProperty } from "./thunk";
+import {
+  fetchAllProperties,
+  fetchAllTokenWiseProperties,
+  fetchSingleProperty,
+} from "./thunk";
 
 const propertySlice = createSlice({
   name: "property",
   initialState: {
     allProperty: [],
     getProperty: [],
+    AllTokenWiseProperties:[],
     status: null,
     error: null,
     loading: false,
@@ -29,6 +34,23 @@ const propertySlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchAllProperties.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload?.data?.message || null;
+        state.loading = false;
+      })
+
+      //get all Token Wise Properties
+      .addCase(fetchAllTokenWiseProperties.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(fetchAllTokenWiseProperties.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.AllTokenWiseProperties = action.payload?.data?.data;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(fetchAllTokenWiseProperties.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload?.data?.message || null;
         state.loading = false;

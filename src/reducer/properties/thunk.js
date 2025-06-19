@@ -6,6 +6,7 @@ import {
   createProperties,
   editProperty,
   getAllProperties,
+  getAllTokenWiseProperties,
   getSingleProperty,
   removeProperty,
 } from "../../api/helper";
@@ -34,6 +35,20 @@ export const fetchAllProperties = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get(getAllProperties);
+      return response;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+//get all Token Wise Properties
+export const fetchAllTokenWiseProperties = createAsyncThunk(
+  "property/getAllTokenWiseProperties",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get(getAllTokenWiseProperties);
       return response;
     } catch (error) {
       toast.error(error?.response?.data?.message);

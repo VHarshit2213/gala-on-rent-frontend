@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProperty,
   fetchAllProperties,
+  fetchAllTokenWiseProperties,
 } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
 import DeleteModel from "../../components/common/DeleteModel";
@@ -18,7 +19,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 const PropertyList = () => {
   const dispatch = useDispatch();
-  const { allProperty, loading } = useSelector((state) => state.property);
+  const { AllTokenWiseProperties, loading } = useSelector((state) => state.property);
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -43,11 +44,11 @@ const PropertyList = () => {
   };
 
   const handleViewPropertyDetails = (propertyId) => {
-    navigate(`/property-details/${propertyId}`,{ state: { fromAdmin: true } });
+    navigate(`/property-details/${propertyId}`, { state: { fromAdmin: true } });
   };
 
   useEffect(() => {
-    dispatch(fetchAllProperties());
+    dispatch(fetchAllTokenWiseProperties());
   }, [dispatch]);
 
   if (loading) {
@@ -57,8 +58,8 @@ const PropertyList = () => {
   return (
     <>
       <div className="p-15 space-y-6">
-        {allProperty && allProperty?.length > 0 ? (
-          allProperty.map((property) => {
+        {AllTokenWiseProperties && AllTokenWiseProperties?.length > 0 ? (
+          AllTokenWiseProperties.map((property) => {
             const {
               _id,
               image,
@@ -73,9 +74,7 @@ const PropertyList = () => {
                 cardClassName="bg-white rounded-lg overflow-hidden border border-[#F0EFFB] max-w-250 w-full"
               >
                 <div className="py-2 px-5 border-b-1 border-b-gray flex justify-between">
-                  <p className="text-muted-transparent text-sm ">
-                    ID : {_id}
-                  </p>
+                  <p className="text-muted-transparent text-sm ">ID : {_id}</p>
                   <div className="text-orange flex gap-6 text-sm font-bold ">
                     <button className="cursor-pointer">Share</button>
                     <button
@@ -95,7 +94,10 @@ const PropertyList = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex w-full cursor-pointer" onClick={() => handleViewPropertyDetails(_id)}>
+                <div
+                  className="flex w-full cursor-pointer"
+                  onClick={() => handleViewPropertyDetails(_id)}
+                >
                   <div className="w-1/2 h-[255px]">
                     <img
                       src={`${BASE_URL}/${image?.[0]}`}

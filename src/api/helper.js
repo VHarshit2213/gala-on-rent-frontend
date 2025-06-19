@@ -5,6 +5,7 @@ export const signIn = "/user/Signin";
 //properties
 export const createProperties = "/properties/createProperties";
 export const getAllProperties = "/properties/getAllProperties";
+export const getAllTokenWiseProperties = "/properties/getAllTokenWiseProperties";
 export const removeProperty = (propertyId) =>
   `/properties/deleteProperty/${propertyId}`;
 export const getSingleProperty = (propertyId) =>
