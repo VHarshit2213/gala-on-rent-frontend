@@ -15,23 +15,31 @@ import { appendUserData } from "../../reducer/auth/redux";
 //firebase
 import { auth } from "../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import RegisterInfo from "./RegisterInfo";
 
 const PhoneValidationSchema = () =>
   Yup.object().shape({
     phone: Yup.string()
       .required("Phone number is required")
-      .test("valid-phone", "Please enter your phone number", (value) => {
-        const digits = value?.replace(/\D/g, "");
-        return digits && digits.length > 4;
-      }),
+      .test(
+        "valid-phone",
+        "Enter a valid Indian phone number (starts with 6/7/8/9)",
+        (value) => {
+          let digits = value?.replace(/\D/g, "");
+          if (digits.startsWith("91")) {
+            digits = digits.slice(2);
+          }
+          return /^[6-9]\d{9}$/.test(digits);
+        }
+      ),
   });
-const SignInUp = () => {
+
+const SignUp = () => {
   const dispatch = useDispatch();
   const propertyType = useSelector((state) => state.propertyType.type);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
 
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [tab, setTab] = useState(0);
   const [dummyOtp, setDummyOtp] = useState("123456");
   // const [showOTP,setShowOTP] = useState(false);
@@ -149,9 +157,11 @@ const SignInUp = () => {
         // );
         // window.confirmationResult = confirmationResult;
         // toast.success("OTP sent successfully!");
+
+        const phoneNumber = values.phone.replace(/^\+91/, "");
         dispatch(
           appendUserData({
-            Phone_number: values.phone,
+            Phone_number: phoneNumber,
             user_type: propertyType,
           })
         );
@@ -168,37 +178,9 @@ const SignInUp = () => {
   return (
     <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
       <div className="flex lg:gap-20 gap-4 justify-center w-full">
-        <div className="lg:flex hidden flex-col xl:justify-evenly justify-start xl:gap-y-0 gap-y-10">
-          <img
-            src={Gala_On_RenT_LOGO}
-            alt="Gala On Rent Logo"
-            className="max-w-[400px] w-full"
-          />
-          <div className="flex flex-col xl:gap-y-12 gap-y-6">
-            <h1 className="capitalize xl:text-4xl text-2xl font-semibold">
-              Upload your property in
-              <span className="text-orange border-b border-orange font-normal ml-2">
-                3 simple steps
-              </span>
-            </h1>
-            <div className="flex flex-col xl:gap-y-5 gap-y-2">
-              <p className="font-semibold flex gap-2 items-center xl:text-xl text-md capitalize">
-                <FaCircleCheck className="text-[#192E3F]" size={25} />
-                <span className="font-normal">Add</span> Basic details
-              </p>
-              <p className="font-semibold flex gap-2 items-center xl:text-xl text-md capitalize">
-                <FaCircleCheck className="text-[#192E3F]" size={25} />
-                <span className="font-normal">Add</span> property details
-              </p>
-              <p className="font-semibold flex gap-2 items-center xl:text-xl text-md capitalize">
-                <FaCircleCheck className="text-[#192E3F]" size={25} />
-                <span className="font-normal">Add</span> Photos
-              </p>
-            </div>
-          </div>
-        </div>
+        <RegisterInfo />
         {tab === 0 ? (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white rounded-xl p-14 max-w-lg w-full">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 max-w-lg w-full">
             <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
               <div className="flex flex-col gap-y-9">
                 <p className="font-normal lg:text-xl text-md capitalize text-center">
@@ -244,12 +226,18 @@ const SignInUp = () => {
                 </div>
               </div>
               <p className="text-base font-semibold uppercase text-center">
-                Existing User? <span className="text-orange">Login Here</span>
+                Existing User? 
+                <span
+                  className="text-orange ml-2 cursor-pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Login Here
+                </span>
               </p>
             </CardBody>
           </Card>
         ) : (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white rounded-xl p-14 max-w-lg w-full">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 max-w-lg w-full">
             <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
               <div className="flex flex-col">
                 <button onClick={handleBack} className="cursor-pointer">
@@ -292,4 +280,4 @@ const SignInUp = () => {
   );
 };
 
-export default SignInUp;
+export default SignUp;

@@ -31,7 +31,7 @@ const Landing = () => {
                 className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#3D88E5] cursor-pointer"
                 onClick={() => {
                   dispatch(setPropertyType("rent"));
-                  navigate("/login")}}
+                  navigate("/signup")}}
               >
                 RENT YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
@@ -42,7 +42,7 @@ const Landing = () => {
               <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#358E54] cursor-pointer"
                onClick={() => {
                   dispatch(setPropertyType("sell"));
-                  navigate("/login")}}>
+                  navigate("/signup")}}>
                 SELL YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
               <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[15px] py-[12px] px-[29px] tracking-wide bg-[#D04F4D] cursor-pointer">

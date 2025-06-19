@@ -1,11 +1,12 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { nonPrivateRoute, privateRoute, sellRoute } from "./Route";
-import AuthProtected from "./components/AuthProtected";
 import SellPropertySidebarHeader from "./components/common/SellPropertySidebarHeader";
 import { useEffect } from "react";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Layout from "./components/Layout";
+import AuthProtected from "./components/AuthProtected";
 
 function App() {
   const { pathname } = useLocation();
@@ -26,9 +27,9 @@ function App() {
           <Route
             path={route.path}
             element={
-              <AuthProtected>
+              <Layout>
                 <route.component />
-              </AuthProtected>
+              </Layout>
             }
           />
         ))}
@@ -36,9 +37,11 @@ function App() {
           <Route
             path={route.path}
             element={
-              <SellPropertySidebarHeader>
-                <route.component />
-              </SellPropertySidebarHeader>
+              <AuthProtected>
+                <SellPropertySidebarHeader>
+                  <route.component />
+                </SellPropertySidebarHeader>
+              </AuthProtected>
             }
           />
         ))}

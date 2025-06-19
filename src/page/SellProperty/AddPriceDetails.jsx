@@ -11,13 +11,19 @@ const priceValidationSchema = () =>
     Financials: Yup.string().required("Expected Rent is required"),
   });
 
-const AddPriceDetails = ({ activeTab, setActiveTab }) => {
+const AddPriceDetails = ({
+  activeTab,
+  setActiveTab,
+  getProperty,
+  propertyId,
+}) => {
   const dispatch = useDispatch();
+  const { Financials } = getProperty || [];
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      Financials: "",
+      Financials: (getProperty && Financials) || "",
     },
     validationSchema: priceValidationSchema,
     onSubmit: (values) => {
@@ -33,7 +39,7 @@ const AddPriceDetails = ({ activeTab, setActiveTab }) => {
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
         />{" "}
-        Add Price Details
+        {propertyId ? "Edit Price Details" : "Add Price Details"}
       </h1>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10">
         <div className="flex flex-col gap-y-1">
@@ -53,7 +59,7 @@ const AddPriceDetails = ({ activeTab, setActiveTab }) => {
           />
         </div>
         <ThemeButton
-          title={"Post Property"}
+          title={propertyId ? "Edit Property" : "Post Property"}
           className={"!max-w-full !justify-center"}
           titleClass="!capitalize"
           type="submit"

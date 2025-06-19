@@ -1,15 +1,9 @@
-import React from "react";
-import Header from "./Header";
-import { Footer } from "./common";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 const AuthProtected = ({ children }) => {
-  return (
-    <div>
-      <Header />
-      {children}
-      <Footer />
-    </div>
-  );
+  const token = Cookies.get("accessToken");
+  return token ? children : <Navigate to="/signup" replace />;
 };
 
 export default AuthProtected;

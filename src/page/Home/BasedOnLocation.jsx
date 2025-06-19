@@ -43,7 +43,9 @@ const TabContent = ({ allProperty, loading }) => {
               <Card
                 key={_id}
                 cardClassName="bg-white w-full rounded-lg border border-[#F0EFFB] cursor-pointer"
-                onClick={() => navigate(`/property-details/${_id}`)}
+                onClick={() => {
+                  navigate(`/property-details/${_id}`);
+                }}
               >
                 <div className="relative">
                   {index < 3 && (
@@ -73,9 +75,11 @@ const TabContent = ({ allProperty, loading }) => {
                         <FaRegHeart size={20} className="text-orange" />
                       </div>
                     </div>
-                    <div className="text-muted flex flex-col gap-y-1">
-                      <h2 className="font-bold text-2xl">{type_of_property}</h2>
-                      <p className="opacity-50 text-sm">{address}</p>
+                    <div className="text-muted flex flex-col gap-y-3 h-[100px]">
+                      <h2 className="font-bold text-2xl capitalize">
+                        {type_of_property}
+                      </h2>
+                      <p className="opacity-50 text-sm capitalize">{address}</p>
                     </div>
                   </div>
                   <hr className="border-b-0 border-[#F0EFFB]" />

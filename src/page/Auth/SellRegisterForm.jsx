@@ -19,7 +19,6 @@ const options = [
 const sellRegisterValidationSchema = () =>
   Yup.object().shape({
     person_name: Yup.string().required("person Name is required"),
-    // last_name: Yup.string().required("Last Name is required"),
     Property_belongsto: Yup.string().required("Please select one option"),
     city: Yup.string().required("Please select a city"),
     email: Yup.string().email("Invalid email").required("email is required"),
@@ -58,12 +57,6 @@ const SellRegisterForm = () => {
     return `${propertyCode}${cityCode}${random}`;
   };
 
-  useEffect(() => {
-    if (!userData || Object.keys(userData).length === 0) {
-      navigate("/");
-    }
-  }, []);
-
   const handleCopyCode = async () => {
     dispatch(fetchSignUp(userData)).then(async (res) => {
       if (res.payload.data?.status === 200) {
@@ -73,7 +66,7 @@ const SellRegisterForm = () => {
           toast.success(res.payload.data?.message);
           dispatch(resetUserData({}));
           setShowModal(false);
-          navigate("/dashboard");
+          navigate("/login");
         } catch (error) {
           toast.error(error.message || "Failed to copy code");
         }
@@ -87,7 +80,6 @@ const SellRegisterForm = () => {
     enableReinitialize: true,
     initialValues: {
       person_name: "",
-      // last_name: "",
       Property_belongsto: "",
       city: "",
       email: "",
@@ -104,6 +96,12 @@ const SellRegisterForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (!userData || Object.keys(userData).length === 0) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <>
       <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover relative">
@@ -113,7 +111,7 @@ const SellRegisterForm = () => {
           className="max-w-[200px] w-full absolute"
         />
         <div className="flex items-center justify-center w-full h-full">
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white rounded-xl p-14 w-1/2 mx-auto">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 w-1/2 mx-auto">
             <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
               <form
                 className="grid grid-cols-2 gap-6"
@@ -138,25 +136,6 @@ const SellRegisterForm = () => {
                     }`}
                   />
                 </div>
-                {/* <div className="flex flex-col gap-1">
-                  <label htmlFor="lastName" className="font-medium">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="last_name"
-                    name="last_name"
-                    placeholder="Enter Your Last Name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values?.last_name}
-                    className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${
-                      formik.touched.last_name && formik.errors.last_name
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    }`}
-                  />
-                </div> */}
                 <div className="flex flex-col gap-1">
                   <label htmlFor="email" className="font-medium">
                     Email Id
@@ -247,9 +226,13 @@ const SellRegisterForm = () => {
 
           <div className="fixed inset-0 flex items-center justify-center z-50 p-3">
             <div className="bg-white p-6 rounded-lg shadow-xl w-[90%] max-w-md">
-              <h2 className="text-lg xs:text-xl font-semibold mb-4 text-center">
-                Your Generated Code
+              <h2 className="text-lg xs:text-xl font-semibold mb-3 text-center">
+                Your Unique Code
               </h2>
+              <p className="font-bold text-lg mb-4">
+                Copy and save this Unique code - you will need it every time
+                you log in
+              </p>
               <p className="text-2xl font-mono mb-6 text-orange text-center">
                 {generatedCode}
               </p>

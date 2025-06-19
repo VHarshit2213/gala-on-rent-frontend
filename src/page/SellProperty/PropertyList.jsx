@@ -12,12 +12,14 @@ import {
 import Spinner from "../../components/common/Spinner";
 import DeleteModel from "../../components/common/DeleteModel";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 const PropertyList = () => {
   const dispatch = useDispatch();
   const { allProperty, loading } = useSelector((state) => state.property);
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const [isRemovedLoading, setIsRemovedLoading] = useState(false);
@@ -38,6 +40,10 @@ const PropertyList = () => {
       setShowModal(false);
       setDeleteId(null);
     }
+  };
+
+  const handleViewPropertyDetails = (propertyId) => {
+    navigate(`/property-details/${propertyId}`,{ state: { fromAdmin: true } });
   };
 
   useEffect(() => {
@@ -68,7 +74,7 @@ const PropertyList = () => {
               >
                 <div className="py-2 px-5 border-b-1 border-b-gray flex justify-between">
                   <p className="text-muted-transparent text-sm ">
-                    ID:1000040123
+                    ID : {_id}
                   </p>
                   <div className="text-orange flex gap-6 text-sm font-bold ">
                     <button className="cursor-pointer">Share</button>
@@ -81,10 +87,15 @@ const PropertyList = () => {
                     >
                       Delete
                     </button>
-                    <button className="cursor-pointer">Edit</button>
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => navigate(`/edit-property/${_id}`)}
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
-                <div className="flex w-full">
+                <div className="flex w-full cursor-pointer" onClick={() => handleViewPropertyDetails(_id)}>
                   <div className="w-1/2 h-[255px]">
                     <img
                       src={`${BASE_URL}/${image?.[0]}`}

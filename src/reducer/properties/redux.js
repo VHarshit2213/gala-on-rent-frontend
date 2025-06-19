@@ -10,7 +10,11 @@ const propertySlice = createSlice({
     error: null,
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    clearPropertyDetails(state, action) {
+      state.getProperty = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // get all Properties
@@ -20,7 +24,7 @@ const propertySlice = createSlice({
       })
       .addCase(fetchAllProperties.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.allProperty = action.payload?.data;
+        state.allProperty = action.payload?.data?.data;
         state.error = null;
         state.loading = false;
       })
@@ -50,3 +54,4 @@ const propertySlice = createSlice({
 });
 
 export default propertySlice.reducer;
+export const { clearPropertyDetails } = propertySlice.actions;

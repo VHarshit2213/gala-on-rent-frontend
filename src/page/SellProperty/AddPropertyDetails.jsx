@@ -3,7 +3,7 @@ import { Select, ThemeButton } from "../../components/common";
 import { FaChevronLeft } from "react-icons/fa";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { appendPropertyDetails } from "../../reducer/propertyDetails/redux";
 
 const popularArea = [
@@ -21,6 +21,7 @@ const TypeOfProperty = [
   { id: "commercial office", value: "commercial office" },
 ];
 
+// if change or add carpetAreaUnits value also change or add areaUnits variable value
 const carpetAreaUnits = [
   { id: "Squre Foot", value: "Squre Foot" },
   { id: "Squre Meter", value: "Squre Meter" },
@@ -29,6 +30,8 @@ const carpetAreaUnits = [
   { id: "Other", value: "Other" },
 ];
 
+const areaUnits = ["Squre Foot", "Squre Meter", "ACRE", "Gutha", "Other"];
+
 const propertyValidationSchema = Yup.object({
   address: Yup.string().required("Address is required"),
   carpetArea: Yup.string().required("Carpet area is required"),
@@ -36,6 +39,7 @@ const propertyValidationSchema = Yup.object({
   otherArea: Yup.string().required("Other Area is required"),
   popularArea: Yup.string().required("Popular Area is required"),
   propertyType: Yup.string().required("Property Type is required"),
+  availableFrom: Yup.string().required("Property available From is required"),
   suitableFor: Yup.array().min(1, "Select at least one option"),
   powerType: Yup.string().required("Please select one option"),
   hp: Yup.number().when("powerType", {
@@ -52,26 +56,64 @@ const propertyValidationSchema = Yup.object({
     .required("Must be a number")
     .min(1, "Must be at least 1")
     .max(3, "Max is 3"),
+  about: Yup.string().required("About the Property is required"),
 });
 
-const AddPropertyDetails = ({ activeTab, setActiveTab }) => {
+const AddPropertyDetails = ({
+  activeTab,
+  setActiveTab,
+  getProperty,
+  propertyId,
+}) => {
   const dispatch = useDispatch();
-  // const [select, setSelected] = useState(null);
+  const {
+    address,
+    Carpet_Area,
+    Other_Area,
+    Popular_Area,
+    type_of_property,
+    Property_Suitable_For,
+    Type_of_Power,
+    Type_of_Water_Supply,
+    Number_of_Washroom,
+    available_From,
+    About_the_property,
+  } = getProperty || [];
+
+  //split carpet area value
+  let carpetArea = "";
+  let unit = "";
+
+  // Loop to find matching unit at the end of the string
+  for (let u of areaUnits) {
+    if (Carpet_Area?.endsWith(u)) {
+      unit = u;
+      carpetArea = Carpet_Area.replace(u, "").trim();
+      break;
+    }
+  }
+
+  //split type of power value
+  const [power, hp] = Type_of_Power?.startsWith("Three Phase")
+    ? ["Three Phase", Type_of_Power?.split(" ")[2] || ""]
+    : ["Single Phase", ""];
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      address: "",
-      carpetArea: "",
-      areaUnit: "",
-      otherArea: "",
-      popularArea: "",
-      propertyType: "",
-      suitableFor: [],
-      powerType: "",
-      hp: "",
-      waterSupply: [],
-      washrooms: "",
+      address: (getProperty && address) || "",
+      carpetArea: (getProperty && carpetArea) || "",
+      areaUnit: (getProperty && unit) || "",
+      otherArea: (getProperty && Other_Area) || "",
+      popularArea: (getProperty && Popular_Area) || "",
+      propertyType: (getProperty && type_of_property) || "",
+      suitableFor: (getProperty && Property_Suitable_For) || [],
+      powerType: (getProperty && power) || "",
+      hp: (getProperty && hp) || "",
+      waterSupply: (getProperty && Type_of_Water_Supply) || [],
+      washrooms: (getProperty && Number_of_Washroom) || "",
+      availableFrom: (getProperty && available_From) || "",
+      about: (getProperty && About_the_property) || "",
     },
     validationSchema: propertyValidationSchema,
     onSubmit: (values) => {
@@ -87,6 +129,8 @@ const AddPropertyDetails = ({ activeTab, setActiveTab }) => {
           : values.powerType,
         Type_of_Water_Supply: values.waterSupply,
         Number_of_Washroom: values.washrooms,
+        available_From: values.availableFrom,
+        About_the_property: values.about,
       };
 
       dispatch(appendPropertyDetails(payload));
@@ -105,7 +149,7 @@ const AddPropertyDetails = ({ activeTab, setActiveTab }) => {
             className="hover:text-orange cursor-pointer"
             onClick={() => setActiveTab(activeTab - 1)}
           />{" "}
-          Add Property Details
+          {propertyId ? "Edit Property Details" : "Add Property Details"}
         </h1>
         <div className="flex flex-col gap-y-5">
           <div className="flex flex-col gap-y-1">
@@ -226,6 +270,24 @@ const AddPropertyDetails = ({ activeTab, setActiveTab }) => {
                   : "border-gray-300"
               }`}
               textClass="text-[14px]"
+            />
+          </div>
+          <div className="flex flex-col gap-y-1">
+            <label className="text-base font-medium">
+              Property Available From :
+            </label>
+            <input
+              type="text"
+              id="availableFrom"
+              name="availableFrom"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values?.availableFrom}
+              className={`p-2 border border-gray rounded-lg w-full ${
+                formik.touched.availableFrom && formik.errors.availableFrom
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
             />
           </div>
           <div className="flex flex-col gap-y-2">
@@ -367,9 +429,27 @@ const AddPropertyDetails = ({ activeTab, setActiveTab }) => {
               }`}
             />
           </div>
+          <div className="flex flex-col gap-y-1">
+            <label className="text-base font-medium">
+              About the property :
+            </label>
+            <textarea
+              id="about"
+              name="about"
+              rows="4"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values?.about}
+              className={`p-2 border border-gray rounded-lg w-full ${
+                formik.touched.about && formik.errors.about
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
+            />
+          </div>
         </div>
         <ThemeButton
-          title={"Next, add price details"}
+          title={propertyId ? "Next, Edit price details" : "Next, add price details"}
           className={"!max-w-full !justify-center"}
           titleClass="!capitalize"
           type="submit"

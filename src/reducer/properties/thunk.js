@@ -4,6 +4,7 @@ import api from "../../api/axiosInstance";
 // end point
 import {
   createProperties,
+  editProperty,
   getAllProperties,
   getSingleProperty,
   removeProperty,
@@ -61,6 +62,24 @@ export const deleteProperty = createAsyncThunk(
   async (propertyId, { rejectWithValue }) => {
     try {
       const response = await api.delete(removeProperty(propertyId));
+      return response;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+//edit Property
+export const updateProperty = createAsyncThunk(
+  "property/editProperty",
+  async ({ payload, propertyId }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(editProperty(propertyId), payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response;
     } catch (error) {
       toast.error(error?.response?.data?.message);

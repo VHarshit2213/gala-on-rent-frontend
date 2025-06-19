@@ -3,11 +3,23 @@ import { Button, ThemeButton } from "../../components/common/index";
 import React from "react";
 import { appendPropertyDetails } from "../../reducer/propertyDetails/redux";
 
-const BasicProperty = ({ activeTab, setActiveTab }) => {
+const BasicProperty = ({
+  activeTab,
+  setActiveTab,
+  getProperty,
+  propertyId,
+}) => {
   const dispatch = useDispatch();
 
-  const [propertyType, setPropertyType] = React.useState("Owner");
-  const [lookingTo, setLookingTo] = React.useState("Rent");
+  const raw = getProperty?.property_belongsTo;
+  const displayText = raw?.replace(/&#x2F;/g, "/");
+
+  const [propertyType, setPropertyType] = React.useState(
+    displayText || "Owner"
+  );
+  const [lookingTo, setLookingTo] = React.useState(
+    getProperty?.looking_to || "Rent"
+  );
 
   const handleAddPropertyDetails = () => {
     dispatch(
@@ -21,7 +33,9 @@ const BasicProperty = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="p-15 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold">Add Basic Details</h1>
+      <h1 className="text-3xl font-bold">
+        {propertyId ? "Edit Basic Details" : "Add Basic Details"}
+      </h1>
       <div className="flex flex-col gap-y-3">
         <p className="text-muted-transparent text-base font-normal">
           Property Belongs To
@@ -81,7 +95,9 @@ const BasicProperty = ({ activeTab, setActiveTab }) => {
         </div>
       </div>
       <ThemeButton
-        title={"Next, add property details"}
+        title={
+          propertyId ? "Update Basic Details" : "Next, add property details"
+        }
         className={"!max-w-full !justify-center"}
         titleClass="!capitalize"
         onClick={handleAddPropertyDetails}

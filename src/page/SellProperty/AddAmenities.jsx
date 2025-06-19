@@ -9,27 +9,28 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { appendPropertyDetails } from "../../reducer/propertyDetails/redux";
 
-const AddAmenities = ({ activeTab, setActiveTab }) => {
-  const dispatch = useDispatch();
+const amenities = [
+  { id: "cctv", label: "CCTV", icon: <BiCctv size={25} /> },
+  {
+    id: "water storage",
+    label: "Water Storage",
+    icon: <img src={row_oil} alt="row_oil" className="w-6" />,
+  },
+  {
+    id: "fire extinguishers",
+    label: "Fire Extinguishers",
+    icon: <LiaFireExtinguisherSolid size={25} />,
+  },
+];
 
-  const amenities = [
-    { id: "cctv", label: "CCTV", icon: <BiCctv size={25} /> },
-    {
-      id: "water storage",
-      label: "Water Storage",
-      icon: <img src={row_oil} alt="row_oil" className="w-6" />,
-    },
-    {
-      id: "fire extinguishers",
-      label: "Fire Extinguishers",
-      icon: <LiaFireExtinguisherSolid size={25} />,
-    },
-  ];
+const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
+  const dispatch = useDispatch();
+  const { Amenities } = getProperty || [];
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      Amenities: [],
+      Amenities: (getProperty && Amenities) || [],
     },
     validationSchema: Yup.object({
       Amenities: Yup.array().min(1, "Please select at least one amenity."),
@@ -62,7 +63,7 @@ const AddAmenities = ({ activeTab, setActiveTab }) => {
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
         />
-        Add Amenities
+        {propertyId ? "Edit Amenities" : "Add Amenities"}
       </h1>
       <div>
         <div className="flex gap-6">

@@ -11,7 +11,7 @@ import { LiaFireExtinguisherSolid } from "react-icons/lia";
 import { IoFlash } from "react-icons/io5";
 import { MdExpandMore } from "react-icons/md";
 import SimilarPropertiesShowroom from "../../components/SimilarPropertiesShowroom";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProperty } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
@@ -87,6 +87,8 @@ const PropertyDetails = () => {
   const dispatch = useDispatch();
   const { getProperty, loading } = useSelector((state) => state.property);
   const params = useParams();
+  const location = useLocation();
+  const fromAdmin = location.state?.fromAdmin || false;
 
   // destructure Property details
   const {
@@ -104,6 +106,9 @@ const PropertyDetails = () => {
     Number_of_Washroom,
     Type_of_Water_Supply,
     Other_Area,
+    available_From,
+    About_the_property,
+    User_data,
   } = getProperty;
 
   // for extract floor
@@ -175,43 +180,47 @@ const PropertyDetails = () => {
             </Button>
           </div>
         </div>
+      </div>
 
-        <div className="property-img-slider">
-          {image?.length > 1 ? (
-            <Slider {...imgSliderSettings}>
-              {image?.map((img, index) => (
-                <div key={index}>
-                  <img
-                    src={`${BASE_URL}/${img}`}
-                    alt={`property_${index}`}
-                    className={`h-[300px] w-full object-cover rounded-lg`}
-                  />
-                </div>
-              ))}
-            </Slider>
-          ) : (
-            <img
-              src={`${BASE_URL}/${image?.[0]}`}
-              alt="property"
-              className="h-[500px] w-[80%] mx-auto object-cover rounded-lg"
-            />
-          )}
-        </div>
-        <div>
+      <div className="property-img-slider">
+        {image?.length > 1 ? (
+          <Slider {...imgSliderSettings}>
+            {image?.map((img, index) => (
+              <div key={index}>
+                <img
+                  src={`${BASE_URL}/${img}`}
+                  alt={`property_${index}`}
+                  className={`h-[400px] w-full object-cover rounded-lg`}
+                />
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          <img
+            src={`${BASE_URL}/${image?.[0]}`}
+            alt="property"
+            className="h-[500px] w-[80%] mx-auto object-cover rounded-lg"
+          />
+        )}
+      </div>
+      <div>
+        <div className="flex flex-col gap-y-6 py-6 xl:px-[198px] lg:px-[138px] p-3">
           <ul className="flex text-center text-xl justify-between">
-            <li className="py-3.5 px-5 border-r border-[#D9D9D9DD]">
+            <li className="px-5 self-center capitalize">
               {Carpet_Area} Carpet Area
             </li>
-            <li className="py-3.5 px-5 border-r border-[#D9D9D9DD]">
-              {looking_to}
+            <hr className="border-r border-[#D9D9D9DD] h-16" />
+            <li className="px-5 self-center capitalize">{looking_to}</li>
+            <hr className="border-r border-[#D9D9D9DD] h-16" />
+            <li className="px-5 self-center capitalize">{type_of_property}</li>
+            <hr className="border-r border-[#D9D9D9DD] h-16" />
+            <li className="px-5 self-center capitalize">
+              Floors No. {blockNumber}
             </li>
-            <li className="py-3.5 px-5 border-r border-[#D9D9D9DD]">
-              {type_of_property}
+            <hr className="border-r border-[#D9D9D9DD] h-16" />
+            <li className="px-5 self-center capitalize">
+              Available From {available_From}
             </li>
-            <li className="py-3.5 px-5 border-r border-[#D9D9D9DD]">
-              Floors {blockNumber}
-            </li>
-            <li className="py-3.5 px-5">Immediately Available From </li>
           </ul>
         </div>
       </div>
@@ -230,14 +239,8 @@ const PropertyDetails = () => {
               <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
                 About the property
               </p>
-              <p className="text-sm font-semibold py-5 px-7 border-b border-gray">
-                This commercial Showroom is available for lease at Mota Varachha
-                of Surat, an emerging real estate destination that will be ideal
-                for your business. The Showroom is spread over a carpet area of
-                855.0 square feet . There are facilities such as Water Storage.
-                The property is available at a rent of 20.0k per month %. The
-                age of the property is 10 years. Please call for additional
-                details
+              <p className="text-sm font-semibold py-5 px-7 border-b border-gray capitalize">
+                {About_the_property}
               </p>
               <p className="text-orange text-base font-semibold py-5 px-7 flex items-center justify-center">
                 Read More <MdExpandMore size={20} />
@@ -252,26 +255,29 @@ const PropertyDetails = () => {
               <div className="grid grid-cols-2 py-5 px-7 gap-6">
                 {overViewDetails?.map((item) => (
                   <div className="flex flex-col gap-y-1">
-                    <p className="text-muted-transparent text-base font-semibold">
+                    <p className="text-muted-transparent text-base font-semibold capitalize">
                       {item.label}
                     </p>
-                    <p className="text-base font-semibold"> {item.value}</p>
+                    <p className="text-base font-semibold capitalize">
+                      {" "}
+                      {item.value}
+                    </p>
                   </div>
                 ))}
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-muted-transparent text-base font-semibold">
+                  <p className="text-muted-transparent text-base font-semibold capitalize">
                     Suitable For
                   </p>
                   {Property_Suitable_For?.map((item) => (
-                    <p className="text-base font-semibold">{item}</p>
+                    <p className="text-base font-semibold capitalize">{item}</p>
                   ))}
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-muted-transparent text-base font-semibold">
+                  <p className="text-muted-transparent text-base font-semibold capitalize">
                     Water Supply
                   </p>
                   {Type_of_Water_Supply?.map((item) => (
-                    <p className="text-base font-semibold">{item}</p>
+                    <p className="text-base font-semibold capitalize">{item}</p>
                   ))}
                 </div>
               </div>
@@ -285,10 +291,12 @@ const PropertyDetails = () => {
               <div className="grid grid-cols-2 py-5 px-7 gap-6">
                 {additionalDetails?.map((item, index) => (
                   <div className="flex flex-col gap-y-1" key={index}>
-                    <p className="text-muted-transparent text-base font-semibold">
+                    <p className="text-muted-transparent text-base font-semibold capitalize">
                       {item.label}
                     </p>
-                    <p className="text-base font-semibold">{item.value}</p>
+                    <p className="text-base font-semibold capitalize">
+                      {item.value}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -306,7 +314,9 @@ const PropertyDetails = () => {
                   return (
                     <div className="flex flex-col gap-y-1" key={index}>
                       <div>{icon}</div>
-                      <p className="text-base font-semibold">{label}</p>
+                      <p className="text-base font-semibold capitalize">
+                        {label}
+                      </p>
                     </div>
                   );
                 })}
@@ -318,88 +328,94 @@ const PropertyDetails = () => {
             slidesToShow={3}
           />
         </div>
-        <div className="lg:w-[38%] w-1/2 mt-5">
-          <div className="sticky top-5 right-0 ">
-            <Card cardClassName={"bg-white p-5"}>
-              <CardBody bodyClassName={"flex flex-col gap-y-5"}>
-                <div className="border border-orange bg-[#E56C0626] rounded-md flex gap-3 justify-center p-2">
-                  <IoFlash className="text-orange" />
-                  <p className="text-xs font-medium">
-                    Great choice! Most viewed project in this area
-                  </p>
-                </div>
-                <Card
-                  cardClassName={
-                    "shadow-[2px_2px_10px_0px_#00000040] py-4 px-6 rounded-md"
-                  }
-                >
-                  <CardBody bodyClassName={"flex flex-col gap-y-4"}>
-                    <p className="text-xl font-medium">CONTACT SELLER</p>
-                    <div className="flex gap-2">
-                      <img
-                        src={seller_img}
-                        alt="seller_img"
-                        className="rounded-full w-14 h-14 object-cover border border-black"
-                      />
-                      <div className="flex flex-col w-full max-w-[80%]">
-                        <p className="font-bold text-xl">Palm Harbor</p>
-                        <p className="truncate w-full text-xs font-medium text-muted-transparent">
-                          2699 Green Valley, Highland Lake, FL
-                        </p>
-                        <p className="text-xs font-semibold">+91 9876543210</p>
-                      </div>
-                    </div>
-                    <p className="text-base font-semibold">
-                      Please share your contact
+        {!fromAdmin && (
+          <div className="lg:w-[38%] w-1/2 mt-5">
+            <div className="sticky top-5 right-0 ">
+              <Card cardClassName={"bg-white p-5"}>
+                <CardBody bodyClassName={"flex flex-col gap-y-5"}>
+                  <div className="border border-orange bg-[#E56C0626] rounded-md flex gap-3 justify-center p-2">
+                    <IoFlash className="text-orange" />
+                    <p className="text-xs font-medium">
+                      Great choice! Most viewed project in this area
                     </p>
-                    <div className="flex flex-col gap-y-3">
-                      <div className="flex flex-col gap-y-1">
-                        <label className="text-base font-medium">Name</label>
-                        <input
-                          type="text"
-                          placeholder="Enter your name"
-                          className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                  </div>
+                  <Card
+                    cardClassName={
+                      "shadow-[2px_2px_10px_0px_#00000040] py-4 px-6 rounded-md"
+                    }
+                  >
+                    <CardBody bodyClassName={"flex flex-col gap-y-4"}>
+                      <p className="text-xl font-medium">CONTACT SELLER</p>
+                      <div className="flex gap-2">
+                        <img
+                          src={seller_img}
+                          alt="seller_img"
+                          className="rounded-full w-14 h-14 object-cover border border-black"
                         />
+                        <div className="flex flex-col w-full max-w-[80%]">
+                          <p className="font-bold text-xl capitalize">
+                            {User_data?.person_name}
+                          </p>
+                          {/* <p className="truncate w-full text-xs font-medium text-muted-transparent">
+                          2699 Green Valley, Highland Lake, FL
+                        </p> */}
+                          <p className="text-xs font-semibold">
+                            {User_data?.Phone_number}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-y-1">
-                        <label className="text-base font-medium">
-                          Phone Number
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Enter your phone number"
-                          className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
-                        />
+                      <p className="text-base font-semibold">
+                        Please share your contact
+                      </p>
+                      <div className="flex flex-col gap-y-3">
+                        <div className="flex flex-col gap-y-1">
+                          <label className="text-base font-medium">Name</label>
+                          <input
+                            type="text"
+                            placeholder="Enter your name"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-y-1">
+                          <label className="text-base font-medium">
+                            Phone Number
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Enter your phone number"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-y-1">
+                          <label className="text-base font-medium">Email</label>
+                          <input
+                            type="email"
+                            placeholder="Enter your email"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                          />
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-y-1">
-                        <label className="text-base font-medium">Email</label>
-                        <input
-                          type="email"
-                          placeholder="Enter your email"
-                          className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
-                        />
-                      </div>
-                    </div>
-                  </CardBody>
-                </Card>
-                <div className="flex gap-2">
-                  <input
-                    type="checkbox"
-                    className="accent-orange w-full max-w-4 h-5"
+                    </CardBody>
+                  </Card>
+                  <div className="flex gap-2">
+                    <input
+                      type="checkbox"
+                      className="accent-orange w-full max-w-4 h-5"
+                    />
+                    <p className="text-xs font-bold leading-5">
+                      I agree to be contacted by Gala on Rent and agents via
+                      WhatsApp, SMS, Phone, Email etc
+                    </p>
+                  </div>
+                  <ThemeButton
+                    title={"Get contact details"}
+                    className={"!justify-center !max-w-[350px]"}
                   />
-                  <p className="text-xs font-bold leading-5">
-                    I agree to be contacted by Gala on Rent and agents via
-                    WhatsApp, SMS, Phone, Email etc
-                  </p>
-                </div>
-                <ThemeButton
-                  title={"Get contact details"}
-                  className={"!justify-center !max-w-[350px]"}
-                />
-              </CardBody>
-            </Card>
+                </CardBody>
+              </Card>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

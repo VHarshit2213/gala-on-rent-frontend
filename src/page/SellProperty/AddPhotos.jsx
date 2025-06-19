@@ -7,11 +7,22 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPropertyDetails } from "../../reducer/propertyDetails/redux";
-import { addProperties } from "../../reducer/properties/thunk";
+import { addProperties, updateProperty } from "../../reducer/properties/thunk";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const AddPhotos = ({ activeTab, setActiveTab }) => {
+const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
+
+const imageValidationSchema = (hasExistingImages) =>
+  Yup.object({
+    image: hasExistingImages
+      ? Yup.array().max(10, "You can upload up to 10 photos only.")
+      : Yup.array()
+          .min(1, "Please upload at least 1 photo.")
+          .max(10, "You can upload up to 10 photos only."),
+  });
+
+const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   const dispatch = useDispatch();
   const propertyDetails = useSelector(
     (state) => state.propertyDetails.propertyDetails
@@ -19,6 +30,7 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
   const navigate = useNavigate();
 
   const [files, setFiles] = useState([]);
+  const { image } = getProperty || [];
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -68,11 +80,9 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
     initialValues: {
       image: [],
     },
-    validationSchema: Yup.object({
-      image: Yup.array()
-        .min(1, "Please upload at least 1 photo.")
-        .max(10, "You can upload up to 10 photos only."),
-    }),
+    validationSchema: imageValidationSchema(
+      image?.length > 0 || files.length > 0
+    ),
     onSubmit: async (values) => {
       const formData = new FormData();
 
@@ -89,10 +99,26 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
           }
         });
 
-        // Append each image file
-        values.image.forEach((file) => {
-          formData.append("image", file);
+        const imageFilePromises = values.image.map(async (img) => {
+          // Case 1: New uploaded file (has path or File properties)
+          if (img instanceof File || img.path || img instanceof Blob) {
+            formData.append("image", img);
+          }
+          // Case 2: Edited existing image from server (has preview URL only)
+          else if (
+            img.preview &&
+            typeof img.preview === "string" &&
+            img.preview.startsWith("http")
+          ) {
+            const response = await fetch(img.preview);
+            const blob = await response.blob();
+            const filename = img.preview.split("/").pop();
+            const file = new File([blob], filename, { type: blob.type });
+            formData.append("image", file);
+          }
         });
+
+        await Promise.all(imageFilePromises);
 
         // Append arrays as JSON strings
         formData.append("Amenities", JSON.stringify(propertyDetails.Amenities));
@@ -105,13 +131,20 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
           JSON.stringify(propertyDetails.Type_of_Water_Supply)
         );
 
-        await dispatch(addProperties(formData)).unwrap();
-        toast.success("Property added successfully!");
+        if (propertyId) {
+          await dispatch(
+            updateProperty({ propertyId: propertyId, payload: formData })
+          ).unwrap();
+          toast.success("Property updated successfully!");
+        } else {
+          await dispatch(addProperties(formData)).unwrap();
+          toast.success("Property added successfully!");
+        }
         dispatch(resetPropertyDetails([]));
         navigate("/property-list");
       } catch (error) {
         toast.error(
-          error?.message || "Failed to add property. Please try again."
+          error?.message || "Failed to submit property. Please try again."
         );
       }
     },
@@ -124,6 +157,15 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (image && Array.isArray(image)) {
+      const filePreviews = image.map((url) => ({
+        preview: `${BASE_URL}/${url}`,
+      }));
+      setFiles(filePreviews);
+    }
+  }, [getProperty]);
+
   return (
     <form onSubmit={formik.handleSubmit} className="p-15 flex flex-col gap-10">
       <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -131,7 +173,7 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
         />{" "}
-        Add Photos
+        {propertyId ? "Edit Photos" : "Add Photos"}
       </h1>
 
       <div>
@@ -208,10 +250,11 @@ const AddPhotos = ({ activeTab, setActiveTab }) => {
       </div> */}
 
       <ThemeButton
-        title={"Submit"}
+        title={formik.isSubmitting ? "Submitting..." : propertyId ? "Update" : "Submit"}
         className={"!max-w-full !justify-center"}
         titleClass="!capitalize"
         type="submit"
+        disabled={formik.isSubmitting}
       />
     </form>
   );

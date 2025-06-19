@@ -4,8 +4,6 @@ const propertyTypeSlice = createSlice({
   name: "propertyType",
   initialState: {
     type: null,
-    status: null,
-    error: null,
   },
   reducers: {
     setPropertyType: (state, action) => {
@@ -14,5 +12,5 @@ const propertyTypeSlice = createSlice({
   },
 });
 
-export const { setPropertyType } = propertyTypeSlice.actions;
+export const { setPropertyType} = propertyTypeSlice.actions;
 export default propertyTypeSlice.reducer;
