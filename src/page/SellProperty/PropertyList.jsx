@@ -19,7 +19,9 @@ const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 const PropertyList = () => {
   const dispatch = useDispatch();
-  const { AllTokenWiseProperties, loading } = useSelector((state) => state.property);
+  const { AllTokenWiseProperties, loading } = useSelector(
+    (state) => state.property
+  );
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -65,6 +67,9 @@ const PropertyList = () => {
               image,
               Financials,
               address,
+              city,
+              Popular_Area,
+              pincode,
               Carpet_Area,
               type_of_property,
             } = property;
@@ -125,7 +130,9 @@ const PropertyList = () => {
                           <h2 className="font-bold text-2xl">
                             {type_of_property}
                           </h2>
-                          <p className="opacity-50 text-sm">{address}</p>
+                          <p className="opacity-50 text-sm">
+                            {address}, {city}, {Popular_Area} - {pincode}
+                          </p>
                         </div>
                       </div>
                     </CardBody>

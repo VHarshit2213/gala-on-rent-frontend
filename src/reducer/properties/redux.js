@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllProperties,
   fetchAllTokenWiseProperties,
+  fetchPropertyByCity,
   fetchSingleProperty,
 } from "./thunk";
 
@@ -10,7 +11,8 @@ const propertySlice = createSlice({
   initialState: {
     allProperty: [],
     getProperty: [],
-    AllTokenWiseProperties:[],
+    AllTokenWiseProperties: [],
+    searchPropertiesByCity: [],
     status: null,
     error: null,
     loading: false,
@@ -68,6 +70,23 @@ const propertySlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchSingleProperty.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload?.data?.message || null;
+        state.loading = false;
+      })
+
+      // get Property by city and area
+      .addCase(fetchPropertyByCity.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(fetchPropertyByCity.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.searchPropertiesByCity = action.payload?.data?.data;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(fetchPropertyByCity.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload?.data?.message || null;
         state.loading = false;

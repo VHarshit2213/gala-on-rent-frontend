@@ -74,7 +74,7 @@ export const Select = ({
                 {({ open }) => (
                         <div className={`${listBoxClass} relative mt-1`}>
                             <Listbox.Button
-                                className={`${listButtonClass} relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-[#00000066] focus:outline-none sm:leading-6`} >
+                                className={`${listButtonClass} relative w-full cursor-default rounded-md bg-white py-1.5 pr-10 text-left text-[#00000066] focus:outline-none sm:leading-6`} >
                                 <span className="flex items-center">
                                     {value ? (
                                         <span className={`ml-3 block truncate text-xl ${textClass}`}>
@@ -114,7 +114,7 @@ export const Select = ({
                                                 className={({ active }) =>
                                                     classNames(
                                                         active ? "bg-indigo-500 text-white" : "text-gray-600",
-                                                        "relative cursor-default select-none py-2 pl-3 pr-9 text-sm border-0",
+                                                        "relative cursor-default select-none py-2 pr-9 text-sm border-0",
                                                     )} >
                                                 {({ selected, active }) => (
                                                     <div className="flex items-center">
@@ -132,7 +132,7 @@ export const Select = ({
                                         <Listbox.Option
                                             value=""
                                             disabled
-                                            className="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-500">
+                                            className="relative cursor-default select-none py-2 pr-9 text-gray-500">
                                             <div className="flex items-center">
                                                 <span className="ml-3 text-sm block truncate">
                                                     no data

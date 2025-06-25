@@ -36,6 +36,9 @@ const TabContent = ({ allProperty, loading }) => {
               image,
               Financials,
               address,
+              city,
+              Popular_Area,
+              pincode,
               Carpet_Area,
               type_of_property,
             } = property;
@@ -79,7 +82,9 @@ const TabContent = ({ allProperty, loading }) => {
                       <h2 className="font-bold text-2xl capitalize">
                         {type_of_property}
                       </h2>
-                      <p className="opacity-50 text-sm capitalize">{address}</p>
+                      <p className="opacity-50 text-sm capitalize">
+                        {address}, {city}, {Popular_Area} - {pincode}
+                      </p>
                     </div>
                   </div>
                   <hr className="border-b-0 border-[#F0EFFB]" />

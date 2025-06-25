@@ -5,21 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { appendPropertyDetails } from "../../reducer/propertyDetails/redux";
-
-const popularArea = [
-  { id: "Mumbai", value: "Mumbai" },
-  { id: "Borivali West", value: "Borivali West" },
-  { id: "LT Road", value: "LT Road" },
-];
-
-const TypeOfProperty = [
-  { id: "land", value: "open land ( with out boundry)" },
-  { id: "plot", value: "open plot (with boundry)" },
-  { id: "gala", value: "gala" },
-  { id: "commercial", value: "commercial" },
-  { id: "shop", value: "shop" },
-  { id: "commercial office", value: "commercial office" },
-];
+import { cityAreaData, TypeOfProperty } from "../../constants/constant";
 
 // if change or add carpetAreaUnits value also change or add areaUnits variable value
 const carpetAreaUnits = [
@@ -34,6 +20,10 @@ const areaUnits = ["Squre Foot", "Squre Meter", "ACRE", "Gutha", "Other"];
 
 const propertyValidationSchema = Yup.object({
   address: Yup.string().required("Address is required"),
+  city: Yup.string().required("City is required"),
+  pincode: Yup.string()
+    .required("Pincode is required")
+    .matches(/^[1-9][0-9]{5}$/, "Enter a valid 6-digit Indian Pincode"),
   carpetArea: Yup.string().required("Carpet area is required"),
   areaUnit: Yup.string().required("Area unit is required"),
   otherArea: Yup.string().required("Other Area is required"),
@@ -68,6 +58,8 @@ const AddPropertyDetails = ({
   const dispatch = useDispatch();
   const {
     address,
+    city,
+    pincode,
     Carpet_Area,
     Other_Area,
     Popular_Area,
@@ -102,10 +94,12 @@ const AddPropertyDetails = ({
     enableReinitialize: true,
     initialValues: {
       address: (getProperty && address) || "",
+      popularArea: (getProperty && Popular_Area) || "",
+      city: (getProperty && city) || "",
+      pincode: (getProperty && pincode) || "",
       carpetArea: (getProperty && carpetArea) || "",
       areaUnit: (getProperty && unit) || "",
       otherArea: (getProperty && Other_Area) || "",
-      popularArea: (getProperty && Popular_Area) || "",
       propertyType: (getProperty && type_of_property) || "",
       suitableFor: (getProperty && Property_Suitable_For) || [],
       powerType: (getProperty && power) || "",
@@ -119,9 +113,11 @@ const AddPropertyDetails = ({
     onSubmit: (values) => {
       const payload = {
         address: values.address,
+        city: values.city,
+        Popular_Area: values.popularArea,
+        pincode: values.pincode,
         Carpet_Area: `${values.carpetArea} ${values.areaUnit}`,
         Other_Area: values.otherArea,
-        Popular_Area: values.popularArea,
         type_of_property: values.propertyType,
         Property_Suitable_For: values.suitableFor,
         Type_of_Power: values.hp
@@ -138,6 +134,18 @@ const AddPropertyDetails = ({
     },
   });
 
+  const cityOptions = Object.keys(cityAreaData).map((city) => ({
+    id: city,
+    value: city,
+  }));
+
+  const areaOptions = formik.values.city
+    ? cityAreaData[formik.values.city].map((area) => ({
+        id: area,
+        value: area,
+      }))
+    : [];
+
   return (
     <div>
       <form
@@ -152,24 +160,88 @@ const AddPropertyDetails = ({
           {propertyId ? "Edit Property Details" : "Add Property Details"}
         </h1>
         <div className="flex flex-col gap-y-5">
-          <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">
-              Address of Property *
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Building Name / Plot No, Floor, Road, Area, Landmark, Village or Town , Pin-code"
-              className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
-                formik.touched.address && formik.errors.address
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-            />
+          <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-col gap-y-1">
+              <label className="text-base font-medium">
+                Address of Property *
+              </label>
+              <input
+                type="text"
+                name="address"
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Building Name / Plot No, Floor, Road, Area, Landmark"
+                className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+                  formik.touched.address && formik.errors.address
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+              />
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <label className="text-base font-medium">City *</label>
+              <Select
+                onChange={(val) => {
+                  formik.setFieldValue("city", val?.value || "");
+                  formik.setFieldValue("popularArea", "");
+                }}
+                value={cityOptions.find(
+                  (opt) => opt.value === formik.values.city
+                )}
+                defaultText="Select City"
+                options={cityOptions}
+                listBoxClass="w-full"
+                listButtonClass="md:!text-xl text-sm"
+                className={`border rounded-lg p-[2px] ${
+                  formik.touched.city && formik.errors.city
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                textClass="text-[14px]"
+              />
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <label className=" text-base font-medium">Popular Area *</label>
+              <Select
+                onChange={(val) =>
+                  formik.setFieldValue("popularArea", val?.value || "")
+                }
+                value={areaOptions.find(
+                  (opt) => opt.value === formik.values.popularArea
+                )}
+                defaultText="select popular area"
+                options={areaOptions}
+                disabled={!formik.values.city}
+                listBoxClass="w-full"
+                listButtonClass="md:!text-xl text-sm"
+                className={`border rounded-lg p-[2px] ${
+                  formik.touched.popularArea && formik.errors.popularArea
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                textClass="text-[14px]"
+              />
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <label className="text-base font-medium">PinCode *</label>
+              <input
+                type="text"
+                name="pincode"
+                maxLength={6}
+                value={formik.values.pincode}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter Pincode"
+                className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+                  formik.touched.pincode && formik.errors.pincode
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+              />
+            </div>
           </div>
+
           <div className="flex flex-col gap-y-1">
             <label className=" text-base font-medium">
               Carpet Area of Property *
@@ -228,29 +300,7 @@ const AddPropertyDetails = ({
               }`}
             />
           </div>
-          <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">
-              Popular Area Search Name :
-            </label>
-            <Select
-              onChange={(val) =>
-                formik.setFieldValue("popularArea", val?.value || "")
-              }
-              value={popularArea.find(
-                (opt) => opt.value === formik.values.popularArea
-              )}
-              defaultText="select popular area"
-              options={popularArea}
-              listBoxClass="w-full"
-              listButtonClass="md:!text-xl text-sm"
-              className={`border rounded-lg p-[2px] ${
-                formik.touched.popularArea && formik.errors.popularArea
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-              textClass="text-[14px]"
-            />
-          </div>
+
           <div className="flex flex-col gap-y-1">
             <label className=" text-base font-medium">Type of Property *</label>
             <Select
@@ -449,7 +499,9 @@ const AddPropertyDetails = ({
           </div>
         </div>
         <ThemeButton
-          title={propertyId ? "Next, Edit price details" : "Next, add price details"}
+          title={
+            propertyId ? "Next, Edit price details" : "Next, add price details"
+          }
           className={"!max-w-full !justify-center"}
           titleClass="!capitalize"
           type="submit"

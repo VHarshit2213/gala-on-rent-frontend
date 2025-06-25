@@ -95,7 +95,9 @@ const PropertyDetails = () => {
     date,
     Financials,
     address,
+    city,
     Popular_Area,
+    pincode,
     image,
     Carpet_Area,
     looking_to,
@@ -157,7 +159,9 @@ const PropertyDetails = () => {
     <div>
       <div className="flex flex-col gap-y-6 py-6 xl:px-[198px] lg:px-[138px] p-3">
         <div className="flex justify-between text-muted-transparent font-medium">
-          <p>Home / Surat / Vesu / Showroom for Rent in Vesu</p>
+          <p>
+            Home / {city} / {Popular_Area} / Property for Rent in {city}
+          </p>
           <p>Last Updated: {moment(date).format("ll")}</p>
         </div>
         <div className="flex justify-between items-end">
@@ -168,9 +172,11 @@ const PropertyDetails = () => {
                 title="share Property"
               />
             </div>
-            <p className="text-muted text-2xl font-bold">{address}</p>
+            <p className="text-muted text-2xl font-bold">
+              {address}, {city}
+            </p>
             <p className="text-muted-transparent text-base font-medium">
-              {Popular_Area}
+              {Popular_Area} - {pincode}
             </p>
           </div>
           <div className="flex flex-col items-end gap-y-2.5">
