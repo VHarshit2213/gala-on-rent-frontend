@@ -8,11 +8,11 @@ const Header = () => {
   const isShowShadow = ["/about-us"]?.includes(location.pathname)
   
   return (
-      <div className={`flex justify-between px-10 ${!isShowShadow ? "shadow-[0px_2px_12px_0px_#00000033]" : ""} `}>
+      <div className={`flex justify-between px-4 sm:px-10 ${!isShowShadow ? "shadow-[0px_2px_12px_0px_#00000033]" : ""} `}>
         <img
           src={Gala_On_RenT_LOGO}
           alt="Gala On Rent Logo"
-          className="w-[200px]"
+          className="w-[150px] sm:w-[200px]"
         />
         <button className="cursor-pointer">
           <FaCircleUser size={25} />

@@ -147,6 +147,14 @@ const PropertyDetails = () => {
     "water storage": <img src={row_oil} alt="row_oil" className="w-6" />,
   };
 
+  const handleContactClick = () => {
+    setTimeout(() => {
+      document
+        .getElementById("contact-form")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   useEffect(() => {
     dispatch(fetchSingleProperty(params.id));
   }, [params.id, dispatch]);
@@ -160,7 +168,7 @@ const PropertyDetails = () => {
       <div className="flex flex-col gap-y-6 py-6 xl:px-[198px] lg:px-[138px] p-3">
         <div className="flex justify-between text-muted-transparent font-medium">
           <p>
-            Home / {city} / {Popular_Area} / Property for Rent in {city}
+            Home / {city} / {Popular_Area} / Property for {looking_to} in {city}
           </p>
           <p>Last Updated: {moment(date).format("ll")}</p>
         </div>
@@ -181,9 +189,14 @@ const PropertyDetails = () => {
           </div>
           <div className="flex flex-col items-end gap-y-2.5">
             <p className="text-muted font-bold text-2xl">Price ₹{Financials}</p>
-            <Button className="bg-orange text-white py-3 px-8 rounded-lg text-sm">
-              Contact Developer
-            </Button>
+            {!fromAdmin && (
+              <Button
+                className="bg-orange text-white py-3 px-8 rounded-lg text-sm cursor-pointer"
+                onClick={handleContactClick}
+              >
+                Contact Developer
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -243,7 +256,7 @@ const PropertyDetails = () => {
           <div id="ABOUT">
             <Card cardClassName={"bg-white"}>
               <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
-                About the property
+                About The Property
               </p>
               <p className="text-sm font-semibold py-5 px-7 border-b border-gray capitalize">
                 {About_the_property}
@@ -335,7 +348,7 @@ const PropertyDetails = () => {
           />
         </div>
         {!fromAdmin && (
-          <div className="lg:w-[38%] w-1/2 mt-5">
+          <div id="contact-form" className="lg:w-[38%] w-1/2 mt-5">
             <div className="sticky top-5 right-0 ">
               <Card cardClassName={"bg-white p-5"}>
                 <CardBody bodyClassName={"flex flex-col gap-y-5"}>

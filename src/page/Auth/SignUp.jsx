@@ -110,10 +110,12 @@ const SignUp = () => {
     const otpCode = otp.join("");
     console.log("Entered OTP:", otpCode);
     // try {
-    //   await  window.confirmationResult.confirm(otpCode);
+    //   await window.confirmationResult.confirm(otpCode);
+    //   toast.success("OTP verified successfully!");
     //   navigate("/sell-register-form");
     // } catch (error) {
-    //    toast.error({error});
+    //   console.error("OTP verification error:", error);
+    //   toast.error("Invalid OTP. Try again.");
     // }
 
     //for dummy otp
@@ -176,13 +178,13 @@ const SignUp = () => {
   });
 
   return (
-    <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
+    <div className="w-full h-screen p-4 lg:pl-[40px] lg:pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
       <div className="flex lg:gap-20 gap-4 justify-center w-full">
         <RegisterInfo />
         {tab === 0 ? (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 max-w-lg w-full">
-            <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
-              <div className="flex flex-col gap-y-9">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-lg w-full">
+            <CardBody bodyClassName="flex flex-col justify-between gap-y-8 xsm:gap-y-13">
+              <div className="flex flex-col gap-y-4 xsm:gap-y-9">
                 <p className="font-normal lg:text-xl text-md capitalize text-center">
                   New to 
                   <span className="text-orange font-semibold ml-2">
@@ -212,20 +214,20 @@ const SignUp = () => {
                       className="my-3"
                     />
                     {formik.touched.phone && formik.errors.phone && (
-                      <p className="text-red-500 text-sm">
+                      <p className="text-red-500 text-xs xsm:text-sm">
                         {formik.errors.phone}
                       </p>
                     )}
 
                     <ThemeButton
                       title={"Send OTP"}
-                      className="!justify-center !max-w-[420px] mt-4"
+                      className="!justify-center !max-w-full mt-4"
                       type="submit"
                     />
                   </form>
                 </div>
               </div>
-              <p className="text-base font-semibold uppercase text-center">
+              <p className="text-[14px] xsm:text-base font-semibold uppercase text-center">
                 Existing User? 
                 <span
                   className="text-orange ml-2 cursor-pointer"
@@ -237,7 +239,7 @@ const SignUp = () => {
             </CardBody>
           </Card>
         ) : (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 max-w-lg w-full">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-lg w-full">
             <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
               <div className="flex flex-col">
                 <button onClick={handleBack} className="cursor-pointer">
@@ -248,7 +250,7 @@ const SignUp = () => {
                   <p className="text-gray-600 mb-6">
                     We've sent a 6-digit code to your phone.
                   </p>
-                  <div className="flex gap-3 mb-6">
+                  <div className="flex gap-3 mb-4">
                     {otp.map((digit, idx) => (
                       <input
                         key={idx}
@@ -259,14 +261,14 @@ const SignUp = () => {
                         onKeyDown={(e) => handleKeyDown(e, idx)}
                         onPaste={handlePaste}
                         ref={(el) => (inputsRef.current[idx] = el)}
-                        className="w-12 h-12 text-center border border-gray-300 rounded-md text-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        className="w-7 h-7 xsm:w-11 xsm:h-11 sm:w-12 sm:h-12 text-center border border-gray-300 rounded-md text-base xsm:text-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
                       />
                     ))}
                   </div>
 
                   <ThemeButton
                     title={"Verify OTP"}
-                    className="!justify-center !max-w-[420px] mt-4"
+                    className="!justify-center !max-w-full"
                     onClick={handleVerifyOTP}
                   />
                 </div>

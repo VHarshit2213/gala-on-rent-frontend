@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBjofuTQne_KdU3mf3y0J0RgJOg2Y2P18M",
-  authDomain: "gala-on-rent.firebaseapp.com",
-  projectId: "gala-on-rent",
-  storageBucket: "gala-on-rent.firebasestorage.app",
-  messagingSenderId: "289387926411",
-  appId: "1:289387926411:web:2046436642fc31b3eed58e"
+  apiKey: "AIzaSyCuQEpGjBkpOAw_rAGirVUEjIJIz_lYb58",
+  authDomain: "gala-on-rent-30a6b.firebaseapp.com",
+  projectId: "gala-on-rent-30a6b",
+  storageBucket: "gala-on-rent-30a6b.firebasestorage.app",
+  messagingSenderId: "679162840116",
+  appId: "1:679162840116:web:b3c25896ae42bac8953661"
 };
 
 // Initialize Firebase

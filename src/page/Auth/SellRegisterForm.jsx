@@ -104,14 +104,14 @@ const SellRegisterForm = () => {
 
   return (
     <>
-      <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover relative">
+      <div className="w-full h-screen px-6 bg-[url(/home_bg.png)] bg-center bg-cover relative">
         <img
           src={Gala_On_RenT_LOGO}
           alt="Gala On Rent Logo"
           className="max-w-[200px] w-full absolute"
         />
         <div className="flex items-center justify-center w-full h-full">
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 w-1/2 mx-auto">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 w-full md:w-3/4 l:w-1/2 mx-auto">
             <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
               <form
                 className="grid grid-cols-2 gap-6"
@@ -125,7 +125,7 @@ const SellRegisterForm = () => {
                     type="text"
                     id="person_name"
                     name="person_name"
-                    placeholder="Enter Your First Name"
+                    placeholder="Enter Your full Name"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values?.person_name}
@@ -136,7 +136,7 @@ const SellRegisterForm = () => {
                     }`}
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                   <label htmlFor="email" className="font-medium">
                     Email Id
                   </label>
@@ -155,7 +155,7 @@ const SellRegisterForm = () => {
                     }`}
                   />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                   <label className="font-medium">Select City</label>
                   <Select
                     onChange={(val) => {
@@ -178,7 +178,7 @@ const SellRegisterForm = () => {
                 </div>
                 <div className="flex flex-col gap-y-2 col-span-2">
                   <label className="font-medium">Property Belongs To</label>
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-4">
                     {["My Self", "I Am Agent", "Family", "Friends"].map(
                       (label) => (
                         <label
@@ -230,8 +230,8 @@ const SellRegisterForm = () => {
                 Your Unique Code
               </h2>
               <p className="font-bold text-lg mb-4">
-                Copy and save this Unique code - you will need it every time
-                you log in
+                Copy and save this Unique code - you will need it every time you
+                log in
               </p>
               <p className="text-2xl font-mono mb-6 text-orange text-center">
                 {generatedCode}

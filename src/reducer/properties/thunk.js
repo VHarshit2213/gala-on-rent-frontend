@@ -7,7 +7,7 @@ import {
   editProperty,
   getAllProperties,
   getAllTokenWiseProperties,
-  getPropertiesByCity,
+  filterProperties,
   getSingleProperty,
   removeProperty,
 } from "../../api/helper";
@@ -73,11 +73,16 @@ export const fetchSingleProperty = createAsyncThunk(
 );
 
 //get Property By City and area
-export const fetchPropertyByCity = createAsyncThunk(
-  "property/getPropertiesByCity",
-  async ({ city, area }, { rejectWithValue }) => {
+export const fetchFilteredProperties = createAsyncThunk(
+  "property/filterProperties",
+  async (
+    { city, area, lookingTo, propertyType = "", sort = "" },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.get(getPropertiesByCity(city, area));
+      const response = await api.get(
+        filterProperties(city, area, lookingTo, propertyType, sort)
+      );
       return response;
     } catch (error) {
       toast.error(error?.response?.data?.message);

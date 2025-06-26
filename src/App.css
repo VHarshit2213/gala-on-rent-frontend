@@ -11,6 +11,7 @@
   --breakpoint-2xl: 1920px;
   --breakpoint-xxl: 1660px;
   --breakpoint-xl: 1440px;
+  --breakpoint-l: 1100px;
   --breakpoint-lg: 1024px;
   --breakpoint-md: 768px;
   --breakpoint-sm: 567px;
@@ -101,7 +102,7 @@ input:-webkit-autofill {
 }
 
 .property-custom-dots li button::before {
-  color: rgba(229, 108, 6, 0.30) !important;
+  color: rgba(229, 108, 6, 0.3) !important;
   font-size: 10px !important;
   opacity: 1 !important;
   transition: all 0.3s ease-in-out !important;
@@ -124,6 +125,6 @@ input:-webkit-autofill {
   transform: scale(0.9);
 }
 
-.property-img-slider .slick-track{
+.property-img-slider .slick-track {
   gap: 0px !important;
 }

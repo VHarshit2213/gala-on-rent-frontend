@@ -57,12 +57,12 @@ const SignIn = () => {
   });
 
   return (
-    <div className="w-full h-screen pl-[40px] pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
+    <div className="w-full h-screen p-4 lg:pl-[40px] lg:pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
       <div className="flex lg:gap-20 gap-4 justify-center w-full">
         <RegisterInfo />
-        <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-14 max-w-lg w-full">
-          <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
-            <div className="flex flex-col gap-y-9">
+        <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-lg w-full">
+          <CardBody bodyClassName="flex flex-col justify-between gap-y-8 xsm:gap-y-13">
+            <div className="flex flex-col gap-y-4 xsm:gap-y-9">
               <p className="font-normal lg:text-xl text-md capitalize text-center">
                 Welcome back to
                 <span className="text-orange font-semibold ml-2">Housing</span>!
@@ -70,7 +70,7 @@ const SignIn = () => {
               </p>
               <form className="grid gap-4" onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="Phone_number" className="font-medium">
+                  <label htmlFor="Phone_number" className="text-xs xsm:text-base font-medium">
                     Phone Number
                   </label>
                   <PhoneInput
@@ -82,13 +82,13 @@ const SignIn = () => {
                     onBlur={() => formik.setFieldTouched("Phone_number", true)}
                   />
                   {formik.touched.Phone_number && formik.errors.Phone_number && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-red-500 text-xs xsm:text-sm">
                       {formik.errors.Phone_number}
                     </p>
                   )}
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="uniqueCode" className="font-medium">
+                  <label htmlFor="uniqueCode" className="text-xs xsm:text-base font-medium">
                     Code
                   </label>
                   <input
@@ -102,23 +102,23 @@ const SignIn = () => {
                     className={`w-[91%] px-3 py-[9.5px] border-b border-b-gray-300 focus:outline-0 text-sm rounded-md `}
                   />
                   {formik.touched.uniqueCode && formik.errors.uniqueCode && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-red-500 text-xs xsm:text-sm">
                       {formik.errors.uniqueCode}
                     </p>
                   )}
                 </div>
                 <ThemeButton
                   title={"Login"}
-                  className="!justify-center !max-w-[420px] mt-4"
+                  className="!justify-center !max-w-full mt-4"
                   type="submit"
                 />
               </form>
             </div>
-            <p className="text-base font-semibold uppercase text-center">
+            <p className="text-[14px] xsm:text-base font-semibold uppercase text-center">
               Don’t have an account yet?
               <span
                 className="text-orange ml-2 cursor-pointer"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/")}
               >
                 Register Here
               </span>
