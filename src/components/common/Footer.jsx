@@ -14,15 +14,15 @@ import { GrSend } from "react-icons/gr";
 const Footer = () => {
     return (
         <div>
-            <div className='relative bg-dark h-auto w-full overflow-x-hidden px-[120px]'>
-                <div className="relative h-20 bg-dark overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-0 xl:border-t-64 lg:border-t-55 border-t-40 border-t-[#E46900] xl:border-l-[45vw] lg:border-l-[41vw] md:border-l-[39vw] border-l-[50vw] border-l-transparent xl:border-r-[45vw] lg:border-r-[41vw] md:border-r-[39vw] border-r-[50vw] border-r-transparent" />
+            <div className='relative bg-dark h-auto w-full overflow-x-hidden px-4 xsm:px-10 l:px-20 xl:px-32'>
+                <div className="relative lg:h-20 bg-dark overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-0 xl:border-t-64 lg:border-t-55 border-t-0 border-t-[#E46900] xl:border-l-[43vw] l:border-l-[43vw] lg:border-l-[48vw]  md:border-l-[39vw] border-l-[50vw] border-l-transparent xxl:border-r-[42vw] xl:border-r-[41vw] l:border-r-[42vw] lg:border-r-[45vw] md:border-r-[39vw] border-r-[50vw] border-r-transparent" />
                 </div>
                 <div className="text-white py-8">
-                    <div className="grid grid-cols-10 lg:gap-3 gap-y-10">
-                        <div className="flex flex-col gap-y-4 lg:col-span-3 col-span-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-10 lg:gap-3 gap-x-6 gap-y-10">
+                        <div className="flex flex-col gap-y-4 col-span-2 lg:col-span-3">
                             <img src={logo} alt="Logo" className="w-32" />
-                            <p className="leading-6 text-base">
+                            <p className="leading-6 text-sm xsm:text-base">
                                 We are many variations of passages available, but the majority have suffered alteration in some form by injected humour.
                             </p>
                             <div className="flex gap-4 mt-2">
@@ -41,9 +41,9 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <div className='flex flex-col items-center gap-y-8 lg:col-span-2 col-span-4'>
+                        <div className='flex flex-col md:items-center gap-y-5 xsm:gap-y-8 col-span-2 xsm:col-span-1 lg:col-span-2'>
                             <div className="flex flex-col justify-center gap-y-5">
-                                <p className="text-xl font-medium">Quick Links</p>
+                                <p className="text-lg xsm:text-xl font-medium">Quick Links</p>
                                 <div className="flex gap-2">
                                     <span className="border-2 border-orange w-3.5"></span>
                                     <span className="border-2 border-orange w-9"></span>
@@ -57,9 +57,9 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <div className='flex flex-col items-start gap-y-8 lg:col-span-3 col-span-5'>
+                        <div className='flex flex-col items-start gap-y-5 xsm:gap-y-8 col-span-2 xsm:col-span-1 lg:col-span-3'>
                             <div className="flex flex-col gap-y-5">
-                                <p className="text-xl font-medium">Our Services</p>
+                                <p className="text-lg xsm:text-xl font-medium">Our Services</p>
                                 <div className="flex gap-2">
                                     <span className="border-2 border-orange w-3.5"></span>
                                     <span className="border-2 border-orange w-9"></span>
@@ -73,9 +73,9 @@ const Footer = () => {
 
                         </div>
 
-                        <div className='flex flex-col gap-y-8 lg:col-span-2 col-span-5'>
+                        <div className='flex flex-col gap-y-5 xsm:gap-y-8 lg:col-span-2 md:col-span-4 col-span-2'>
                             <div className="flex flex-col gap-y-5">
-                                <p className="text-xl font-medium">Newsletter</p>
+                                <p className="text-lg xsm:text-xl font-medium">Newsletter</p>
                                 <div className="flex gap-2">
                                     <span className="border-2 border-orange w-3.5"></span>
                                     <span className="border-2 border-orange w-9"></span>
@@ -94,9 +94,9 @@ const Footer = () => {
                 </div>
 
             </div>
-            <div className='px-[135px] bg-[#223F58] py-5 flex justify-between text-[#F5FAFF] text-base w-full'>
-                <p><span>© Copyright 2025 </span><span className='text-orange'>Gala On Rent</span><span> All Rights Reserved.</span></p>
-                <div className='flex justify-between whitespace-nowrap w-1/3'>
+            <div className='px-4 xsm:px-10 l:px-20 xl:px-32 bg-[#223F58] py-5 flex flex-col lg:flex-row gap-6 justify-between text-[#F5FAFF] text-xs sm:text-base w-full'>
+                <p className='order-2 lg:order-none self-center'><span>© Copyright 2025 </span><span className='text-orange'>Gala On Rent</span><span> All Rights Reserved.</span></p>
+                <div className='flex justify-between gap-4 whitespace-nowrap lg:w-1/3'>
                     <p>Support</p>
                     <p>Terms Of Services</p>
                     <p>Privacy Policy</p>

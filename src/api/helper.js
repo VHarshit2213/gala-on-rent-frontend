@@ -20,8 +20,16 @@ export const filterProperties = (
   propertyType = "",
   sort = ""
 ) => {
-  let url = `/properties/getAllProperties?city=${city}&Popular_Area=${area}&looking_to=${lookingTo}`;
-  if (propertyType) url += `&type_of_property=${propertyType}`;
-  if (sort) url += `&Financials=${sort}`;
-  return url;
+  const params = new URLSearchParams();
+
+  if (city) params.append("city", city);
+  if (area) params.append("Popular_Area", area);
+  if (lookingTo) params.append("looking_to", lookingTo);
+  if (propertyType) params.append("type_of_property", propertyType);
+  if (sort) params.append("Financials", sort);
+
+  return `/properties/getAllProperties?${params.toString()}`;
 };
+
+// reviews
+export const getAllReviews = "/review/getAllReviews";

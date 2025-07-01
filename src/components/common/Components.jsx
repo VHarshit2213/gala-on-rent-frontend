@@ -9,12 +9,12 @@ function classNames(...classes) {
 export const ThemeButton = ({ className,titleClass, title, icon, children, type="button",...rest }) => {
     return (
       <Button
-        className={`uppercase ${titleClass} ${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0 cursor-pointer`}
+        className={`uppercase ${titleClass} ${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0 cursor-pointer text-sm xsm:text-base`}
         type={type}
         {...rest}
       >
         {title}
-        <div className="p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
+        <div className="p-1 xsm:p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
           {icon ? icon : <GrLinkNext />}
         </div>
       </Button>

@@ -165,33 +165,33 @@ const PropertyDetails = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-y-6 py-6 xl:px-[198px] lg:px-[138px] p-3">
-        <div className="flex justify-between text-muted-transparent font-medium">
+      <div className="flex flex-col gap-y-6 py-6 px-4 xsm:px-10 l:px-30 xl:px-40 p-3">
+        <div className="flex justify-between gap-4 text-muted-transparent font-medium text-xs sm:text-sm lg:text-base">
           <p>
             Home / {city} / {Popular_Area} / Property for {looking_to} in {city}
           </p>
           <p>Last Updated: {moment(date).format("ll")}</p>
         </div>
-        <div className="flex justify-between items-end">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-end">
           <div>
-            <div className="border border-orange-transparent rounded-full p-3 cursor-pointer bg-white inline-block">
+            <div className="border border-orange-transparent rounded-full p-2 md:p-3 cursor-pointer bg-white inline-block">
               <RiShareFill
-                className="text-orange text-2xl"
+                className="text-orange text-lg md:text-xl lg:text-2xl"
                 title="share Property"
               />
             </div>
-            <p className="text-muted text-2xl font-bold">
+            <p className="text-muted text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
               {address}, {city}
             </p>
-            <p className="text-muted-transparent text-base font-medium">
+            <p className="text-muted-transparent text-xs md:text-sm lg:text-base font-medium">
               {Popular_Area} - {pincode}
             </p>
           </div>
-          <div className="flex flex-col items-end gap-y-2.5">
-            <p className="text-muted font-bold text-2xl">Price ₹{Financials}</p>
+          <div className="flex flex-col items-end gap-y-1 md:gap-y-2.5">
+            <p className="text-muted font-bold text-base sm:text-lg md:text-xl lg:text-2xl">Price ₹{Financials}</p>
             {!fromAdmin && (
               <Button
-                className="bg-orange text-white py-3 px-8 rounded-lg text-sm cursor-pointer"
+                className="bg-orange text-white py-2 lg:py-3 px-6 lg:px-8 rounded-lg text-xs lg:text-sm cursor-pointer "
                 onClick={handleContactClick}
               >
                 Contact Developer
@@ -209,7 +209,7 @@ const PropertyDetails = () => {
                 <img
                   src={`${BASE_URL}/${img}`}
                   alt={`property_${index}`}
-                  className={`h-[400px] w-full object-cover rounded-lg`}
+                  className={`h-[200px] xsm:h-[300px] lg:h-[400px] xl:h-[500px] w-full object-cover rounded-lg`}
                 />
               </div>
             ))}
@@ -218,85 +218,85 @@ const PropertyDetails = () => {
           <img
             src={`${BASE_URL}/${image?.[0]}`}
             alt="property"
-            className="h-[500px] w-[80%] mx-auto object-cover rounded-lg"
+            className="h-[200px] xsm:h-[300px] lg:h-[400px] xl:h-[500px] w-[80%] mx-auto object-cover rounded-lg"
           />
         )}
       </div>
       <div>
-        <div className="flex flex-col gap-y-6 py-6 xl:px-[198px] lg:px-[138px] p-3">
-          <ul className="flex text-center text-xl justify-between">
-            <li className="px-5 self-center capitalize">
+        <div className="flex flex-col gap-y-6 py-6 px-4 xsm:px-10 l:px-30 xl:px-40 p-3">
+          <ul className="flex text-center text-[10px] sm:text-xs md:text-base l:text-xl justify-between">
+            <li className="px-3 md:px-5 self-center capitalize">
               {Carpet_Area} Carpet Area
             </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-5 self-center capitalize">{looking_to}</li>
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">{looking_to}</li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-5 self-center capitalize">{type_of_property}</li>
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">{type_of_property}</li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-5 self-center capitalize">
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
               Floors No. {blockNumber}
             </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-5 self-center capitalize">
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
               Available From {available_From}
             </li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-[#D9D9D9DD] font-medium text-xl py-7 xl:px-[198px] lg:px-[138px] px-3 shadow-[0px_4px_10px_0px_#55555540]">
-        <div className="flex justify-between lg:w-[80%] w-full">
+      <div className="border-t border-[#D9D9D9DD] font-medium text-[10px] xsm:text-xs sm:text-sm md:text-base lg:text-xl py-7 px-4 xsm:px-10 l:px-30 xl:px-40 shadow-[0px_4px_10px_0px_#55555540]">
+        <div className="flex justify-between gap-4 lg:w-[80%] w-full">
           <a href="#ABOUT">ABOUT</a>
           <a href="#OVERVIEW">OVERVIEW</a>
           <a href="#ADDITIONAL_DETAILS">ADDITIONAL DETAILS</a>
           <a href="#AMENITIES">AMENITIES</a>
         </div>
       </div>
-      <div className="flex gap-3 xl:px-[198px] lg:px-[138px] px-3 py-4.5 w-full bg-[#F8F8F8]">
-        <div className="flex-1 lg:w-[62%] w-1/2 mb-3 flex flex-col gap-y-5">
+      <div className="flex flex-col md:flex-row gap-3 px-4 xsm:px-10 l:px-30 xl:px-40 py-4.5 w-full bg-[#F8F8F8]">
+        <div className="flex-1 lg:w-[62%] md:w-1/2 w-full mb-3 flex flex-col gap-y-5">
           <div id="ABOUT">
             <Card cardClassName={"bg-white"}>
-              <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
+              <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
                 About The Property
               </p>
-              <p className="text-sm font-semibold py-5 px-7 border-b border-gray capitalize">
+              <p className="text-xs lg:text-sm font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray capitalize">
                 {About_the_property}
               </p>
-              <p className="text-orange text-base font-semibold py-5 px-7 flex items-center justify-center">
+              <p className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center">
                 Read More <MdExpandMore size={20} />
               </p>
             </Card>
           </div>
           <div id="OVERVIEW">
             <Card cardClassName={"bg-white"}>
-              <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
+              <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
                 Overview
               </p>
-              <div className="grid grid-cols-2 py-5 px-7 gap-6">
+              <div className="grid grid-cols-2 py-3 lg:py-5 px-4 xsm:px-7 gap-6">
                 {overViewDetails?.map((item) => (
                   <div className="flex flex-col gap-y-1">
-                    <p className="text-muted-transparent text-base font-semibold capitalize">
+                    <p className="text-muted-transparent text-sm lg:text-base font-semibold capitalize">
                       {item.label}
                     </p>
-                    <p className="text-base font-semibold capitalize">
+                    <p className="text-sm lg:text-base font-semibold capitalize">
                       {" "}
                       {item.value}
                     </p>
                   </div>
                 ))}
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-muted-transparent text-base font-semibold capitalize">
+                  <p className="text-muted-transparent text-sm lg:text-base font-semibold capitalize">
                     Suitable For
                   </p>
                   {Property_Suitable_For?.map((item) => (
-                    <p className="text-base font-semibold capitalize">{item}</p>
+                    <p className="text-sm lg:text-base font-semibold capitalize">{item}</p>
                   ))}
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-muted-transparent text-base font-semibold capitalize">
+                  <p className="text-muted-transparent text-sm lg:text-base font-semibold capitalize">
                     Water Supply
                   </p>
                   {Type_of_Water_Supply?.map((item) => (
-                    <p className="text-base font-semibold capitalize">{item}</p>
+                    <p className="text-sm lg:text-base font-semibold capitalize">{item}</p>
                   ))}
                 </div>
               </div>
@@ -304,16 +304,16 @@ const PropertyDetails = () => {
           </div>
           <div id="ADDITIONAL_DETAILS">
             <Card cardClassName={"bg-white"}>
-              <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
+              <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
                 Additional Details
               </p>
-              <div className="grid grid-cols-2 py-5 px-7 gap-6">
+              <div className="grid grid-cols-2 py-3 lg:py-5 px-4 xsm:px-7 gap-6">
                 {additionalDetails?.map((item, index) => (
                   <div className="flex flex-col gap-y-1" key={index}>
-                    <p className="text-muted-transparent text-base font-semibold capitalize">
+                    <p className="text-muted-transparent text-sm lg:text-base font-semibold capitalize">
                       {item.label}
                     </p>
-                    <p className="text-base font-semibold capitalize">
+                    <p className="text-sm lg:text-base font-semibold capitalize">
                       {item.value}
                     </p>
                   </div>
@@ -323,17 +323,17 @@ const PropertyDetails = () => {
           </div>
           <div id="AMENITIES">
             <Card cardClassName={"bg-white"}>
-              <p className="text-lg font-semibold py-5 px-7 border-b border-gray">
+              <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
                 Amenities
               </p>
-              <div className="grid grid-cols-2 py-5 px-7 gap-6">
+              <div className="grid grid-cols-2 py-3 lg:py-5 px-4 xsm:px-7 gap-6">
                 {Amenities?.map((label, index) => {
                   const icon = amenitiesIcon[label.toLowerCase()];
                   if (!icon) return null;
                   return (
                     <div className="flex flex-col gap-y-1" key={index}>
                       <div>{icon}</div>
-                      <p className="text-base font-semibold capitalize">
+                      <p className="text-sm lg:text-base font-semibold capitalize">
                         {label}
                       </p>
                     </div>
@@ -342,13 +342,13 @@ const PropertyDetails = () => {
               </div>
             </Card>
           </div>
-          <SimilarPropertiesShowroom
+          {/* <SimilarPropertiesShowroom
             data={[1, 2, 3, 4, 5, 6]}
             slidesToShow={3}
-          />
+          /> */}
         </div>
         {!fromAdmin && (
-          <div id="contact-form" className="lg:w-[38%] w-1/2 mt-5">
+          <div id="contact-form" className="lg:w-[38%] md:w-1/2 w-full mt-5">
             <div className="sticky top-5 right-0 ">
               <Card cardClassName={"bg-white p-5"}>
                 <CardBody bodyClassName={"flex flex-col gap-y-5"}>
@@ -364,7 +364,7 @@ const PropertyDetails = () => {
                     }
                   >
                     <CardBody bodyClassName={"flex flex-col gap-y-4"}>
-                      <p className="text-xl font-medium">CONTACT SELLER</p>
+                      <p className="text-base xsm:text-lg lg:text-xl font-medium">CONTACT SELLER</p>
                       <div className="flex gap-2">
                         <img
                           src={seller_img}
@@ -372,7 +372,7 @@ const PropertyDetails = () => {
                           className="rounded-full w-14 h-14 object-cover border border-black"
                         />
                         <div className="flex flex-col w-full max-w-[80%]">
-                          <p className="font-bold text-xl capitalize">
+                          <p className="font-bold text-sm xsm:text-lg lg:text-xl capitalize">
                             {User_data?.person_name}
                           </p>
                           {/* <p className="truncate w-full text-xs font-medium text-muted-transparent">
@@ -388,29 +388,29 @@ const PropertyDetails = () => {
                       </p>
                       <div className="flex flex-col gap-y-3">
                         <div className="flex flex-col gap-y-1">
-                          <label className="text-base font-medium">Name</label>
+                          <label className="text-sm lg:text-base font-medium">Name</label>
                           <input
                             type="text"
                             placeholder="Enter your name"
-                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
                         </div>
                         <div className="flex flex-col gap-y-1">
-                          <label className="text-base font-medium">
+                          <label className="text-sm lg:text-base font-medium">
                             Phone Number
                           </label>
                           <input
                             type="text"
                             placeholder="Enter your phone number"
-                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
                         </div>
                         <div className="flex flex-col gap-y-1">
-                          <label className="text-base font-medium">Email</label>
+                          <label className="text-sm lg:text-base font-medium">Email</label>
                           <input
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-3"
+                            className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
                         </div>
                       </div>
@@ -428,7 +428,7 @@ const PropertyDetails = () => {
                   </div>
                   <ThemeButton
                     title={"Get contact details"}
-                    className={"!justify-center !max-w-[350px]"}
+                    className={"!justify-center !max-w-full"}
                   />
                 </CardBody>
               </Card>

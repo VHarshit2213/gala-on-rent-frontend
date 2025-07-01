@@ -13,7 +13,7 @@ import maskGroup from "../../assets/Home/maskGroup.png";
 import ad_banner from "../../assets/Property/ad_banner.png";
 import ad_Group from "../../assets/Property/ad_Group_.png";
 import SimilarPropertiesShowroom from "../../components/SimilarPropertiesShowroom";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFilteredProperties } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
@@ -42,12 +42,16 @@ const SearchProperty = () => {
     (state) => state.property
   );
 
-  const { city, area, lookingTo } = useParams();
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const city = queryParams.get("city");
+  const area = queryParams.get("Popular_Area");
+  const lookingTo = queryParams.get("looking_to");
 
   const [isSticky, setIsSticky] = useState(false);
   const [selectedPropertyType, setSelectedPropertyType] = useState(null);
-  const [sortByPrice, setSortByPrice] = useState(null);  
+  const [sortByPrice, setSortByPrice] = useState(null);
 
   const fetchData = (propertyType, sort) => {
     const payload = {
@@ -147,8 +151,13 @@ const SearchProperty = () => {
             <div className="flex justify-between text-[#747474] font-normal text-sm">
               <p className="capitalize">
                 Home <span className="text-[#000000]">/</span> {city}{" "}
-                <span className="text-[#000000]">/</span> Property for{" "}
-                {lookingTo} in {area}
+                {(lookingTo || area) && (
+                  <>
+                    <span className="text-[#000000]">/</span> Property
+                    {lookingTo && ` for ${lookingTo}`}
+                    {area && ` in ${area}`}
+                  </>
+                )}
               </p>
               {/* <p>Last Updated: Mar 5, 2025</p> */}
             </div>
@@ -158,7 +167,11 @@ const SearchProperty = () => {
                   Showing 1 - 30 of 427
                 </p>
                 <p className="text-lg font-medium text-[#222222] capitalize">
-                  Property for {lookingTo} in {area}, {city}
+                  Property
+                  {lookingTo && ` for ${lookingTo}`}
+                  {(area || lookingTo) &&
+                    ` in ${area ? `${area}, ` : ""}${city}`}
+                  {!area && !lookingTo && ` in ${city}`}
                 </p>
               </div>
               <div className="flex gap-2 items-center">

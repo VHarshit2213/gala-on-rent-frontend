@@ -7,7 +7,6 @@ import { GrLinkNext } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProperty,
-  fetchAllProperties,
   fetchAllTokenWiseProperties,
 } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
@@ -33,7 +32,7 @@ const PropertyList = () => {
     try {
       setIsRemovedLoading(true);
       await dispatch(deleteProperty(deleteId)).unwrap();
-      dispatch(fetchAllProperties());
+      dispatch(fetchAllTokenWiseProperties());
       toast.success("Property Delete successfully!");
     } catch (error) {
       console.error("Error deleting property:", error);

@@ -43,6 +43,12 @@ input:-webkit-autofill {
   gap: 30px !important;
 }
 
+@media (max-width: 768px) {
+  .slick-track {
+    gap: 5px !important;
+  }
+}
+
 .client_slider .slick-slider .slick-list {
   padding-top: 40px;
 }

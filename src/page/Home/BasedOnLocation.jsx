@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { PiKeyBold } from "react-icons/pi";
 import { RiHomeLine } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
@@ -13,8 +12,6 @@ import {
   ThemeButton,
 } from "../../components/common/Components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProperties } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
@@ -29,7 +26,7 @@ const TabContent = ({ allProperty, loading }) => {
   return (
     <>
       {allProperty && allProperty?.length > 0 ? (
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 md:gap-8">
           {allProperty.map((property, index) => {
             const {
               _id,
@@ -74,12 +71,12 @@ const TabContent = ({ allProperty, loading }) => {
                           /month
                         </span>
                       </div>
-                      <div className="p-3.5 rounded-50 border border-[#e56c064d]">
-                        <FaRegHeart size={20} className="text-orange" />
+                      <div className="p-3 md:p-3.5 rounded-50 border border-[#e56c064d]">
+                        <FaRegHeart className="text-orange text-lg md:text-xl" />
                       </div>
                     </div>
                     <div className="text-muted flex flex-col gap-y-3 h-[100px]">
-                      <h2 className="font-bold text-2xl capitalize">
+                      <h2 className="font-bold text-xl md:text-2xl capitalize">
                         {type_of_property}
                       </h2>
                       <p className="opacity-50 text-sm capitalize">
@@ -110,16 +107,9 @@ const TabContent = ({ allProperty, loading }) => {
     </>
   );
 };
-const BasedOnLocation = () => {
-  const dispatch = useDispatch();
-  const { allProperty, loading } = useSelector((state) => state.property);
-
-  useEffect(() => {
-    dispatch(fetchAllProperties());
-  }, [dispatch]);
-
+const BasedOnLocation = ({ allProperty, loading }) => {
   return (
-    <div className="mt-15 bg-linear-to-t from-[#FFEEE0] to-[#FFFFFF] flex flex-col gap-[50px] px-20">
+    <div className="mt-8 xsm:mt-15 bg-linear-to-t from-[#FFEEE0] to-[#FFFFFF] flex flex-col gap-[30px] xsm:gap-[50px] px-4 xsm:px-10 l:px-20 xl:px-32">
       <Title
         title="Based on your"
         highlightTitle="location"
@@ -127,7 +117,7 @@ const BasedOnLocation = () => {
       />
       <Tabs
         defaultActive="Office"
-        className="gap-11 flex flex-col"
+        className="gap-6 xsm:gap-11 flex flex-col text-sm xsm:text-base"
         tabClassName="border-2 border-[#E0DEF7] bg-[#F7F7F7] rounded-lg p-2 flex gap-4 items-center max-w-fit w-full"
         tabButton="flex gap-2 items-center text-[#807DA8] p-2 rounded-lg"
         active="text-orange border-2 px-3 border-[#E0DEF7] bg-white"
