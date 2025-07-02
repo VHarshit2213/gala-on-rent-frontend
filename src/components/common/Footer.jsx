@@ -14,7 +14,7 @@ import { GrSend } from "react-icons/gr";
 const Footer = () => {
     return (
         <div>
-            <div className='relative bg-dark h-auto w-full overflow-x-hidden px-4 xsm:px-10 l:px-20 xl:px-32'>
+            <div className='relative bg-dark h-auto w-full overflow-x-hidden px-4 xsm:px-10 l:px-20 xl:px-32 z-40'>
                 <div className="relative lg:h-20 bg-dark overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-0 xl:border-t-64 lg:border-t-55 border-t-0 border-t-[#E46900] xl:border-l-[43vw] l:border-l-[43vw] lg:border-l-[48vw]  md:border-l-[39vw] border-l-[50vw] border-l-transparent xxl:border-r-[42vw] xl:border-r-[41vw] l:border-r-[42vw] lg:border-r-[45vw] md:border-r-[39vw] border-r-[50vw] border-r-transparent" />
                 </div>

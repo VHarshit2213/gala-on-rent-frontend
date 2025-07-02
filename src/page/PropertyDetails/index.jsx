@@ -16,8 +16,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleProperty } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
 import moment from "moment/moment";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { WhatsappShareButton } from "react-share";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
+
+const contactValidationSchema = Yup.object({
+  name: Yup.string().required("Name Is required"),
+  phone: Yup.string()
+    .matches(/^\d{10}$/, "PPhone number must be 10 digits")
+    .required("Phone number is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+});
 
 const imgSliderSettings = {
   dots: true,
@@ -90,6 +101,8 @@ const PropertyDetails = () => {
   const location = useLocation();
   const fromAdmin = location.state?.fromAdmin || false;
 
+  const pageUrl = window.location.href;
+
   // destructure Property details
   const {
     date,
@@ -155,6 +168,21 @@ const PropertyDetails = () => {
     }, 100);
   };
 
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      phone: "",
+      email: "",
+    },
+    validationSchema: contactValidationSchema,
+    onSubmit: (values) => {
+      const message = `Name: ${values.name}%0APhone number: ${values.phone}%0AEmail: ${values.email}%0AProperty Link: ${pageUrl}`;
+      const phoneNumber = User_data?.Phone_number;
+      const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+      window.open(url, "_blank");
+    },
+  });
+
   useEffect(() => {
     dispatch(fetchSingleProperty(params.id));
   }, [params.id, dispatch]);
@@ -174,11 +202,13 @@ const PropertyDetails = () => {
         </div>
         <div className="flex flex-col sm:flex-row justify-between sm:items-end">
           <div>
-            <div className="border border-orange-transparent rounded-full p-2 md:p-3 cursor-pointer bg-white inline-block">
-              <RiShareFill
-                className="text-orange text-lg md:text-xl lg:text-2xl"
-                title="share Property"
-              />
+            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border border-orange-transparent rounded-full cursor-pointer bg-white">
+              <WhatsappShareButton url={pageUrl} title={type_of_property}>
+                <RiShareFill
+                  className="text-orange text-lg md:text-xl lg:text-2xl"
+                  title="share Property"
+                />
+              </WhatsappShareButton>
             </div>
             <p className="text-muted text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
               {address}, {city}
@@ -188,7 +218,9 @@ const PropertyDetails = () => {
             </p>
           </div>
           <div className="flex flex-col items-end gap-y-1 md:gap-y-2.5">
-            <p className="text-muted font-bold text-base sm:text-lg md:text-xl lg:text-2xl">Price ₹{Financials}</p>
+            <p className="text-muted font-bold text-base sm:text-lg md:text-xl lg:text-2xl">
+              Price ₹{Financials}
+            </p>
             {!fromAdmin && (
               <Button
                 className="bg-orange text-white py-2 lg:py-3 px-6 lg:px-8 rounded-lg text-xs lg:text-sm cursor-pointer "
@@ -229,9 +261,13 @@ const PropertyDetails = () => {
               {Carpet_Area} Carpet Area
             </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">{looking_to}</li>
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
+              {looking_to}
+            </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
-            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">{type_of_property}</li>
+            <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
+              {type_of_property}
+            </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
             <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
               Floors No. {blockNumber}
@@ -288,7 +324,9 @@ const PropertyDetails = () => {
                     Suitable For
                   </p>
                   {Property_Suitable_For?.map((item) => (
-                    <p className="text-sm lg:text-base font-semibold capitalize">{item}</p>
+                    <p className="text-sm lg:text-base font-semibold capitalize">
+                      {item}
+                    </p>
                   ))}
                 </div>
                 <div className="flex flex-col gap-y-1">
@@ -296,7 +334,9 @@ const PropertyDetails = () => {
                     Water Supply
                   </p>
                   {Type_of_Water_Supply?.map((item) => (
-                    <p className="text-sm lg:text-base font-semibold capitalize">{item}</p>
+                    <p className="text-sm lg:text-base font-semibold capitalize">
+                      {item}
+                    </p>
                   ))}
                 </div>
               </div>
@@ -351,7 +391,10 @@ const PropertyDetails = () => {
           <div id="contact-form" className="lg:w-[38%] md:w-1/2 w-full mt-5">
             <div className="sticky top-5 right-0 ">
               <Card cardClassName={"bg-white p-5"}>
-                <CardBody bodyClassName={"flex flex-col gap-y-5"}>
+                <form
+                  className="flex flex-col gap-y-5"
+                  onSubmit={formik.handleSubmit}
+                >
                   <div className="border border-orange bg-[#E56C0626] rounded-md flex gap-3 justify-center p-2">
                     <IoFlash className="text-orange" />
                     <p className="text-xs font-medium">
@@ -363,8 +406,10 @@ const PropertyDetails = () => {
                       "shadow-[2px_2px_10px_0px_#00000040] py-4 px-6 rounded-md"
                     }
                   >
-                    <CardBody bodyClassName={"flex flex-col gap-y-4"}>
-                      <p className="text-base xsm:text-lg lg:text-xl font-medium">CONTACT SELLER</p>
+                    <div className="flex flex-col gap-y-4">
+                      <p className="text-base xsm:text-lg lg:text-xl font-medium">
+                        CONTACT SELLER
+                      </p>
                       <div className="flex gap-2">
                         <img
                           src={seller_img}
@@ -388,12 +433,23 @@ const PropertyDetails = () => {
                       </p>
                       <div className="flex flex-col gap-y-3">
                         <div className="flex flex-col gap-y-1">
-                          <label className="text-sm lg:text-base font-medium">Name</label>
+                          <label className="text-sm lg:text-base font-medium">
+                            Name
+                          </label>
                           <input
                             type="text"
+                            name="name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values?.name}
                             placeholder="Enter your name"
                             className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
+                          {formik.touched.name && formik.errors.name && (
+                            <span className="text-red-500 text-sm">
+                              {formik.errors.name}
+                            </span>
+                          )}
                         </div>
                         <div className="flex flex-col gap-y-1">
                           <label className="text-sm lg:text-base font-medium">
@@ -401,36 +457,47 @@ const PropertyDetails = () => {
                           </label>
                           <input
                             type="text"
+                            name="phone"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values?.phone}
                             placeholder="Enter your phone number"
                             className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
+                          {formik.touched.phone && formik.errors.phone && (
+                            <span className="text-red-500 text-sm">
+                              {formik.errors.phone}
+                            </span>
+                          )}
                         </div>
                         <div className="flex flex-col gap-y-1">
-                          <label className="text-sm lg:text-base font-medium">Email</label>
+                          <label className="text-sm lg:text-base font-medium">
+                            Email
+                          </label>
                           <input
                             type="email"
+                            name="email"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values?.email}
                             placeholder="Enter your email"
                             className="w-full focus-visible:outline-0 rounded-xl border border-gray p-2 lg:p-3 placeholder:text-sm sm:placeholder:text-base"
                           />
+                          {formik.touched.email && formik.errors.email && (
+                            <span className="text-red-500 text-sm">
+                              {formik.errors.email}
+                            </span>
+                          )}
                         </div>
                       </div>
-                    </CardBody>
+                    </div>
                   </Card>
-                  <div className="flex gap-2">
-                    <input
-                      type="checkbox"
-                      className="accent-orange w-full max-w-4 h-5"
-                    />
-                    <p className="text-xs font-bold leading-5">
-                      I agree to be contacted by Gala on Rent and agents via
-                      WhatsApp, SMS, Phone, Email etc
-                    </p>
-                  </div>
                   <ThemeButton
                     title={"Get contact details"}
                     className={"!justify-center !max-w-full"}
+                    type="submit"
                   />
-                </CardBody>
+                </form>
               </Card>
             </div>
           </div>

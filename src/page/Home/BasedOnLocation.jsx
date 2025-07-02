@@ -26,7 +26,7 @@ const TabContent = ({ allProperty, loading }) => {
   return (
     <>
       {allProperty && allProperty?.length > 0 ? (
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 md:gap-8">
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 md:gap-8 mb-8">
           {allProperty.map((property, index) => {
             const {
               _id,
@@ -143,12 +143,12 @@ const BasedOnLocation = ({ allProperty, loading }) => {
           <TabContent allProperty={allProperty} loading={loading} />
         </Tab>
       </Tabs>
-      {allProperty && allProperty?.length > 0 && (
+      {/* {allProperty && allProperty?.length > 0 && (
         <ThemeButton
           title={"Browse more properties"}
           className={"!pl-5 mb-8"}
         />
-      )}
+      )} */}
     </div>
   );
 };

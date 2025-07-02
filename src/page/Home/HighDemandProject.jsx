@@ -38,6 +38,8 @@ const HighDemandProject = ({ allProperty, loading }) => {
     return <Spinner />;
   }
 
+  if (!allProperty || allProperty.length === 0) return null;
+
   return (
     <>
       <div

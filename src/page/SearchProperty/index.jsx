@@ -13,7 +13,7 @@ import maskGroup from "../../assets/Home/maskGroup.png";
 import ad_banner from "../../assets/Property/ad_banner.png";
 import ad_Group from "../../assets/Property/ad_Group_.png";
 import SimilarPropertiesShowroom from "../../components/SimilarPropertiesShowroom";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFilteredProperties } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
@@ -85,7 +85,7 @@ const SearchProperty = () => {
   }, []);
 
   useEffect(() => {
-    if (city && area && lookingTo) {
+    if (city || area || lookingTo) {
       fetchData(null, null);
     }
   }, [city, area, lookingTo]);
@@ -96,11 +96,11 @@ const SearchProperty = () => {
 
   return (
     <div>
-      <div className="my-40">
+      <div className="my-32 sm:my-30">
         <div
           className={`bg-white shadow-[0px_1px_8px_0px_#0000001A] w-full fixed flex flex-wrap whitespace-nowrap gap-2 transition-all duration-300 ease-in-out ${
             isSticky ? "top-0" : "top-20 mt-6"
-          } py-3 px-10 z-30`}
+          } py-3 px-4 sm:px-10 z-30`}
         >
           <Select
             onChange={(val) => handlePropertyChange(val)}
@@ -110,7 +110,7 @@ const SearchProperty = () => {
             defaultText="Property Type"
             options={TypeOfProperty}
             textClass="!text-sm !font-medium !text-[#000000]"
-            className="max-w-[200px] border border-[#CCCCCC] rounded-3xl"
+            className="max-w-[250px] border border-[#CCCCCC] rounded-3xl"
             listBoxClass="!bg-transparent"
             listButtonClass="!bg-transparent"
           />
@@ -145,8 +145,8 @@ const SearchProperty = () => {
           /> */}
         </div>
       </div>
-      <div className="w-full flex gap-5 px-20">
-        <div className="md:w-[60%] w-full flex-1">
+      <div className="w-full flex flex-col lg:flex-row gap-5 px-4 sm:px-10">
+        <div className="lg:w-[60%] w-full flex-1">
           <div className="flex flex-col gap-8 mb-6">
             <div className="flex justify-between text-[#747474] font-normal text-sm">
               <p className="capitalize">
@@ -161,12 +161,12 @@ const SearchProperty = () => {
               </p>
               {/* <p>Last Updated: Mar 5, 2025</p> */}
             </div>
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-normal text-[#747474]">
                   Showing 1 - 30 of 427
                 </p>
-                <p className="text-lg font-medium text-[#222222] capitalize">
+                <p className="text-sm md:text-base lg:text-lg font-medium text-[#222222] capitalize">
                   Property
                   {lookingTo && ` for ${lookingTo}`}
                   {(area || lookingTo) &&
@@ -174,7 +174,7 @@ const SearchProperty = () => {
                   {!area && !lookingTo && ` in ${city}`}
                 </p>
               </div>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center justify-end">
                 <span className="text-sm font-medium text-nowrap">
                   Sort by:
                 </span>
@@ -221,30 +221,30 @@ const SearchProperty = () => {
                         navigate(`/property-details/${_id}`);
                       }}
                     >
-                      <div className="flex gap-4">
+                      <div className="flex flex-col md:flex-row items-center gap-4">
                         <img
                           src={`${BASE_URL}/${image?.[0]}`}
                           alt="container"
-                          className="w-[200px] h-[190px] rounded-lg object-cover"
+                          className="w-full md:w-[200px] h-[200px] xsm:h-[300px] md:h-[190px] rounded-lg object-cover"
                         />
                         <div className="flex flex-col gap-2 w-full h-auto">
-                          <div className="flex justify-between items-center">
-                            <h3 className="text-lg font-bold text-muted capitalize">
+                          <div className="flex justify-between items-center gap-4">
+                            <h3 className="text-sm md:text-base l:text-lg font-bold text-muted capitalize">
                               {type_of_property}
                             </h3>
                             <p>
-                              <span className="text-orange font-extrabold text-xl">
+                              <span className="text-orange font-extrabold  text-base md:text-lg l:text-xl">
                                 ₹{Financials}
                               </span>{" "}
-                              <span className="text-muted font-medium text-base opacity-50">
+                              <span className="text-muted font-medium text-sm l:text-base opacity-50">
                                 /month
                               </span>
                             </p>
                           </div>
-                          <p className="text-base font-medium text-muted opacity-50">
+                          <p className="text-sm md:text-base font-medium text-muted opacity-50">
                             {address} , {Popular_Area} , {city}
                           </p>
-                          <ul className="flex flex-wrap text-muted opacity-50 text-base font-medium gap-x-7 ml-5">
+                          <ul className="flex flex-wrap text-muted opacity-50 text-sm md:text-base font-medium gap-x-7 ml-5">
                             <li className="list-disc">
                               Power: {Type_of_Power}
                             </li>
@@ -257,15 +257,15 @@ const SearchProperty = () => {
                           <span className="border-b-2 border-gray py-1" />
                           <div className="flex justify-between items-center">
                             <div className="flex gap-2 items-center">
-                              <div className="w-12 h-12 rounded-lg bg-[#1DD38F] text-white flex justify-center items-center">
+                              <div className="w-8 h-8 md:w-10 md:h-10 l:w-12 l:h-12 rounded-lg bg-[#1DD38F] text-white flex justify-center items-center">
                                 {User_data?.person_name
                                   ?.split(" ")
                                   .map((word) => word[0])
                                   .join("")
                                   .toUpperCase()}
                               </div>
-                              <p className="flex flex-col gap-1">
-                                <span className="text-[#222222] font-normal text-sm capitalize">
+                              <p className="flex flex-col l:gap-1">
+                                <span className="text-[#222222] font-normal text-xs md:text-sm capitalize">
                                   {User_data?.person_name}
                                 </span>
                                 <span className="text-muted-transparent text-xs font-normal">
@@ -275,7 +275,7 @@ const SearchProperty = () => {
                             </div>
                             <ThemeButton
                               title="Rent Now"
-                              className="!ml-auto !mr-0"
+                              className="!ml-auto !mr-0 !text-xs md:!text-sm l:!text-base"
                             />
                           </div>
                         </div>
@@ -290,14 +290,14 @@ const SearchProperty = () => {
               </p>
             )}
 
-            <SimilarPropertiesShowroom
+            {/* <SimilarPropertiesShowroom
               data={[1, 2, 3, 4, 5, 6, 7, 8]}
               slidesToShow={4}
-            />
+            /> */}
           </div>
         </div>
-        <div className="lg:w-[40%] w-0">
-          <div className="bg-orange-transparent lg:flex hidden flex-col gap-y-6 rounded-2xl pt-2 sticky top-5 right-0 z-50">
+        <div className="lg:w-[40%] w-full pb-4">
+          <div className="bg-orange-transparent flex flex-col gap-y-6 rounded-2xl pt-2 sticky top-5 right-0 z-50">
             <Card
               cardClassName={
                 "bg-white w-full flex flex-col gap-y-7 rounded-2xl p-4 shadow-[0px_1px_2px_0px_#0000001A]"
@@ -305,13 +305,11 @@ const SearchProperty = () => {
             >
               <CardBody
                 bodyClassName={
-                  "flex xl:flex-nowrap flex-wrap justify-between gap-2"
+                  "grid grid-cols-1 xsm:grid-cols-2 xl:grid-cols-3 justify-between gap-4"
                 }
               >
                 <Card
-                  cardClassName={
-                    "border border-orange rounded-xl bg-white max-w-[200px] w-full"
-                  }
+                  cardClassName={"border border-orange rounded-xl bg-white"}
                 >
                   <CardBody>
                     <div className="flex gap-2">
@@ -319,7 +317,7 @@ const SearchProperty = () => {
                         <img
                           src={maskGroup}
                           alt="maskGroup"
-                          className="w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
+                          className="xsm:w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
                         />
                         <div className="text-white text-[10px] font-normal bg-[#0000007A] rounded-50 w-6 h-4 flex justify-center items-center absolute top-2 right-1">
                           Ad
@@ -337,9 +335,7 @@ const SearchProperty = () => {
                   </CardBody>
                 </Card>
                 <Card
-                  cardClassName={
-                    "border border-orange rounded-xl bg-white max-w-[200px] w-full"
-                  }
+                  cardClassName={"border border-orange rounded-xl bg-white"}
                 >
                   <CardBody>
                     <div className="flex gap-2">
@@ -347,7 +343,7 @@ const SearchProperty = () => {
                         <img
                           src={maskGroup}
                           alt="maskGroup"
-                          className="w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
+                          className="xsm:w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
                         />
                         <div className="text-white text-[10px] font-normal bg-[#0000007A] rounded-50 w-6 h-4 flex justify-center items-center absolute top-2 right-1">
                           Ad
@@ -365,9 +361,7 @@ const SearchProperty = () => {
                   </CardBody>
                 </Card>
                 <Card
-                  cardClassName={
-                    "border border-orange rounded-xl bg-white max-w-[200px] w-full"
-                  }
+                  cardClassName={"border border-orange rounded-xl bg-white"}
                 >
                   <CardBody>
                     <div className="flex gap-2">
@@ -375,7 +369,7 @@ const SearchProperty = () => {
                         <img
                           src={maskGroup}
                           alt="maskGroup"
-                          className="w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
+                          className="xsm:w-18 h-22 rounded-tl-xl rounded-bl-xl object-cover"
                         />
                         <div className="text-white text-[10px] font-normal bg-[#0000007A] rounded-50 w-6 h-4 flex justify-center items-center absolute top-2 right-1">
                           Ad
