@@ -9,6 +9,7 @@ import user_avatar from "../../assets/Property/user-avtar.png";
 const SellPropertySidebarHeader = ({ children }) => {
   const location = useLocation();
   const path = location.pathname;
+  const userName = localStorage.getItem("username");  
 
   const menu = [
     {
@@ -68,8 +69,8 @@ const SellPropertySidebarHeader = ({ children }) => {
               className="w-6 h-6 xsm:w-10 xsm:h-10 rounded-full object-cover"
             />
             <div className="flex flex-col">
-              <span className="text-sm xsm:text-base font-bold">
-                Json Taylor
+              <span className="text-sm xsm:text-base font-bold capitalize">
+                {userName}
               </span>
               <span className="text-xs xsm:text-sm font-semibold text-[#767676]">
                 Seller

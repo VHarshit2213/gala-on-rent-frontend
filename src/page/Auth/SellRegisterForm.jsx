@@ -61,8 +61,9 @@ const SellRegisterForm = () => {
     dispatch(fetchSignUp(userData)).then(async (res) => {
       if (res.payload.data?.status === 200) {
         try {
-          await navigator.clipboard.writeText(generatedCode);
-          toast.success("Code has been copied");
+          // await navigator.clipboard.writeText(generatedCode);
+          // toast.success("Code has been copied");
+           localStorage.setItem("username", userData.person_name);
           toast.success(res.payload.data?.message);
           dispatch(resetUserData({}));
           setShowModal(false);

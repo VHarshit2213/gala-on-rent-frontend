@@ -42,7 +42,7 @@ const FindProperties = () => {
       await dispatch(fetchFilteredProperties({ city })).unwrap();
       navigate(`/search-property?city=${city}`);
     } catch (error) {
-      toast.error(`No properties found in ${city}`);
+      console.error(`No properties found in ${city}`);
     }
   };
 
