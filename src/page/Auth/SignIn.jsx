@@ -45,7 +45,7 @@ const SignIn = () => {
       dispatch(fetchSignIn(values)).then((res) => {
         if (res.payload.data?.status === 200) {
           toast.success(res.payload.data?.message);
-           navigate("/dashboard");
+           navigate("/property-list");
           const expires = new Date();
           expires.setTime(expires.getTime() + 7 * 60 * 60 * 1000);
           Cookies.set("accessToken", res.payload.data?.token, { expires });
