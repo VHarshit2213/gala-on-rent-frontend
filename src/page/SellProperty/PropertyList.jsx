@@ -13,6 +13,7 @@ import Spinner from "../../components/common/Spinner";
 import DeleteModel from "../../components/common/DeleteModel";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { WhatsappShareButton } from "react-share";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -57,7 +58,7 @@ const PropertyList = () => {
   }
 
   return (
-    <>
+    <div className="h-[calc(100vh-70px)] overflow-y-auto">
       <div className="p-4 sm:p-10 l:p-15 space-y-6">
         {AllTokenWiseProperties && AllTokenWiseProperties?.length > 0 ? (
           AllTokenWiseProperties.map((property) => {
@@ -82,7 +83,12 @@ const PropertyList = () => {
                     ID : {_id}
                   </p>
                   <div className="text-orange flex justify-end gap-4 sm:gap-6 text-xs sm:text-sm font-bold order-1 xsm:order-none">
-                    <button className="cursor-pointer">Share</button>
+                    <WhatsappShareButton
+                      url={`${window.location.origin}/property-details/${property._id}`}
+                      title={`Check out this ${property.type_of_property} in ${property.city}`}
+                    >
+                      <div className="cursor-pointer">Share</div>
+                    </WhatsappShareButton>
                     <button
                       className="cursor-pointer"
                       onClick={() => {
@@ -171,7 +177,7 @@ const PropertyList = () => {
         }}
         isLoading={isRemovedLoading}
       />
-    </>
+    </div>
   );
 };
 

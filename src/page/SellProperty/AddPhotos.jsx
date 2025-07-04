@@ -167,8 +167,8 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   }, [getProperty]);
 
   return (
-    <form onSubmit={formik.handleSubmit} className="p-15 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold flex items-center gap-2">
+    <form onSubmit={formik.handleSubmit} className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10">
+      <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold flex items-center gap-2">
         <FaChevronLeft
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
@@ -183,7 +183,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
               {files.map((file, idx) => (
                 <div
                   key={idx}
-                  className="relative inline-flex border border-gray-300 rounded-md overflow-hidden w-24 h-24"
+                  className="relative inline-flex border border-gray-300 rounded-md overflow-hidden w-16 h-16 xsm:w-24 xsm:h-24"
                 >
                   <img
                     src={file.preview}
@@ -251,7 +251,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
 
       <ThemeButton
         title={formik.isSubmitting ? "Submitting..." : propertyId ? "Update" : "Submit"}
-        className={"!max-w-full !justify-center"}
+        className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
         titleClass="!capitalize"
         type="submit"
         disabled={formik.isSubmitting}

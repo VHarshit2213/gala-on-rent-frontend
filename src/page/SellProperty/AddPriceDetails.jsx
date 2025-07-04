@@ -33,17 +33,17 @@ const AddPriceDetails = ({
   });
 
   return (
-    <div className="p-15 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold flex items-center gap-2">
+    <div className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10">
+      <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold flex items-center gap-2">
         <FaChevronLeft
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
         />{" "}
         {propertyId ? "Edit Price Details" : "Add Price Details"}
       </h1>
-      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10">
+      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 sm:gap-8 l:gap-10">
         <div className="flex flex-col gap-y-1">
-          <label className="text-base font-medium">Financials *</label>
+          <label className="text-sm lg:text-base font-medium">Financials *</label>
           <input
             type="text"
             name="Financials"
@@ -60,7 +60,7 @@ const AddPriceDetails = ({
         </div>
         <ThemeButton
           title={propertyId ? "Edit Property" : "Post Property"}
-          className={"!max-w-full !justify-center"}
+          className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
           titleClass="!capitalize"
           type="submit"
         />

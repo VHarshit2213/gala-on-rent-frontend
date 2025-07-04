@@ -32,21 +32,21 @@ const BasicProperty = ({
   };
 
   return (
-    <div className="p-15 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold">
+    <div className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10">
+      <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold">
         {propertyId ? "Edit Basic Details" : "Add Basic Details"}
       </h1>
       <div className="flex flex-col gap-y-3">
-        <p className="text-muted-transparent text-base font-normal">
+        <p className="text-muted-transparent text-sm md:text-base font-normal">
           Property Belongs To
         </p>
-        <div className="flex gap-13">
+        <div className="flex gap-4 sm:gap-8 lg:gap-13">
           <Button
             className={`${
               propertyType === "Owner"
                 ? "bg-[#E56C0633] text-orange"
                 : "bg-transparent"
-            } max-w-[192px] w-full h-15 rounded-lg p-2 border border-gray`}
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
             onClick={() => setPropertyType("Owner")}
           >
             {" "}
@@ -57,7 +57,7 @@ const BasicProperty = ({
               propertyType === "Friends / Family"
                 ? "bg-[#E56C0633] text-orange"
                 : "bg-transparent"
-            } max-w-[192px] w-full h-15 rounded-lg p-2 border border-gray`}
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
             onClick={() => setPropertyType("Friends / Family")}
           >
             {" "}
@@ -66,16 +66,16 @@ const BasicProperty = ({
         </div>
       </div>
       <div className="flex flex-col gap-y-3">
-        <p className="text-muted-transparent text-base font-normal">
+        <p className="text-muted-transparent text-sm md:text-base font-normal">
           Looking to
         </p>
-        <div className="flex gap-13">
+        <div className="flex gap-4 sm:gap-8 lg:gap-13">
           <Button
             className={`${
               lookingTo === "Rent"
                 ? "bg-[#E56C0633] text-orange"
                 : "bg-transparent"
-            } max-w-[192px] w-full h-15 rounded-lg p-2 border border-gray`}
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
             onClick={() => setLookingTo("Rent")}
           >
             {" "}
@@ -86,7 +86,7 @@ const BasicProperty = ({
               lookingTo === "Sell"
                 ? "bg-[#E56C0633] text-orange"
                 : "bg-transparent"
-            } max-w-[192px] w-full h-15 rounded-lg p-2 border border-gray`}
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
             onClick={() => setLookingTo("Sell")}
           >
             {" "}
@@ -98,7 +98,7 @@ const BasicProperty = ({
         title={
           propertyId ? "Update Basic Details" : "Next, add property details"
         }
-        className={"!max-w-full !justify-center"}
+        className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
         titleClass="!capitalize"
         onClick={handleAddPropertyDetails}
       />

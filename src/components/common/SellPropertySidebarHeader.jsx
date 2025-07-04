@@ -29,7 +29,7 @@ const SellPropertySidebarHeader = ({ children }) => {
   ];
 
   return (
-    <div className="w-full h-screen flex transition-all duration-300">
+    <div className="h-screen flex transition-all duration-300">
       <div className="md:w-[20%] xl:w-[15%] h-screen bg-[#192E3F] flex flex-col">
         <img
           src={footer_logo}
@@ -54,7 +54,7 @@ const SellPropertySidebarHeader = ({ children }) => {
         </div>
       </div>
 
-      <div className="flex-1 h-full flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <div className="shadow-[0px_4px_8px_0px_#00000033] p-3 md:pr-8 flex justify-between md:justify-end items-center gap-3">
           <img
             src={footer_logo}
@@ -68,14 +68,16 @@ const SellPropertySidebarHeader = ({ children }) => {
               className="w-6 h-6 xsm:w-10 xsm:h-10 rounded-full object-cover"
             />
             <div className="flex flex-col">
-              <span className="text-sm xsm:text-base font-bold">Json Taylor</span>
+              <span className="text-sm xsm:text-base font-bold">
+                Json Taylor
+              </span>
               <span className="text-xs xsm:text-sm font-semibold text-[#767676]">
                 Seller
               </span>
             </div>
           </div>
         </div>
-        <div className="flex-1 overflow-auto">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );

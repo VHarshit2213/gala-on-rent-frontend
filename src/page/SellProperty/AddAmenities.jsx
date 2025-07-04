@@ -57,8 +57,8 @@ const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="p-15 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold flex items-center gap-2">
+    <form onSubmit={formik.handleSubmit} className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10">
+      <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold flex items-center gap-2">
         <FaChevronLeft
           className="hover:text-orange cursor-pointer"
           onClick={() => setActiveTab(activeTab - 1)}
@@ -66,11 +66,11 @@ const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         {propertyId ? "Edit Amenities" : "Add Amenities"}
       </h1>
       <div>
-        <div className="flex gap-6">
+        <div className="flex flex-col xsm:flex-row gap-4 sm:gap-6">
           {amenities.map((amenity) => (
             <div
               key={amenity.id}
-              className={`border rounded-xl w-30 h-30 flex flex-col justify-center items-center cursor-pointer ${
+              className={`border rounded-xl p-2 xsm:w-24 xsm:h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 flex flex-col justify-center items-center cursor-pointer ${
                 formik.values.Amenities?.includes(amenity.id)
                   ? "border-orange bg-orange/10"
                   : "border-[#D9D9D9DD]"
@@ -78,7 +78,7 @@ const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
               onClick={() => toggleAmenity(amenity.id)}
             >
               {amenity.icon}
-              <span className="font-medium text-sm"> {amenity.label}</span>
+              <span className="font-medium text-xs sm:text-sm text-center"> {amenity.label}</span>
             </div>
           ))}
         </div>
@@ -90,7 +90,7 @@ const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
       </div>
       <ThemeButton
         title={"Continue"}
-        className={"!max-w-full !justify-center"}
+        className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
         titleClass="!capitalize"
         type="submit"
       />

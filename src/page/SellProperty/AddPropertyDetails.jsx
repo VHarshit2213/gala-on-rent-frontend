@@ -150,9 +150,9 @@ const AddPropertyDetails = ({
     <div>
       <form
         onSubmit={formik.handleSubmit}
-        className="p-15 flex flex-col gap-10"
+        className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10"
       >
-        <h1 className="text-3xl font-bold flex items-center gap-2">
+        <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold flex items-center gap-2">
           <FaChevronLeft
             className="hover:text-orange cursor-pointer"
             onClick={() => setActiveTab(activeTab - 1)}
@@ -160,9 +160,9 @@ const AddPropertyDetails = ({
           {propertyId ? "Edit Property Details" : "Add Property Details"}
         </h1>
         <div className="flex flex-col gap-y-5">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             <div className="flex flex-col gap-y-1">
-              <label className="text-base font-medium">
+              <label className="text-sm lg:text-base font-medium">
                 Address of Property *
               </label>
               <input
@@ -180,7 +180,7 @@ const AddPropertyDetails = ({
               />
             </div>
             <div className="flex flex-col gap-y-1">
-              <label className="text-base font-medium">City *</label>
+              <label className="text-sm lg:text-base font-medium">City *</label>
               <Select
                 onChange={(val) => {
                   formik.setFieldValue("city", val?.value || "");
@@ -202,7 +202,7 @@ const AddPropertyDetails = ({
               />
             </div>
             <div className="flex flex-col gap-y-1">
-              <label className=" text-base font-medium">Popular Area *</label>
+              <label className="text-sm lg:text-base font-medium">Popular Area *</label>
               <Select
                 onChange={(val) =>
                   formik.setFieldValue("popularArea", val?.value || "")
@@ -224,7 +224,7 @@ const AddPropertyDetails = ({
               />
             </div>
             <div className="flex flex-col gap-y-1">
-              <label className="text-base font-medium">PinCode *</label>
+              <label className="text-sm lg:text-base font-medium">PinCode *</label>
               <input
                 type="text"
                 name="pincode"
@@ -243,10 +243,10 @@ const AddPropertyDetails = ({
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Carpet Area of Property *
             </label>
-            <div className="flex gap-1 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
               <input
                 type="text"
                 placeholder="Enter area"
@@ -254,13 +254,13 @@ const AddPropertyDetails = ({
                 value={formik.values.carpetArea}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+                className={`p-2 border border-gray rounded-lg w-full sm:w-1/2 lg:w-full placeholder:text-gray placeholder:text-xs ${
                   formik.touched.carpetArea && formik.errors.carpetArea
                     ? "border-red-500"
                     : "border-gray-300"
                 }`}
               />
-              <div className="w-1/3 pl-4">
+              <div className="w-full sm:w-1/2 lg:w-1/3">
                 <Select
                   onChange={(val) =>
                     formik.setFieldValue("areaUnit", val?.value)
@@ -283,7 +283,7 @@ const AddPropertyDetails = ({
             </div>
           </div>
           <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Other Area (Open Space / Chajja / Maliya) :
             </label>
             <input
@@ -302,7 +302,7 @@ const AddPropertyDetails = ({
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">Type of Property *</label>
+            <label className="text-sm lg:text-base font-medium">Type of Property *</label>
             <Select
               onChange={(val) =>
                 formik.setFieldValue("propertyType", val?.value || "")
@@ -323,7 +323,7 @@ const AddPropertyDetails = ({
             />
           </div>
           <div className="flex flex-col gap-y-1">
-            <label className="text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Property Available From :
             </label>
             <input
@@ -341,10 +341,10 @@ const AddPropertyDetails = ({
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <label className=" text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Property Suitable For: *
             </label>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 xsm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {[
                 "Factory",
                 "Godown",
@@ -363,11 +363,11 @@ const AddPropertyDetails = ({
                     value={item}
                     checked={formik.values.suitableFor.includes(item)}
                     onChange={formik.handleChange}
-                    className="w-7 h-7 rounded-xl"
+                    className="w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
                   />
                   <label
                     htmlFor={`propertySuitableFor-${item}`}
-                    className="text-base font-medium"
+                    className="text-sm lg:text-base font-medium"
                   >
                     {item}
                   </label>
@@ -381,8 +381,8 @@ const AddPropertyDetails = ({
             )}
           </div>
           <div className="flex flex-col gap-y-2">
-            <label className=" text-base font-medium">Type of Power *</label>
-            <div className="flex items-center gap-4">
+            <label className="text-sm lg:text-base font-medium">Type of Power *</label>
+            <div className="flex flex-col xsm:flex-row xsm:items-center gap-2 xsm:gap-4">
               {["Single Phase", "Three Phase"].map((power) => (
                 <label
                   key={power}
@@ -404,8 +404,8 @@ const AddPropertyDetails = ({
               <p className="text-red-500 text-sm">{formik.errors.powerType}</p>
             )}
           </div>
-          <div className="flex">
-            <label className="text-[14px] font-medium w-1/2">
+          <div className="flex flex-col sm:flex-row">
+            <label className="text-[14px] font-medium sm:w-1/2">
               If Three Phase, HP(1-6):
             </label>
             <input
@@ -424,10 +424,10 @@ const AddPropertyDetails = ({
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <label className=" text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Type of Water Supply:{" "}
             </label>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 xsm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {[
                 "Society",
                 "Municipality",
@@ -444,11 +444,11 @@ const AddPropertyDetails = ({
                     checked={formik.values.waterSupply.includes(item)}
                     onChange={formik.handleChange}
                     id={`propertySuitableFor-${item}`}
-                    className="w-7 h-7 rounded-xl"
+                    className="w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
                   />
                   <label
                     htmlFor={`propertySuitableFor-${item}`}
-                    className="text-base font-medium"
+                    className="text-sm lg:text-base font-medium"
                   >
                     {item}
                   </label>
@@ -462,7 +462,7 @@ const AddPropertyDetails = ({
             )}
           </div>
           <div className="flex flex-col gap-y-1">
-            <label className=" text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               Number of Washroom :
             </label>
             <input
@@ -480,7 +480,7 @@ const AddPropertyDetails = ({
             />
           </div>
           <div className="flex flex-col gap-y-1">
-            <label className="text-base font-medium">
+            <label className="text-sm lg:text-base font-medium">
               About the property :
             </label>
             <textarea
@@ -502,7 +502,7 @@ const AddPropertyDetails = ({
           title={
             propertyId ? "Next, Edit price details" : "Next, add price details"
           }
-          className={"!max-w-full !justify-center"}
+          className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
           titleClass="!capitalize"
           type="submit"
         />

@@ -115,7 +115,8 @@ const BasedOnLocation = ({ allProperty, loading }) => {
         highlightTitle="location"
         description="Some of our picked properties near you location."
       />
-      <Tabs
+      <TabContent allProperty={allProperty} loading={loading} />
+      {/* <Tabs
         defaultActive="Office"
         className="gap-6 xsm:gap-11 flex flex-col text-sm xsm:text-base"
         tabClassName="border-2 border-[#E0DEF7] bg-[#F7F7F7] rounded-lg p-2 flex gap-4 items-center max-w-fit w-full"
@@ -142,7 +143,7 @@ const BasedOnLocation = ({ allProperty, loading }) => {
         >
           <TabContent allProperty={allProperty} loading={loading} />
         </Tab>
-      </Tabs>
+      </Tabs> */}
       {/* {allProperty && allProperty?.length > 0 && (
         <ThemeButton
           title={"Browse more properties"}
