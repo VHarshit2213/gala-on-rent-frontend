@@ -81,9 +81,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="h-[650px]">
-        <div className='bg-[url("/assets/home/main-bg.jpg")] bg-cover bg-center h-[550px] w-full relative'>
-          <Card cardClassName="bg-white rounded-2xl shadow-[-5px_0px_20px_0px_#00000040] absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[30%] md:translate-y-[97%] md:max-w-[900px] w-[90%] z-40">
+      <div className="h-[540px] xl:h-[650px]">
+        <div className='bg-[url("/assets/home/main-bg.jpg")] bg-cover bg-center h-[440px] xl:h-[550px] w-full relative'>
+          <Card cardClassName="bg-white rounded-2xl shadow-[-5px_0px_20px_0px_#00000040] absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[12%] md:translate-y-[60%] xl:translate-y-[97%] md:max-w-[900px] w-[90%] z-40">
             <Tabs
               defaultActive="Buy"
               onChange={(tab) => setActiveTab(tab)}
@@ -258,6 +258,9 @@ const Home = () => {
           <ThemeButton
             className={"!pl-5 !justify-center gap-2 text-sm"}
             title={"Rent Now "}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,7 +9,7 @@ import { RiShareFill } from "react-icons/ri";
 import { BiCctv } from "react-icons/bi";
 import { LiaFireExtinguisherSolid } from "react-icons/lia";
 import { IoFlash } from "react-icons/io5";
-import { MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import SimilarPropertiesShowroom from "../../components/SimilarPropertiesShowroom";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -101,6 +101,10 @@ const PropertyDetails = () => {
   const location = useLocation();
   const fromAdmin = location.state?.fromAdmin || false;
 
+  const [isExpandedAbout, setIsExpandedAbout] = useState(false);
+  const [showToggleAbout, setShowToggleAbout] = useState(false);
+  const aboutRef = useRef(null);
+
   const pageUrl = window.location.href;
 
   // destructure Property details
@@ -184,6 +188,13 @@ const PropertyDetails = () => {
   });
 
   useEffect(() => {
+    const paragraph = aboutRef.current;
+    if (paragraph.scrollHeight > paragraph.clientHeight) {
+      setShowToggleAbout(true);
+    }
+  }, [About_the_property, isExpandedAbout]);
+
+  useEffect(() => {
     dispatch(fetchSingleProperty(params.id));
   }, [params.id, dispatch]);
 
@@ -223,7 +234,7 @@ const PropertyDetails = () => {
             </p>
             {!fromAdmin && (
               <Button
-                className="bg-orange text-white py-2 lg:py-3 px-6 lg:px-8 rounded-lg text-xs lg:text-sm cursor-pointer "
+                className="bg-orange text-white py-2 lg:py-3 px-6 lg:px-8 rounded-lg text-xs lg:text-sm cursor-pointer text-nowrap "
                 onClick={handleContactClick}
               >
                 Contact Developer
@@ -291,15 +302,35 @@ const PropertyDetails = () => {
         <div className="flex-1 lg:w-[62%] md:w-1/2 w-full mb-3 flex flex-col gap-y-5">
           <div id="ABOUT">
             <Card cardClassName={"bg-white"}>
-              <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
+              <p
+                className={`lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray `}
+              >
                 About The Property
               </p>
-              <p className="text-xs lg:text-sm font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray capitalize">
+              <p
+                ref={aboutRef}
+                className={`text-xs lg:text-sm font-semibold pt-3 lg:pt-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
+                  isExpandedAbout ? "" : "line-clamp-2"
+                }`}
+              >
                 {About_the_property}
               </p>
-              <p className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center">
-                Read More <MdExpandMore size={20} />
-              </p>
+              {showToggleAbout && (
+                <p
+                  className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center cursor-pointer"
+                  onClick={() => setIsExpandedAbout((prev) => !prev)}
+                >
+                  {isExpandedAbout ? (
+                    <>
+                      Show Less <MdExpandLess size={20} />
+                    </>
+                  ) : (
+                    <>
+                      Read More <MdExpandMore size={20} />
+                    </>
+                  )}
+                </p>
+              )}
             </Card>
           </div>
           <div id="OVERVIEW">

@@ -79,7 +79,7 @@ const TabContent = ({ allProperty, loading }) => {
                       <h2 className="font-bold text-xl md:text-2xl capitalize">
                         {type_of_property}
                       </h2>
-                      <p className="opacity-50 text-sm capitalize">
+                      <p className="opacity-50 text-sm capitalize line-clamp-3">
                         {address}, {city}, {Popular_Area} - {pincode}
                       </p>
                     </div>

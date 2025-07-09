@@ -46,7 +46,13 @@ const propertyValidationSchema = Yup.object({
     .required("Must be a number")
     .min(1, "Must be at least 1")
     .max(3, "Max is 3"),
-  about: Yup.string().required("About the Property is required"),
+  about: Yup.string()
+    .required("About the Property is required")
+    .test("min-words", "Description must be at least 50 words", (value) => {
+      if (!value) return true; // Allow empty if not required
+      const wordCount = value.trim().split(/\s+/).length;
+      return wordCount >= 50;
+    }),
 });
 
 const AddPropertyDetails = ({
@@ -202,7 +208,9 @@ const AddPropertyDetails = ({
               />
             </div>
             <div className="flex flex-col gap-y-1">
-              <label className="text-sm lg:text-base font-medium">Popular Area *</label>
+              <label className="text-sm lg:text-base font-medium">
+                Popular Area *
+              </label>
               <Select
                 onChange={(val) =>
                   formik.setFieldValue("popularArea", val?.value || "")
@@ -224,7 +232,9 @@ const AddPropertyDetails = ({
               />
             </div>
             <div className="flex flex-col gap-y-1">
-              <label className="text-sm lg:text-base font-medium">PinCode *</label>
+              <label className="text-sm lg:text-base font-medium">
+                PinCode *
+              </label>
               <input
                 type="text"
                 name="pincode"
@@ -302,7 +312,9 @@ const AddPropertyDetails = ({
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <label className="text-sm lg:text-base font-medium">Type of Property *</label>
+            <label className="text-sm lg:text-base font-medium">
+              Type of Property *
+            </label>
             <Select
               onChange={(val) =>
                 formik.setFieldValue("propertyType", val?.value || "")
@@ -381,7 +393,9 @@ const AddPropertyDetails = ({
             )}
           </div>
           <div className="flex flex-col gap-y-2">
-            <label className="text-sm lg:text-base font-medium">Type of Power *</label>
+            <label className="text-sm lg:text-base font-medium">
+              Type of Power *
+            </label>
             <div className="flex flex-col xsm:flex-row xsm:items-center gap-2 xsm:gap-4">
               {["Single Phase", "Three Phase"].map((power) => (
                 <label
@@ -496,13 +510,20 @@ const AddPropertyDetails = ({
                   : "border-gray-300"
               }`}
             />
+             {formik.touched.about && formik.errors.about && (
+              <div className="text-red-500 text-sm">
+                {formik.errors.about}
+              </div>
+            )}
           </div>
         </div>
         <ThemeButton
           title={
             propertyId ? "Next, Edit price details" : "Next, add price details"
           }
-          className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
+          className={
+            "!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"
+          }
           titleClass="!capitalize"
           type="submit"
         />

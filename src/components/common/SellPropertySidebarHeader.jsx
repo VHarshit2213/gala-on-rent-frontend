@@ -72,9 +72,9 @@ const SellPropertySidebarHeader = ({ children }) => {
               <span className="text-sm xsm:text-base font-bold capitalize">
                 {userName}
               </span>
-              <span className="text-xs xsm:text-sm font-semibold text-[#767676]">
+              {/* <span className="text-xs xsm:text-sm font-semibold text-[#767676]">
                 Seller
-              </span>
+              </span> */}
             </div>
           </div>
         </div>
