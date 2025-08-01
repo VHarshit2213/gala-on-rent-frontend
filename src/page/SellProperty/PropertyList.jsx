@@ -72,6 +72,7 @@ const PropertyList = () => {
               pincode,
               Carpet_Area,
               type_of_property,
+              Type_of_Power,
             } = property;
             return (
               <Card
@@ -139,6 +140,9 @@ const PropertyList = () => {
                           </h2>
                           <p className="opacity-50 text-xs xsm:text-sm">
                             {address}, {city}, {Popular_Area} - {pincode}
+                          </p>
+                          <p className="opacity-50 text-xs xsm:text-sm">
+                            Power : {Type_of_Power}
                           </p>
                         </div>
                       </div>

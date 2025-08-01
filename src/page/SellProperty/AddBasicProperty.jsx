@@ -15,7 +15,7 @@ const BasicProperty = ({
   const displayText = raw?.replace(/&#x2F;/g, "/");
 
   const [propertyType, setPropertyType] = React.useState(
-    displayText || "Owner"
+    displayText || "My Self"
   );
   const [lookingTo, setLookingTo] = React.useState(
     getProperty?.looking_to || "Rent"
@@ -41,7 +41,7 @@ const BasicProperty = ({
           Property Belongs To
         </p>
         <div className="flex gap-4 sm:gap-8 lg:gap-13">
-          <Button
+          {/* <Button
             className={`${
               propertyType === "Owner"
                 ? "bg-[#E56C0633] text-orange"
@@ -51,6 +51,26 @@ const BasicProperty = ({
           >
             {" "}
             Owner{" "}
+          </Button> */}
+          <Button
+            className={`${
+              propertyType === "My Self"
+                ? "bg-[#E56C0633] text-orange"
+                : "bg-transparent"
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
+            onClick={() => setPropertyType("My Self")}
+          >
+            My Self
+          </Button>
+          <Button
+            className={`${
+              propertyType === "I Am Agent"
+                ? "bg-[#E56C0633] text-orange"
+                : "bg-transparent"
+            } w-[100px] sm:w-[150px] lg:w-[192px] h-12 md:h-15 rounded-lg p-2 border border-gray text-xs sm:text-sm lg:text-base`}
+            onClick={() => setPropertyType("I Am Agent")}
+          >
+            I Am Agent
           </Button>
           <Button
             className={`${
@@ -98,7 +118,9 @@ const BasicProperty = ({
         title={
           propertyId ? "Update Basic Details" : "Next, add property details"
         }
-        className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
+        className={
+          "!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"
+        }
         titleClass="!capitalize"
         onClick={handleAddPropertyDetails}
       />

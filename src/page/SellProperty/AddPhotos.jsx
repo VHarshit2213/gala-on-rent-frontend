@@ -30,6 +30,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   const navigate = useNavigate();
 
   const [files, setFiles] = useState([]);
+  const [isAccept, setIsAccept] = useState(false);
   const { image } = getProperty || [];
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -167,7 +168,10 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   }, [getProperty]);
 
   return (
-    <form onSubmit={formik.handleSubmit} className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10"
+    >
       <h1 className="xsm:text-lg sm:text-xl md:text-2xl l:text-3xl font-bold flex items-center gap-2">
         <FaChevronLeft
           className="hover:text-orange cursor-pointer"
@@ -242,19 +246,33 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         )}
       </div>
 
-      {/* <div className="flex gap-2">
-        <input type="checkbox" className="accent-orange w-full max-w-4 h-5" />
+      <div className="flex gap-2">
+        <input
+          type="checkbox"
+          className="accent-orange w-full max-w-4 h-5"
+          onClick={() => setIsAccept(!isAccept)}
+        />
         <p className="leading-5 font-semibold">
           I accept the terms and conditions*
         </p>
-      </div> */}
+      </div>
 
       <ThemeButton
-        title={formik.isSubmitting ? "Submitting..." : propertyId ? "Update" : "Submit"}
-        className={"!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base"}
+        title={
+          formik.isSubmitting
+            ? "Submitting..."
+            : propertyId
+            ? "Update"
+            : "Submit"
+        }
+        className={`!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base 
+        `}
+        style={{
+          cursor: isAccept ? "pointer" : "not-allowed",
+        }}
         titleClass="!capitalize"
         type="submit"
-        disabled={formik.isSubmitting}
+        disabled={formik.isSubmitting || !isAccept}
       />
     </form>
   );

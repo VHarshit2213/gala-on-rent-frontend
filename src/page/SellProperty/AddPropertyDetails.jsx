@@ -32,15 +32,7 @@ const propertyValidationSchema = Yup.object({
   availableFrom: Yup.string().required("Property available From is required"),
   suitableFor: Yup.array().min(1, "Select at least one option"),
   powerType: Yup.string().required("Please select one option"),
-  hp: Yup.number().when("powerType", {
-    is: (val) => val === "Three Phase",
-    then: (schema) =>
-      schema
-        .required("Please enter HP if Three Phase is selected")
-        .min(1)
-        .max(6),
-    otherwise: (schema) => schema.notRequired(),
-  }),
+  hp: Yup.string().required("Please enter HP"), 
   waterSupply: Yup.array().min(1, "Select at least one option"),
   washrooms: Yup.number()
     .required("Must be a number")
@@ -209,7 +201,7 @@ const AddPropertyDetails = ({
             </div>
             <div className="flex flex-col gap-y-1">
               <label className="text-sm lg:text-base font-medium">
-                Popular Area *
+                Popular Area Name *
               </label>
               <Select
                 onChange={(val) =>
@@ -420,13 +412,14 @@ const AddPropertyDetails = ({
           </div>
           <div className="flex flex-col sm:flex-row">
             <label className="text-[14px] font-medium sm:w-1/2">
-              If Three Phase, HP(1-6):
+              If {formik.values.powerType || "Three Phase"}, HP (
+              {formik.values.powerType === "Single Phase" ? "1-5" : "1-100"}):
             </label>
             <input
               type="number"
               name="hp"
               min={1}
-              max={6}
+              max={formik.values.powerType === "Single Phase" ? 5 : 100}
               value={formik.values.hp}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -495,7 +488,8 @@ const AddPropertyDetails = ({
           </div>
           <div className="flex flex-col gap-y-1">
             <label className="text-sm lg:text-base font-medium">
-              About the property :
+              About The Property ( Like other structure details / location /
+              near to ) :
             </label>
             <textarea
               id="about"
@@ -510,10 +504,8 @@ const AddPropertyDetails = ({
                   : "border-gray-300"
               }`}
             />
-             {formik.touched.about && formik.errors.about && (
-              <div className="text-red-500 text-sm">
-                {formik.errors.about}
-              </div>
+            {formik.touched.about && formik.errors.about && (
+              <div className="text-red-500 text-sm">{formik.errors.about}</div>
             )}
           </div>
         </div>

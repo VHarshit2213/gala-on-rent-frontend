@@ -43,7 +43,7 @@ const AddPriceDetails = ({
       </h1>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 sm:gap-8 l:gap-10">
         <div className="flex flex-col gap-y-1">
-          <label className="text-sm lg:text-base font-medium">Financials *</label>
+          <label className="text-sm lg:text-base font-medium">Expected Rent / Expected Sell Price *</label>
           <input
             type="text"
             name="Financials"
