@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
 import { FaCircleCheck } from "react-icons/fa6";
-import { Card, CardBody, ThemeButton } from "../../components/common";
+import { Card, CardBody, Select, ThemeButton } from "../../components/common";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,16 +10,24 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { appendUserData } from "../../reducer/auth/redux";
-
-//firebase
-import { auth } from "../../firebase";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { resetUserData } from "../../reducer/auth/redux";
 import RegisterInfo from "./RegisterInfo";
+import { fetchSignUp } from "../../reducer/auth/thunk";
 
-const PhoneValidationSchema = () =>
+const ValidationSchema = () =>
   Yup.object().shape({
-    phone: Yup.string()
+    person_name: Yup.string().required("Full Name is required"),
+    Property_belongsto: Yup.string().required("Please select one option"),
+    city: Yup.string().required("Please select a city"),
+    email: Yup.string().email("Invalid email").required("email is required"),
+    user_name: Yup.string()
+      .matches(/^[a-zA-Z0-9@_-]+$/, "Only letters, numbers, @, _ and - are allowed. No spaces or special characters.")
+      .required("User Name is required"),
+    password: Yup.string()
+      .min(5, "Password must be at least 5 characters")
+      .matches(/^(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter and one number")
+      .required("Password is required"),
+    phone_number: Yup.string()
       .required("Phone number is required")
       .test(
         "valid-phone",
@@ -34,145 +42,54 @@ const PhoneValidationSchema = () =>
       ),
   });
 
+  const options = [
+  { id: "MUMBAI", value: "MUMBAI" },
+  { id: "PUNE", value: "PUNE" },
+  { id: "THANE", value: "THANE" },
+  { id: "NAGPUR", value: "NAGPUR" },
+];
+
 const SignUp = () => {
   const dispatch = useDispatch();
   const propertyType = useSelector((state) => state.propertyType.type);
-  const inputsRef = useRef([]);
   const navigate = useNavigate();
-
-  const [tab, setTab] = useState(0);
-  const [dummyOtp, setDummyOtp] = useState("123456");
-  // const [showOTP,setShowOTP] = useState(false);
-
-  const otpLength = 6;
-  const [otp, setOtp] = useState(new Array(otpLength).fill(""));
-
-  const handleChange = (element, index) => {
-    const value = element.value.replace(/\D/, ""); // only digits
-    if (!value) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // move to next input
-    if (index < otpLength - 1) {
-      inputsRef.current[index + 1].focus();
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace") {
-      if (otp[index] === "") {
-        if (index > 0) inputsRef.current[index - 1].focus();
-      }
-      const newOtp = [...otp];
-      newOtp[index] = "";
-      setOtp(newOtp);
-    }
-  };
-
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData
-      .getData("Text")
-      .replace(/\D/g, "")
-      .slice(0, otpLength);
-
-    if (pastedData.length === 0) return;
-
-    const newOtp = [...otp];
-    for (let i = 0; i < pastedData.length; i++) {
-      newOtp[i] = pastedData[i];
-      if (inputsRef.current[i]) {
-        inputsRef.current[i].value = pastedData[i];
-      }
-    }
-    setOtp(newOtp);
-
-    // Focus the last filled input
-    const nextIndex =
-      pastedData.length >= otpLength ? otpLength - 1 : pastedData.length;
-    if (inputsRef.current[nextIndex]) {
-      inputsRef.current[nextIndex].focus();
-    }
-  };
-
-  const handleBack = () => {
-    setTab(tab - 1);
-    setOtp(new Array(otpLength).fill(""));
-    inputsRef.current.forEach((input) => {
-      if (input) input.value = "";
-    });
-  };
-
-  const handleVerifyOTP = async () => {
-    const otpCode = otp.join("");
-    console.log("Entered OTP:", otpCode);
-    // try {
-    //   await window.confirmationResult.confirm(otpCode);
-    //   toast.success("OTP verified successfully!");
-    //   navigate("/sell-register-form");
-    // } catch (error) {
-    //   console.error("OTP verification error:", error);
-    //   toast.error("Invalid OTP. Try again.");
-    // }
-
-    //for dummy otp
-    if (otpCode === dummyOtp) {
-      toast.success("OTP verified successfully!");
-      navigate("/sell-register-form");
-    } else {
-      toast.error("Invalid OTP. Try again.");
-    }
-  };
-
-  // for firebase
-  // const generateRecaptcha = () => {
-  //   if (!window.recaptchaVerifier) {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //       auth,
-  //       "recaptcha-container",
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {},
-  //         "expired-callback": () => {},
-  //       }
-  //     );
-  //   }
-  // };
+  const [select, setSelected] = useState(null);
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      person_name: "",
+      user_name: "",
+      email:"",
+      phone_number: "",
+      password : "",
+      Property_belongsto: "",
+      city: "",
+      user_type : propertyType ,
     },
-    validationSchema: PhoneValidationSchema,
+    validationSchema: ValidationSchema,
     onSubmit: async (values) => {
-      // generateRecaptcha();
-      // const appVerifier = window.recaptchaVerifier;
+      console.log("values", values);
 
       try {
-        // const confirmationResult = await signInWithPhoneNumber(
-        //   auth,
-        //   values.phone,
-        //   appVerifier
-        // );
-        // window.confirmationResult = confirmationResult;
-        // toast.success("OTP sent successfully!");
 
-        const phoneNumber = values.phone.replace(/^\+91/, "");
-        dispatch(
-          appendUserData({
-            Phone_number: phoneNumber,
-            user_type: propertyType,
-          })
-        );
-        setDummyOtp("123456");
-        setTab(1);
+        dispatch(fetchSignUp(values)).then(async (res) => {
+          console.log("res", res)
+          if (res.payload.data?.status === 200) {
+            try {
+              localStorage.setItem("username", userData.person_name);
+              toast.success(res.payload.data?.message);
+              dispatch(resetUserData({}));
+              navigate("/login");
+            } catch (error) {
+              toast.error(error.message || "Failed to copy code");
+            }
+          } else {
+            toast.error(res.payload.data?.message);
+          }
+        });
       } catch (error) {
         console.error("Error sending OTP:", error);
         toast.error("Failed to send OTP. Try again.");
-        // setTab(0);
       }
     },
   });
@@ -181,9 +98,8 @@ const SignUp = () => {
     <div className="w-full h-screen p-4 lg:pl-[40px] lg:pr-[72px] bg-[url(/home_bg.png)] bg-center bg-cover flex justify-center items-center">
       <div className="flex lg:gap-20 gap-4 justify-center w-full">
         <RegisterInfo />
-        {tab === 0 ? (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-lg w-full">
-            <CardBody bodyClassName="flex flex-col justify-between gap-y-8 xsm:gap-y-13">
+          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-2xl w-full h-[calc(100vh - 200px)]">
+            <CardBody bodyClassName="flex flex-col justify-between gap-y-8 xsm:gap-y-13 h-[calc(100vh-310px)] overflow-auto">
               <div className="flex flex-col gap-y-4 xsm:gap-y-9">
                 <p className="font-normal lg:text-xl text-md capitalize text-center">
                   New to 
@@ -203,26 +119,167 @@ const SignUp = () => {
                     </button>
                   </div>
 
-                  <form onSubmit={formik.handleSubmit}>
-                    <PhoneInput
-                      defaultCountry="in"
-                      value={formik.values.phone}
-                      onChange={(phone) => {
-                        formik.setFieldValue("phone", phone);
-                      }}
-                      onBlur={() => formik.setFieldTouched("phone", true)}
-                      className="my-3"
-                    />
-                    {formik.touched.phone && formik.errors.phone && (
-                      <p className="text-red-500 text-xs xsm:text-sm">
-                        {formik.errors.phone}
-                      </p>
-                    )}
+                  <form className="grid grid-cols-2 gap-3 mt-5" onSubmit={formik.handleSubmit}>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label htmlFor="fullName" className="font-medium text-base">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="person_name"
+                        name="person_name"
+                        placeholder="Enter Your full Name"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.person_name}
+                        className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.person_name && formik.errors.person_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label htmlFor="email" className="font-medium">
+                        Email Id
+                      </label>
+                      <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="Enter Your Email Id"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.email}
+                        className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.email && formik.errors.email
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label htmlFor="user_name" className="font-medium text-base">
+                        User Name
+                      </label>
+                      <input
+                        type="text"
+                        id="user_name"
+                        name="user_name"
+                        placeholder="Enter Your user name"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.user_name}
+                        className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.user_name && formik.errors.user_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
+                      />
+
+                         {formik.touched.user_name && formik.errors.user_name && (
+                        <p className="text-red-500 text-xs xsm:text-sm">
+                          {formik.errors.user_name}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label className="font-medium">Select City</label>
+                      <Select
+                        onChange={(val) => {
+                          setSelected(val);
+                          formik.setFieldValue("city", val?.value || "");
+                        }}
+                        value={select}
+                        defaultText="Select City"
+                        options={options}
+                        listBoxClass="w-full"
+                        listButtonClass="md:!text-xl text-sm"
+                        className={`border rounded-lg p-[2px] ${formik.touched.city && formik.errors.city
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
+                        textClass="text-[14px]"
+                        onBlur={() => formik.setFieldTouched("city", true)}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label htmlFor="password" className="font-medium">
+                        Password
+                      </label>
+                      <input
+                        type="text"
+                        id="password"
+                        name="password"
+                        placeholder="Enter Your Password"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.password}
+                        className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.password && formik.errors.password
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
+                      />
+
+                         {formik.touched.password && formik.errors.password && (
+                        <p className="text-red-500 text-xs xsm:text-sm">
+                          {formik.errors.password}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                        <label htmlFor="phone_number" className="font-medium text-base">
+                        Phone No.
+                      </label>
+                      <PhoneInput
+                        defaultCountry="in"
+                        value={formik.values.phone_number}
+                        onChange={(phone) => {
+                          formik.setFieldValue("phone_number", phone);
+                        }}
+                        onBlur={() => formik.setFieldTouched("phone_number", true)}
+                        className="w-full border border-gray-300 text-sm rounded-md"
+                        inputClassName="!border-b-0"
+                      />
+                      {formik.touched.phone_number && formik.errors.phone_number && (
+                        <p className="text-red-500 text-xs xsm:text-sm">
+                          {formik.errors.phone_number}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col gap-y-2 col-span-2">
+                      <label className="font-medium">Property Belongs To</label>
+                      <div className="flex flex-wrap items-center gap-4">
+                        {["My Self", "I Am Agent", "Family", "Friends"].map(
+                          (label) => (
+                            <label
+                              key={label}
+                              className="inline-flex items-center gap-2 cursor-pointer"
+                            >
+                              <input
+                                type="radio"
+                                name="Property_belongsto"
+                                value={label}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                checked={formik.values.Property_belongsto === label}
+                                className="w-5 h-5 hue-rotate-[163deg]"
+                              />
+                              <span className="text-sm">{label}</span>
+                            </label>
+                          )
+                        )}
+                      </div>
+                      {formik.touched.Property_belongsto &&
+                        formik.errors.Property_belongsto && (
+                          <p className="text-sm text-red-500">
+                            {formik.errors.Property_belongsto}
+                          </p>
+                        )}
+                    </div>
 
                     <ThemeButton
-                      title={"Send OTP"}
-                      className="!justify-center !max-w-full mt-4"
                       type="submit"
+                      title={"Generate Code"}
+                      className="!justify-center !max-w-full col-span-2"
                     />
                   </form>
                 </div>
@@ -231,51 +288,13 @@ const SignUp = () => {
                 Existing User? 
                 <span
                   className="text-orange ml-2 cursor-pointer"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/  ")}
                 >
                   Login Here
                 </span>
               </p>
             </CardBody>
-          </Card>
-        ) : (
-          <Card cardClassName="shadow-[0px_4px_4px_0px_#0F142266] bg-white/80 rounded-xl p-8 sm:p-14 max-w-lg w-full">
-            <CardBody bodyClassName="flex flex-col justify-between gap-y-13">
-              <div className="flex flex-col">
-                <button onClick={handleBack} className="cursor-pointer">
-                  <IoArrowBackOutline size={20} />
-                </button>
-                <h2 className="text-2xl font-bold my-4">Enter OTP</h2>
-                <div className="flex flex-col">
-                  <p className="text-gray-600 mb-6">
-                    We've sent a 6-digit code to your phone.
-                  </p>
-                  <div className="flex gap-3 mb-4">
-                    {otp.map((digit, idx) => (
-                      <input
-                        key={idx}
-                        type="text"
-                        maxLength="1"
-                        value={digit}
-                        onChange={(e) => handleChange(e.target, idx)}
-                        onKeyDown={(e) => handleKeyDown(e, idx)}
-                        onPaste={handlePaste}
-                        ref={(el) => (inputsRef.current[idx] = el)}
-                        className="w-7 h-7 xsm:w-11 xsm:h-11 sm:w-12 sm:h-12 text-center border border-gray-300 rounded-md text-base xsm:text-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                    ))}
-                  </div>
-
-                  <ThemeButton
-                    title={"Verify OTP"}
-                    className="!justify-center !max-w-full"
-                    onClick={handleVerifyOTP}
-                  />
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-        )}
+          </Card>      
       </div>
       <div id="recaptcha-container"></div>
     </div>

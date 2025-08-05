@@ -13,6 +13,14 @@ const carpetAreaUnits = [
   { id: "Squre Meter", value: "Squre Meter" },
   { id: "ACRE", value: "ACRE" },
   { id: "Gutha", value: "Gutha" },
+  { id: "Other Area", value: "Other Area" },
+];
+const propertyRegisteredBy = [
+  { id: "Local Municipality", value: "Local Municipality" },
+  { id: "Rera Registered", value: "Rera Registered" },
+  { id: "Gram Panchayat", value: "Gram Panchayat" },
+  { id: "MIDC", value: "MIDC" },
+  { id: "NA", value: "NA" },
   { id: "Other", value: "Other" },
 ];
 
@@ -26,6 +34,7 @@ const propertyValidationSchema = Yup.object({
     .matches(/^[1-9][0-9]{5}$/, "Enter a valid 6-digit Indian Pincode"),
   carpetArea: Yup.string().required("Carpet area is required"),
   areaUnit: Yup.string().required("Area unit is required"),
+  registeredBy: Yup.string().required("Property Registered By is required"),
   otherArea: Yup.string().required("Other Area is required"),
   popularArea: Yup.string().required("Popular Area is required"),
   propertyType: Yup.string().required("Property Type is required"),
@@ -59,6 +68,7 @@ const AddPropertyDetails = ({
     city,
     pincode,
     Carpet_Area,
+    registeredBy,
     Other_Area,
     Popular_Area,
     type_of_property,
@@ -97,6 +107,7 @@ const AddPropertyDetails = ({
       pincode: (getProperty && pincode) || "",
       carpetArea: (getProperty && carpetArea) || "",
       areaUnit: (getProperty && unit) || "",
+      registeredBy: (getProperty && registeredBy) || "",
       otherArea: (getProperty && Other_Area) || "",
       propertyType: (getProperty && type_of_property) || "",
       suitableFor: (getProperty && Property_Suitable_For) || [],
@@ -115,6 +126,7 @@ const AddPropertyDetails = ({
         Popular_Area: values.popularArea,
         pincode: values.pincode,
         Carpet_Area: `${values.carpetArea} ${values.areaUnit}`,
+        registeredBy: values.registeredBy,
         Other_Area: values.otherArea,
         type_of_property: values.propertyType,
         Property_Suitable_For: values.suitableFor,
@@ -243,10 +255,9 @@ const AddPropertyDetails = ({
               />
             </div>
           </div>
-
           <div className="flex flex-col gap-y-1">
             <label className="text-sm lg:text-base font-medium">
-              Carpet Area of Property *
+              {formik.values.areaUnit === "Other Area" ? "Carpet Area of Property (Specify Other Unit)" : "Carpet Area of Property"} *
             </label>
             <div className="flex flex-col sm:flex-row gap-4 items-center">
               <input
@@ -284,6 +295,29 @@ const AddPropertyDetails = ({
               </div>
             </div>
           </div>
+          <div className="w-full flex flex-col gap-y-1">
+            <label className="text-sm lg:text-base font-medium">
+              Property Registered By :
+            </label>
+                <Select
+                  onChange={(val) =>
+                    formik.setFieldValue("registeredBy", val?.value)
+                  }
+                  value={propertyRegisteredBy.find(
+                    (opt) => opt.value === formik.values.registeredBy
+                  )}
+                  defaultText="Select Property Registered By"
+                  options={propertyRegisteredBy}
+                  listBoxClass="w-full"
+                  listButtonClass="md:!text-xl text-sm"
+                  className={`border rounded-lg p-[2px] ${
+                    formik.touched.registeredBy && formik.errors.registeredBy
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                  textClass="text-[14px]"
+                />
+              </div>
           <div className="flex flex-col gap-y-1">
             <label className="text-sm lg:text-base font-medium">
               Other Area (Open Space / Chajja / Maliya) :
