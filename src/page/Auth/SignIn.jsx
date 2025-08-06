@@ -1,47 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import RegisterInfo from "./RegisterInfo";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Card, CardBody, ThemeButton } from "../../components/common";
-import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchSignIn } from "../../reducer/auth/thunk";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { IoMdEyeOff } from "react-icons/io";
+import { IoMdEye } from "react-icons/io";
 
 const SignInValidationSchema = () =>
   Yup.object().shape({
-    Phone_number: Yup.string()
-      .required("Phone number is required")
-      .test(
-        "valid-phone",
-        "Enter a valid Indian phone number (starts with 6/7/8/9)",
-        (value) => {
-          let digits = value?.replace(/\D/g, "");
-          if (digits.startsWith("91")) {
-            digits = digits.slice(2);
-          }
-          return /^[6-9]\d{9}$/.test(digits);
-        }
-      ),
-    uniqueCode: Yup.string().required("Unique Code is required"),
+    person_name: Yup.string().required("Full Name/Email is required"),
+    password: Yup.string()
+      .min(5, "Password must be at least 5 characters")
+      .matches(/^(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter and one number")
+      .required("Password is required"),
   });
 
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword]= useState(false);
 
   const formik = useFormik({
     initialValues: {
-      Phone_number: "",
-      uniqueCode: "",
+      person_name: "",
+      password: "",
     },
     validationSchema: SignInValidationSchema,
-    onSubmit: async (values) => {
-        console.log("values",values);
-        
+    onSubmit: async (values) => {        
       dispatch(fetchSignIn(values)).then((res) => {
         if (res.payload.data?.status === 200) {
           toast.success(res.payload.data?.message);
@@ -69,41 +60,57 @@ const SignIn = () => {
                 Let’s get you signed in.
               </p>
               <form className="grid gap-4" onSubmit={formik.handleSubmit}>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="Phone_number" className="text-xs xsm:text-base font-medium">
-                    Phone Number
-                  </label>
-                  <PhoneInput
-                    defaultCountry="in"
-                    value={formik.values.Phone_number}
-                    onChange={(phone) => {
-                      formik.setFieldValue("Phone_number", phone);
-                    }}
-                    onBlur={() => formik.setFieldTouched("Phone_number", true)}
-                  />
-                  {formik.touched.Phone_number && formik.errors.Phone_number && (
-                    <p className="text-red-500 text-xs xsm:text-sm">
-                      {formik.errors.Phone_number}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="uniqueCode" className="text-xs xsm:text-base font-medium">
-                    Code
+                <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                  <label htmlFor="person_name" className="font-medium text-base">
+                    Full Name/Email
                   </label>
                   <input
                     type="text"
-                    id="uniqueCode"
-                    name="uniqueCode"
-                    placeholder="Enter Code"
+                    id="person_name"
+                    name="person_name"
+                    placeholder="Enter Your full name/email"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values?.uniqueCode}
-                    className={`w-[91%] px-3 py-[9.5px] border-b border-b-gray-300 focus:outline-0 text-sm rounded-md `}
+                    value={formik.values?.person_name}
+                    className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.person_name && formik.errors.person_name
+                      ? "border-red-500"
+                      : "border-gray-300"
+                      }`}
                   />
-                  {formik.touched.uniqueCode && formik.errors.uniqueCode && (
+
+                  {formik.touched.person_name && formik.errors.person_name && (
                     <p className="text-red-500 text-xs xsm:text-sm">
-                      {formik.errors.uniqueCode}
+                      {formik.errors.person_name}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                  <label htmlFor="password" className="font-medium">
+                    Password
+                  </label>
+                  <div className="flex items-center relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
+                      placeholder="Enter Your Password"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values?.password}
+                      className={`w-full px-3 py-[9.5px] border text-sm rounded-md ${formik.touched.password && formik.errors.password
+                        ? "border-red-500"
+                        : "border-gray-300"
+                        }`}
+                    />
+                    <div className="cursor-pointer absolute right-2" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                    </div>
+
+                  </div>
+
+                  {formik.touched.password && formik.errors.password && (
+                    <p className="text-red-500 text-xs xsm:text-sm">
+                      {formik.errors.password}
                     </p>
                   )}
                 </div>

@@ -52,8 +52,13 @@ export const fetchAllTokenWiseProperties = createAsyncThunk(
       const response = await api.get(getAllTokenWiseProperties);
       return response;
     } catch (error) {
-      toast.error(error?.response?.data?.message);
-      return rejectWithValue(error);
+     const message = error?.response?.data?.message;
+
+      if (message && message !== "No Properties found") {
+        toast.error(message);
+      }
+
+      return rejectWithValue(error?.response || error);
     }
   }
 );

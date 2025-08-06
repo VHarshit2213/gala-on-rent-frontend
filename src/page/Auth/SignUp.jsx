@@ -1,11 +1,8 @@
-import { useRef, useState } from "react";
-import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
-import { FaCircleCheck } from "react-icons/fa6";
+import { useState } from "react";
 import { Card, CardBody, Select, ThemeButton } from "../../components/common";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -13,6 +10,7 @@ import { toast } from "react-toastify";
 import { resetUserData } from "../../reducer/auth/redux";
 import RegisterInfo from "./RegisterInfo";
 import { fetchSignUp } from "../../reducer/auth/thunk";
+import Cookies from "js-cookie";
 
 const ValidationSchema = () =>
   Yup.object().shape({
@@ -68,28 +66,27 @@ const SignUp = () => {
     },
     validationSchema: ValidationSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
-
       try {
-
         dispatch(fetchSignUp(values)).then(async (res) => {
-          console.log("res", res)
           if (res.payload.data?.status === 200) {
             try {
-              localStorage.setItem("username", userData.person_name);
+              localStorage.setItem("username", res.payload.data?.data?.user_name || "");
               toast.success(res.payload.data?.message);
               dispatch(resetUserData({}));
-              navigate("/login");
+              navigate("/property-list");
+              const expires = new Date();
+              expires.setTime(expires.getTime() + 7 * 60 * 60 * 1000);
+              Cookies.set("accessToken", res.payload.data?.token, { expires });
             } catch (error) {
-              toast.error(error.message || "Failed to copy code");
+              toast.error(error.message || "Created User Failed");
             }
           } else {
             toast.error(res.payload.data?.message);
           }
         });
       } catch (error) {
-        console.error("Error sending OTP:", error);
-        toast.error("Failed to send OTP. Try again.");
+        console.error("Created User Failed", error);
+        toast.error("Created User Failed");
       }
     },
   });
@@ -288,7 +285,7 @@ const SignUp = () => {
                 Existing User? 
                 <span
                   className="text-orange ml-2 cursor-pointer"
-                  onClick={() => navigate("/  ")}
+                  onClick={() => navigate("/login")}
                 >
                   Login Here
                 </span>

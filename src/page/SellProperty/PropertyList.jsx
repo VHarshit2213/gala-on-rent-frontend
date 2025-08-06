@@ -144,7 +144,7 @@ const PropertyList = () => {
                           <h2 className="font-bold text-sm xsm:text-base lg:text-xl l:text-2xl">
                             {type_of_property}
                           </h2>
-                          <p className="opacity-50 text-xs xsm:text-sm">
+                          <p className="opacity-50 text-xs xsm:text-sm truncate">
                             {address}, {city}, {Popular_Area} - {pincode}
                           </p>
                           <p className="opacity-50 text-xs xsm:text-sm">

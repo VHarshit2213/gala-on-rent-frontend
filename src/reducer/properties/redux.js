@@ -53,8 +53,16 @@ const propertySlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchAllTokenWiseProperties.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload?.data?.message || null;
+        const message = action.payload?.data?.message;
+
+        if (message === "No Properties found") {
+          state.status = "succeeded";
+          state.AllTokenWiseProperties = [];
+          state.error = null;
+        } else {
+          state.status = "failed";
+          state.error = message || "Something went wrong";
+        }
         state.loading = false;
       })
 

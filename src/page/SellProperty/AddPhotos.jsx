@@ -18,8 +18,9 @@ const imageValidationSchema = (hasExistingImages) =>
     image: hasExistingImages
       ? Yup.array().max(10, "You can upload up to 10 photos only.")
       : Yup.array()
-          .min(1, "Please upload at least 1 photo.")
-          .max(10, "You can upload up to 10 photos only."),
+        .min(1, "Please upload at least 1 photo.")
+        .max(10, "You can upload up to 10 photos only."),
+    isAcceptTermsCondition: Yup.boolean()
   });
 
 const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
@@ -30,8 +31,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   const navigate = useNavigate();
 
   const [files, setFiles] = useState([]);
-  const [isAccept, setIsAccept] = useState(false);
-  const { image } = getProperty || [];
+  const { image, isAcceptTermsCondition } = getProperty || [];
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -80,6 +80,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
     enableReinitialize: true,
     initialValues: {
       image: [],
+      isAcceptTermsCondition :isAcceptTermsCondition || false,
     },
     validationSchema: imageValidationSchema(
       image?.length > 0 || files.length > 0
@@ -131,6 +132,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
           "Type_of_Water_Supply",
           JSON.stringify(propertyDetails.Type_of_Water_Supply)
         );
+        formData.append("isAcceptTermsCondition",values.isAcceptTermsCondition);
 
         if (propertyId) {
           await dispatch(
@@ -249,8 +251,9 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
       <div className="flex gap-2">
         <input
           type="checkbox"
+          checked={formik.values.isAcceptTermsCondition}
           className="accent-orange w-full max-w-4 h-5"
-          onClick={() => setIsAccept(!isAccept)}
+          onClick={(event) => formik.setFieldValue("isAcceptTermsCondition", event.target.checked)}
         />
         <p className="leading-5 font-semibold">
           I accept the terms and conditions*
@@ -268,11 +271,11 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         className={`!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base 
         `}
         style={{
-          cursor: isAccept ? "pointer" : "not-allowed",
+          cursor: formik.values.isAcceptTermsCondition ? "pointer" : "not-allowed",
         }}
         titleClass="!capitalize"
         type="submit"
-        disabled={formik.isSubmitting || !isAccept}
+        disabled={formik.isSubmitting || !formik.values.isAcceptTermsCondition}
       />
     </form>
   );

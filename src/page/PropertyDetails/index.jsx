@@ -128,6 +128,7 @@ const PropertyDetails = () => {
     available_From,
     About_the_property,
     User_data,
+    registeredBy
   } = getProperty;
 
   // for extract floor
@@ -376,6 +377,14 @@ const PropertyDetails = () => {
                       {item}
                     </p>
                   ))}
+                </div>
+                <div className="flex flex-col gap-y-1">
+                  <p className="text-muted-transparent text-sm lg:text-base font-semibold capitalize">
+                    Registered By
+                  </p>
+                    <p className="text-sm lg:text-base font-semibold capitalize">
+                      {registeredBy || ''}
+                    </p>
                 </div>
               </div>
             </Card>
