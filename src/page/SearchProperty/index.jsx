@@ -211,6 +211,11 @@ const SearchProperty = () => {
                   const raw = property_belongsTo;
                   const displayText = raw?.replace(/&#x2F;/g, "/");
 
+                  //split type of power value
+                  const parts = Type_of_Power?.split(" ") || [];
+                  const power = parts.slice(0, 2).join(" "); // "Single Phase" or "Three Phase"
+                  const hp = parts[2] || "";
+
                   return (
                     <Card
                       key={_id}
@@ -246,7 +251,7 @@ const SearchProperty = () => {
                           </p>
                           <ul className="flex flex-wrap text-muted opacity-50 text-sm md:text-base font-medium gap-x-7 ml-5">
                             <li className="list-disc">
-                              Power: {Type_of_Power}
+                              Power:  {power} / {hp || 0} HP
                             </li>
                             <li className="list-disc">Sizes: {Carpet_Area}</li>
                             {/* <li className="list-disc">Under Construction</li> */}

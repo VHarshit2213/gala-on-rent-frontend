@@ -41,7 +41,7 @@ const propertyValidationSchema = Yup.object({
   availableFrom: Yup.string().required("Property available From is required"),
   suitableFor: Yup.array().min(1, "Select at least one option"),
   powerType: Yup.string().required("Please select one option"),
-  hp: Yup.string().required("Please enter HP"), 
+  hp: Yup.string().required("Please enter HP"),
   waterSupply: Yup.array().min(1, "Select at least one option"),
   washrooms: Yup.number()
     .required("Must be a number")
@@ -94,9 +94,9 @@ const AddPropertyDetails = ({
   }
 
   //split type of power value
-  const [power, hp] = Type_of_Power?.startsWith("Three Phase")
-    ? ["Three Phase", Type_of_Power?.split(" ")[2] || ""]
-    : ["Single Phase", ""];
+  const parts = Type_of_Power?.split(" ") || [];
+  const power = parts.slice(0, 2).join(" "); // "Single Phase" or "Three Phase"
+  const hp = parts[2] || "";  
 
   const formik = useFormik({
     enableReinitialize: true,

@@ -74,6 +74,12 @@ const PropertyList = () => {
               type_of_property,
               Type_of_Power,
             } = property;
+
+            //split type of power value
+            const parts = Type_of_Power?.split(" ") || [];
+            const power = parts.slice(0, 2).join(" "); // "Single Phase" or "Three Phase"
+            const hp = parts[2] || "";
+
             return (
               <Card
                 key={_id}
@@ -142,7 +148,7 @@ const PropertyList = () => {
                             {address}, {city}, {Popular_Area} - {pincode}
                           </p>
                           <p className="opacity-50 text-xs xsm:text-sm">
-                            Power : {Type_of_Power}
+                            Power : {power} / {hp || 0} HP
                           </p>
                         </div>
                       </div>

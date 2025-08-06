@@ -145,6 +145,13 @@ const PropertyDetails = () => {
   };
   const blockNumber = getBlockNumber(address);
 
+  //split type of power value
+  const parts = Type_of_Power?.split(" ") || [];
+  const power = parts.slice(0, 2).join(" "); // "Single Phase" or "Three Phase"
+  const hp = parts[2] || "";
+
+  const displayPower = power && hp ? `${power} / ${hp} HP` : power || "";
+
   const overViewDetails = [
     { label: "Carpet Area", value: Carpet_Area },
     { label: "Number of Washroom", value: Number_of_Washroom },
@@ -155,7 +162,7 @@ const PropertyDetails = () => {
 
   const additionalDetails = [
     { label: "Looking To", value: looking_to },
-    { label: "Power", value: Type_of_Power },
+    { label: "Power", value: displayPower },
   ];
 
   const amenitiesIcon = {
