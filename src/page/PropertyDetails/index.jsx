@@ -318,7 +318,7 @@ const PropertyDetails = () => {
               <p
                 ref={aboutRef}
                 className={`text-xs lg:text-sm font-semibold pt-3 lg:pt-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
-                  isExpandedAbout ? "" : "line-clamp-2"
+                  isExpandedAbout ? "" : ""
                 }`}
               >
                 {About_the_property}
@@ -328,7 +328,7 @@ const PropertyDetails = () => {
                   className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center cursor-pointer"
                   onClick={() => setIsExpandedAbout((prev) => !prev)}
                 >
-                  {isExpandedAbout ? (
+                  {/* {isExpandedAbout ? (
                     <>
                       Show Less <MdExpandLess size={20} />
                     </>
@@ -336,7 +336,7 @@ const PropertyDetails = () => {
                     <>
                       Read More <MdExpandMore size={20} />
                     </>
-                  )}
+                  )} */}
                 </p>
               )}
             </Card>
