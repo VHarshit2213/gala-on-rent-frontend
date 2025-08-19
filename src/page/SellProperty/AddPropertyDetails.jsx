@@ -51,8 +51,8 @@ const propertyValidationSchema = Yup.object({
     .required("About the Property is required")
     .test("min-words", "Description must be at least 50 words", (value) => {
       if (!value) return true; // Allow empty if not required
-      const wordCount = value.trim().split(/\s+/).length;
-      return wordCount >= 50;
+      // const wordCount = value.trim().split(/\s+/).length;
+      // return wordCount >= 50;
     }),
 });
 
@@ -446,14 +446,14 @@ const AddPropertyDetails = ({
           </div>
           <div className="flex flex-col sm:flex-row">
             <label className="text-[14px] font-medium sm:w-1/2">
-              If {formik.values.powerType || "Three Phase"}, HP (
-              {formik.values.powerType === "Single Phase" ? "1-5" : "1-100"}):
+              If {formik.values.powerType || "Three Phase"}, HP :
+              {/* ({formik.values.powerType === "Single Phase" ? "1-5" : "1-100"}): */}
             </label>
             <input
               type="number"
               name="hp"
               min={1}
-              max={formik.values.powerType === "Single Phase" ? 5 : 100}
+              // max={formik.values.powerType === "Single Phase" ? 5 : 100}
               value={formik.values.hp}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
