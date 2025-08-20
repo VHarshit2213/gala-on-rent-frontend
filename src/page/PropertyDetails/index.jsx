@@ -317,7 +317,7 @@ const PropertyDetails = () => {
               </p>
               <p
                 ref={aboutRef}
-                className={`text-xs lg:text-sm font-semibold pt-3 lg:pt-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
+                className={`text-xs lg:text-sm font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
                   isExpandedAbout ? "" : ""
                 }`}
               >

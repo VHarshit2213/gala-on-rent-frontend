@@ -49,11 +49,11 @@ const propertyValidationSchema = Yup.object({
     .max(3, "Max is 3"),
   about: Yup.string()
     .required("About the Property is required")
-    .test("min-words", "Description must be at least 50 words", (value) => {
-      if (!value) return true; // Allow empty if not required
-      // const wordCount = value.trim().split(/\s+/).length;
-      // return wordCount >= 50;
-    }),
+    // .test("min-words", "Description must be at least 50 words", (value) => {
+    //   if (!value) return true; // Allow empty if not required
+    //   const wordCount = value.trim().split(/\s+/).length;
+    //   return wordCount >= 50;
+    // }),
 });
 
 const AddPropertyDetails = ({
