@@ -1,5 +1,5 @@
 import { FaCircleCheck } from "react-icons/fa6";
-import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
+import Gala_On_RenT_LOGO from "./../../assets/Landing/Light/Gala_On_RenT_LOGO.png";
 
 const RegisterInfo = () => {
   return (

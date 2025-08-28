@@ -1,5 +1,5 @@
 import React from "react";
-import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
+import Gala_On_RenT_LOGO from "./../../assets/Landing/Light/Gala_On_RenT_LOGO.png";
 import Gala from "./../../assets/Landing/Gala.png";
 import Office from "./../../assets/Landing/Office.png";
 import Shed from "./../../assets/Landing/Shed.png";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Gala_On_RenT_LOGO from "../assets/Landing/Gala_On_RenT_LOGO.png";
+import Gala_On_RenT_LOGO from "../assets/Landing/Light/Gala_On_RenT_LOGO.png";
 import { FaCircleUser } from "react-icons/fa6";
 import { NavLink, useLocation } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
@@ -42,7 +42,7 @@ const Header = () => {
           <NavLink
             to={menu.link}
             className={({ isActive }) => {
-              const baseColor = !isShowShadow ? "text-gray-700" : "text-white";
+              const baseColor = "text-gray-700";
               const activeStyles =
                 "font-semibold border-b-2 border-orange-500 pb-1";
               const hoverStyles = "hover:text-orange";

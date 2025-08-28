@@ -16,8 +16,8 @@ const SignInValidationSchema = () =>
   Yup.object().shape({
     person_name: Yup.string().required("Full Name/Email is required"),
     password: Yup.string()
-      .min(5, "Password must be at least 5 characters")
-      .matches(/^(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter and one number")
+      .min(8, "Password must be at least 8 characters")
+      .matches(/^\S{8,}$/, "Password must be at least 8 characters")
       .required("Password is required"),
   });
 

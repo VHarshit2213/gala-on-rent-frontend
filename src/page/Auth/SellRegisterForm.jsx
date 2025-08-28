@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Gala_On_RenT_LOGO from "./../../assets/Landing/Gala_On_RenT_LOGO.png";
+import Gala_On_RenT_LOGO from "./../../assets/Landing/Light/Gala_On_RenT_LOGO.png";
 import { Card, CardBody, Select, ThemeButton } from "../../components/common";
 import { useFormik } from "formik";
 import * as Yup from "yup";

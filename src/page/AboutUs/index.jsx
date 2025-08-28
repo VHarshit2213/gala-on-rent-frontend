@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../../components/Header'
-import about_commercial  from "../../assets/AboutUs/about_commercial.png"
-import infrastructure  from "../../assets/AboutUs/Infrastructure.png"
+import about_commercial from "../../assets/AboutUs/about_commercial.png"
+import infrastructure from "../../assets/AboutUs/Infrastructure.png"
 import { Card, CardBody, Footer, ThemeButton } from '../../components/common'
 
 const AboutUs = () => {
@@ -9,7 +9,7 @@ const AboutUs = () => {
         <div className='flex flex-col'>
             <div className='relative !w-full h-screen bg-[url("/about_banner.png")] !bg-no-repeat !bg-cover !bg-center'>
                 <div className='xsm:absolute w-full'>
-                    <Header />
+                    {/* <Header /> */}
                 </div>
                 <p className='relative w-full top-1/2 left-1/2 -translate-1/2 capitalize xl:text-[64px] lg:text-[55px] md:text-[40px] sm:text-[30px] text-[20px] text-center font-bold text-white lg:px-[193px] xsm:px-20 px-10'>we help <span className='text-orange'>businesses</span> of all sizes find the <span className='text-orange'>right space</span> to grow</p>
             </div>
@@ -20,9 +20,9 @@ const AboutUs = () => {
             <div className='p-4 xsm:p-6 sm:p-10 lg:p-15 sm:!pt-30 relative'>
                 <Card cardClassName="xl:p-13 lg:p-8 md:p-5 p-4 bg-[#FFFFFFE5] sm:absolute top-8 xl:right-40 lg:right-30 right-20 xl:max-w-3xl lg:max-w-lg md:max-w-sm sm:max-w-xs w-full h-auto border-[0.5px] border-[#76767682] rounded-md">
                     <CardBody bodyClassName="text-center flex flex-col xl:gap-y-12 lg:gap-y-10 md:gap-y-6 gap-y-3">
-                            <img src={infrastructure} alt="infrastructure" className='xl:w-20 xl:h-20 w-15 h-15 mx-auto' />
-                            <p className='font-bold xl:text-5xl lg:text-3xl text-lg capitalize xl:leading-17 leading-10'>Your dream <span className='text-orange'> commercial property </span> is just a <span className='text-orange'>few clicks </span> away</p>
-                            <ThemeButton title={"Find NOW"} className={"!justify-center !pl-5"} />
+                        <img src={infrastructure} alt="infrastructure" className='xl:w-20 xl:h-20 w-15 h-15 mx-auto' />
+                        <p className='font-bold xl:text-5xl lg:text-3xl text-lg capitalize xl:leading-17 leading-10'>Your dream <span className='text-orange'> commercial property </span> is just a <span className='text-orange'>few clicks </span> away</p>
+                        <ThemeButton title={"Find NOW"} className={"!justify-center !pl-5"} />
                     </CardBody>
                 </Card>
                 <img src={about_commercial} alt='about_commercial' className='w-full hidden sm:block' />

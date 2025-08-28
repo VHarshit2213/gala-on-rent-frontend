@@ -3,7 +3,8 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { GoHomeFill } from "react-icons/go";
 import { FaClipboardList } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import footer_logo from "../../assets/Home/footer_logo.png";
+import Gala_On_RenT from "./../../assets/Landing/Light/Gala_On_RenT_LOGO.png"
+import Gala_On_RenT_White from "./../../assets/Landing/Dark/Gala on Rent Logo White.png"
 import user_avatar from "../../assets/Property/user-avtar.png";
 import { IoIosLogOut } from "react-icons/io";
 
@@ -62,7 +63,7 @@ const SellPropertySidebarHeader = ({ children }) => {
     <div className="h-screen flex transition-all duration-300">
       <div className="md:w-[20%] xl:w-[15%] h-screen bg-[#192E3F] flex flex-col">
         <img
-          src={footer_logo}
+          src={Gala_On_RenT_White}
           alt="Footer Logo"
           className="px-7 py-6 object-contain hidden md:block"
         />
@@ -87,7 +88,7 @@ const SellPropertySidebarHeader = ({ children }) => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="shadow-[0px_4px_8px_0px_#00000033] p-3 md:pr-8 flex justify-between md:justify-end items-center gap-3">
           <img
-            src={footer_logo}
+            src={Gala_On_RenT}
             alt="Footer Logo"
             className="w-24 xsm:w-32 object-contain block md:hidden"
           />

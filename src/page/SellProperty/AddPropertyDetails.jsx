@@ -255,7 +255,7 @@ const AddPropertyDetails = ({
               />
             </div>
           </div>
-          <div className="flex flex-col gap-y-1">
+          {/* <div className="flex flex-col gap-y-1">
             <label className="text-sm lg:text-base font-medium">
               {formik.values.areaUnit === "Other Area" ? "Carpet Area of Property (Specify Other Unit)" : "Carpet Area of Property"} *
             </label>
@@ -294,7 +294,68 @@ const AddPropertyDetails = ({
                 />
               </div>
             </div>
-          </div>
+          </div> */}
+          <div className="flex flex-col gap-y-1">
+  <label className="text-sm lg:text-base font-medium">
+    {formik.values.areaUnit === "Other Area"
+      ? "Carpet Area of Property (Specify Other Unit)"
+      : "Carpet Area of Property"} *
+  </label>
+
+  <div className="flex flex-col sm:flex-row gap-4 items-center">
+    {/* Carpet Area Input */}
+    <input
+      type="text"
+      placeholder="Enter area"
+      name="carpetArea"
+      value={formik.values.carpetArea}
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      className={`p-2 border rounded-lg w-full sm:w-1/2 lg:w-full placeholder:text-gray placeholder:text-xs ${
+        formik.touched.carpetArea && formik.errors.carpetArea
+          ? "border-red-500"
+          : "border-gray-300"
+      }`}
+    />
+{/* Show extra input only if "Other Area" is selected */}
+      {formik.values.areaUnit === "Other Area" && (
+        <input
+          type="text"
+          placeholder="Specify unit"
+          name="otherAreaUnit"
+          value={formik.values.otherAreaUnit || ""}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`p-2 border rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+            formik.touched.otherAreaUnit && formik.errors.otherAreaUnit
+              ? "border-red-500"
+              : "border-gray-300"
+          }`}
+        />
+      )}
+    <div className="flex w-full sm:w-1/2 lg:w-1/3 gap-2">
+      <Select
+        onChange={(val) => formik.setFieldValue("areaUnit", val?.value)}
+        value={carpetAreaUnits.find(
+          (opt) => opt.value === formik.values.areaUnit
+        )}
+        defaultText="Select Carpet Area"
+        options={carpetAreaUnits}
+        listBoxClass="w-full"
+        listButtonClass="md:!text-xl text-sm"
+        className={`border rounded-lg p-[2px] ${
+          formik.touched.areaUnit && formik.errors.areaUnit
+            ? "border-red-500"
+            : "border-gray-300"
+        }`}
+        textClass="text-[14px]"
+      />
+
+      
+    </div>
+  </div>
+</div>
+
           <div className="w-full flex flex-col gap-y-1">
             <label className="text-sm lg:text-base font-medium">
               Property Registered By :

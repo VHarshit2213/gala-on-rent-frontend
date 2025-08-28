@@ -1,5 +1,6 @@
 import React from 'react'
-import logo from "./../../assets/Home/footer_logo.png"
+// import logo from "./../../assets/Home/footer_logo.png"
+import logo from "./../../assets/Landing/Dark/Gala on Rent Logo White.png";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";

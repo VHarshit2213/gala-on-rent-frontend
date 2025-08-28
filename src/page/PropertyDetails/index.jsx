@@ -27,8 +27,8 @@ const contactValidationSchema = Yup.object({
   phone: Yup.string()
     .matches(/^\d{10}$/, "PPhone number must be 10 digits")
     .required("Phone number is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-});
+//   email: Yup.string().email("Invalid email").required("Email is required"),
+  email: Yup.string().email("Invalid email"),});
 
 const imgSliderSettings = {
   dots: true,
@@ -289,7 +289,7 @@ const PropertyDetails = () => {
             </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
             <li className="px-2 sm:px-3 md:px-5 self-center capitalize">
-              Floors No. {blockNumber}
+            {Type_of_Power} HP
             </li>
             <hr className="border-r border-[#D9D9D9DD] h-16" />
             <li className="px-2 sm:px-3 md:px-5 self-center capitalize">

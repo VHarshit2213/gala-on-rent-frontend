@@ -51,10 +51,13 @@ export const cityAreaData = {
 };
 
 export const TypeOfProperty = [
-  { id: "land", value: "open land ( with out boundry)" },
-  { id: "plot", value: "open plot (with boundry)" },
-  { id: "gala", value: "gala" },
-  { id: "commercial", value: "commercial" },
-  { id: "shop", value: "shop" },
-  { id: "commercial office", value: "commercial office" },
+  // { id: "land", value: "open land ( with out boundry)" },
+  { id: "land", value: "Open plot (without boundary)" },
+  { id: "plot", value: "Open plot (with boundry)" },
+  { id: "gala", value: "Gala" },
+  // { id: "commercial", value: "commercial" },
+  { id: "commercial", value: "Commercial Building" },
+  { id: "shop", value: "Shop" },
+  // { id: "commercial office", value: "commercial office" },
+  { id: "commercial office", value: "Office" },
 ];

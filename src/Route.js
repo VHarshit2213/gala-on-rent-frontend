@@ -16,13 +16,14 @@ export const nonPrivateRoute = [
   { path: "/", component: Landing },
   { path: "/login", component: SignIn },
   { path: "/signup", component: SignUp },
-  { path: "/about-us", component: AboutUs },
+  
   { path: "/sell-register-form", component: SellRegisterForm },
 ];
 
 // Private routes
 export const privateRoute = [
   { path: "/home", component: Home },
+  { path: "/about-us", component: AboutUs },
   { path: "/property-details/:id", component: PropertyDetails },
   { path: "/search-property", component: SearchProperty },
 ];

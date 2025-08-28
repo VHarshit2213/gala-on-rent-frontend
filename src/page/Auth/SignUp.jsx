@@ -22,8 +22,8 @@ const ValidationSchema = () =>
       .matches(/^[a-zA-Z0-9@_-]+$/, "Only letters, numbers, @, _ and - are allowed. No spaces or special characters.")
       .required("User Name is required"),
     password: Yup.string()
-      .min(5, "Password must be at least 5 characters")
-      .matches(/^(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter and one number")
+      .min(8, "Password must be at least 8 characters")
+      .matches(/^\S{8,}$/, "Password must be at least 8 characters")
       .required("Password is required"),
     phone_number: Yup.string()
       .required("Phone number is required")
