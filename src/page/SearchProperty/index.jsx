@@ -94,9 +94,7 @@ const SearchProperty = () => {
   useEffect(() => {
     if (city || area || lookingTo) {
       fetchData(null, null);
-    }
-    if(city){
-    fetchAgentData(1)
+      fetchAgentData(1)
     }
   }, [city, area, lookingTo]);
 
