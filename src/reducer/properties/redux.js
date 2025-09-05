@@ -4,6 +4,7 @@ import {
   fetchAllTokenWiseProperties,
   fetchFilteredProperties,
   fetchSingleProperty,
+  fetchAgent
 } from "./thunk";
 
 const propertySlice = createSlice({
@@ -13,6 +14,7 @@ const propertySlice = createSlice({
     getProperty: [],
     AllTokenWiseProperties: [],
     searchPropertiesByCity: [],
+    AgentList: [], 
     status: null,
     error: null,
     loading: false,
@@ -97,6 +99,23 @@ const propertySlice = createSlice({
       .addCase(fetchFilteredProperties.rejected, (state, action) => {
         state.status = "failed";
         state.searchPropertiesByCity = [];
+        state.error = action.payload?.data?.message || null;
+        state.loading = false;
+      })
+      // Fetch agent name list
+      .addCase(fetchAgent.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(fetchAgent.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.AgentList = action.payload?.data?.data;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(fetchAgent.rejected, (state, action) => {
+        state.status = "failed";
+        state.AgentList = [];
         state.error = action.payload?.data?.message || null;
         state.loading = false;
       });

@@ -30,6 +30,14 @@ export const filterProperties = (
 
   return `/properties/getAllProperties?${params.toString()}`;
 };
+export const filterAgent = (
+  city,page
+) => {
+  const params = new URLSearchParams();
+
+  if (city) params.append("city", city?.toUpperCase());
+  return `/user/getAllagents?page=${page}&${params.toString()}`;
+};
 
 // reviews
 export const getAllReviews = "/review/getAllReviews";

@@ -15,7 +15,7 @@ import ad_Group from "../../assets/Property/ad_Group_.png";
 import SimilarPropertiesShowroom from "../../components/SimilarPropertiesShowroom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFilteredProperties } from "../../reducer/properties/thunk";
+import { fetchAgent, fetchFilteredProperties } from "../../reducer/properties/thunk";
 import Spinner from "../../components/common/Spinner";
 import { TypeOfProperty } from "../../constants/constant";
 
@@ -38,7 +38,7 @@ const sortOptions = [
 
 const SearchProperty = () => {
   const dispatch = useDispatch();
-  const { searchPropertiesByCity, loading } = useSelector(
+  const { searchPropertiesByCity, loading, AgentList } = useSelector(
     (state) => state.property
   );
 
@@ -62,6 +62,13 @@ const SearchProperty = () => {
       sort: sort || "",
     };
     dispatch(fetchFilteredProperties(payload));
+  };
+  const fetchAgentData = (page) => {
+    const payload = {
+      city,
+      page
+    };
+    dispatch(fetchAgent(payload));
   };
 
   const handleSortPriceChange = (val) => {
@@ -88,6 +95,9 @@ const SearchProperty = () => {
     if (city || area || lookingTo) {
       fetchData(null, null);
     }
+    if(city){
+    fetchAgentData(1)
+    }
   }, [city, area, lookingTo]);
 
   if (loading) {
@@ -111,6 +121,18 @@ const SearchProperty = () => {
             options={TypeOfProperty}
             textClass="!text-sm !font-medium !text-[#000000]"
             className="max-w-[250px] border border-[#CCCCCC] rounded-3xl"
+            listBoxClass="!bg-transparent"
+            listButtonClass="!bg-transparent"
+          />
+          <Select
+            // onChange={(val) => handlePropertyChange(val)}
+            value={AgentList.find(
+              (item) => item.person_name === selectedPropertyType
+            )}
+            defaultText="Agent List"
+            options={AgentList?.map((agent) =>({ id: agent?._id, value: `${agent?.user_name || agent?.person_name}  (${agent?.Phone_number || agent?.phone_number})`}))}
+            textClass="!text-sm !font-medium !text-[#000000]"
+            className="max-w-[300px] border border-[#CCCCCC] rounded-3xl"
             listBoxClass="!bg-transparent"
             listButtonClass="!bg-transparent"
           />

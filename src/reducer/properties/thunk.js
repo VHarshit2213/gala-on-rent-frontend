@@ -10,6 +10,7 @@ import {
   filterProperties,
   getSingleProperty,
   removeProperty,
+  filterAgent,
 } from "../../api/helper";
 import { toast } from "react-toastify";
 
@@ -120,6 +121,26 @@ export const updateProperty = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+      return response;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+//fetch agent name with phone no.
+export const fetchAgent = createAsyncThunk(
+  "property/fetchAgent",
+  async (
+    {  city ,page = 1},
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.get(
+        filterAgent(city, page)
+      );
       return response;
     } catch (error) {
       toast.error(error?.response?.data?.message);
