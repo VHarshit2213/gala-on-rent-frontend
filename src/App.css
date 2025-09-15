@@ -134,3 +134,13 @@ input:-webkit-autofill {
 .property-img-slider .slick-track {
   gap: 0px !important;
 }
+
+.invisible-scrollbar{
+  width: 100%;
+  overflow: auto;
+  /* height: 100%; */
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}

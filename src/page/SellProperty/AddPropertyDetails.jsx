@@ -35,7 +35,7 @@ const propertyValidationSchema = Yup.object({
   carpetArea: Yup.string().required("Carpet area is required"),
   areaUnit: Yup.string().required("Area unit is required"),
   registeredBy: Yup.string().required("Property Registered By is required"),
-  otherArea: Yup.string().required("Other Area is required"),
+  // otherArea: Yup.string().required("Other Area is required"),
   popularArea: Yup.string().required("Popular Area is required"),
   propertyType: Yup.string().required("Property Type is required"),
   availableFrom: Yup.string().required("Property available From is required"),
@@ -47,8 +47,8 @@ const propertyValidationSchema = Yup.object({
     .required("Must be a number")
     .min(1, "Must be at least 1")
     .max(3, "Max is 3"),
-  about: Yup.string()
-    .required("About the Property is required")
+  // about: Yup.string()
+  //   .required("About the Property is required")
     // .test("min-words", "Description must be at least 50 words", (value) => {
     //   if (!value) return true; // Allow empty if not required
     //   const wordCount = value.trim().split(/\s+/).length;
@@ -208,7 +208,7 @@ const AddPropertyDetails = ({
                     ? "border-red-500"
                     : "border-gray-300"
                 }`}
-                textClass="text-[14px]"
+                textClass="text-[14px] text-black"
               />
             </div>
             <div className="flex flex-col gap-y-1">

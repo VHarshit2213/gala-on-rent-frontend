@@ -23,7 +23,8 @@ const ValidationSchema = () =>
       .required("User Name is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
-      .matches(/^\S{8,}$/, "Password must be at least 8 characters")
+      .max(8, "Password must be 8 characters")
+      // .matches(/^\S{8,}$/, "Password must be at least 8 characters")
       .required("Password is required"),
     phone_number: Yup.string()
       .required("Phone number is required")

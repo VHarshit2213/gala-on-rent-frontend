@@ -17,7 +17,8 @@ const SignInValidationSchema = () =>
     person_name: Yup.string().required("Full Name/Email is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
-      .matches(/^\S{8,}$/, "Password must be at least 8 characters")
+      .max(8, "Password must be 8 characters")
+      // .matches(/^\S{8,}$/, "Password must be at least 8 characters")
       .required("Password is required"),
   });
 
@@ -103,7 +104,7 @@ const SignIn = () => {
                         }`}
                     />
                     <div className="cursor-pointer absolute right-2" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                      {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
                     </div>
 
                   </div>

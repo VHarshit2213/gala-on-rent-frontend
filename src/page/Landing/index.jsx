@@ -23,7 +23,7 @@ const Landing = () => {
 
           <div className="bg-[#A4A5A766] flex flex-col gap-[10px] sm:gap-[30px] p-[25px] xsm:p-[40px] rounded-lg md:ml-[30px]">
             <h1 className="text-[20px] sm:text-[30px] md:text-[35px] lg:text-[40px] font-bold capitalize sm:leading-10">
-              Find & Rent{" "}
+              Buy, Sell and Rent{" "}
               <span className="text-orange">the right commercials</span> space
             </h1>
             <div className="flex flex-col gap-[20px]">

@@ -10,6 +10,7 @@ import { resetPropertyDetails } from "../../reducer/propertyDetails/redux";
 import { addProperties, updateProperty } from "../../reducer/properties/thunk";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { X } from 'lucide-react';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -30,6 +31,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   );
   const navigate = useNavigate();
 
+  const [isTermsAndConditionsOpen, setIsTermsAndConditionsOpen] = useState(false)
   const [files, setFiles] = useState([]);
   const { image, isAcceptTermsCondition } = getProperty || [];
 
@@ -170,6 +172,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   }, [getProperty]);
 
   return (
+    <>
     <form
       onSubmit={formik.handleSubmit}
       className="p-4 sm:p-6 lg:p-10 l:p-15 flex flex-col gap-6 sm:gap-8 l:gap-10"
@@ -255,7 +258,7 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
           className="accent-orange w-full max-w-4 h-5"
           onClick={(event) => formik.setFieldValue("isAcceptTermsCondition", event.target.checked)}
         />
-        <p className="leading-5 font-semibold">
+        <p className="leading-5 font-semibold underline decoration-solid text-blue-600 cursor-pointer" onClick={() => setIsTermsAndConditionsOpen(!isTermsAndConditionsOpen)}>
           I accept the terms and conditions*
         </p>
       </div>
@@ -278,6 +281,92 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         disabled={formik.isSubmitting || !formik.values.isAcceptTermsCondition}
       />
     </form>
+
+      {
+        isTermsAndConditionsOpen &&
+        <>
+          <div className="fixed inset-0 bg-black/50 z-40"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-3">
+            <div className="absolute max-w-lg mx-auto bg-white p-5 rounded-[10px] shadow-2xl max-h-[80vh] h-full invisible-scrollbar">
+              <div className="flex justify-end cursor-pointer" onClick={() => setIsTermsAndConditionsOpen(!isTermsAndConditionsOpen)}> <X size={18} /></div>
+              <div className="flex flex-col gap-3">
+                <h5 className="text-lg font-bold">Terms and Conditions</h5>
+                <div className="flex flex-col gap-5">
+                  <p>Terms and conditions (T&Cs) for an online account are a legally binding contract outlining service rules, user
+                    responsibilities, and company policies for using a website, app, or service. To sign up, you typically must
+                    acknowledge these T&Cs, often by checking a box, which signifies your agreement. Key aspects include user
+                    conduct, content use, intellectual property, account security, liability limitations, and data privacy, all designed to
+                    protect both the user and the service provider.</p>
+
+                  <div>
+                    <h5 className="font-semibold"> What are Terms and Conditions?</h5>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                      <li>
+                        <span className="font-medium">A Contract: </span> T&Cs are a legally binding contract between the service provider and the user, clarifying the
+                        conditions for using the online account and its associated services.
+                      </li>
+                      <li>
+                        <span className="font-medium">Rules and Expectations: </span> They set the rules for user behavior, service usage, and interaction with others
+                        on the platform.
+                      </li>
+                      <li>
+                        <span className="font-medium"> Protective Document: </span> T&Cs protect both the company's content from copyright infringement and the
+                        company from potential liabilities, like service malfunctions or misuse of content
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-semibold"> What You Need to Know When Signing Up</h5>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                      <li>
+                        <span className="font-medium">Read and Understand: </span> Even though you must agree to them, it is your responsibility to understand the
+                        terms of service before you sign up for an online account.
+                      </li>
+                      <li>
+                        <span className="font-medium">Legal Agreement: </span> Your agreement to the T&Cs, often indicated by clicking an "agree" button or checking
+                        a box, is a legal acknowledgment that you will abide by the outlined terms.
+                      </li>
+                      <li>
+                        <span className="font-medium">No Physical Signature Needed: </span> For online accounts, your agreement is given electronically, creating a
+                        legally binding agreement without a physical signature, as confirmed in the SBI E-Signature and Electronic
+                        Disclosure Agreement.
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-semibold"> Key Components Typically Found in Terms and Conditions</h5>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                      <li>
+                        <span className="font-medium">ReUser Conduct : </span> Rules governing how users must behave on the platform.
+                      </li>
+                      <li>
+                        <span className="font-medium">Content and Copyright: </span> Guidelines on how users can and cannot use the content provided by the service.
+                      </li>
+                      <li>
+                        <span className="font-medium">Account Security: </span> Responsibilities to keep your account secure, such as using strong passwords and not
+                        sharing them.
+                      </li>
+                      <li>
+                        <span className="font-medium">Liability Limitations: </span> Clauses that limit the service provider's liability in certain situations, such as
+                        malfunctions or unauthorized access.
+                      </li>
+                      <li>
+                        <span className="font-medium">Account Suspension/Cancellation: </span> Rules and procedures for suspending or canceling an account if terms
+                        are violated.
+                      </li>
+                      <li>
+                        <span className="font-medium">Privacy Policy: </span> Information on how your personal data is collected, used, and protected.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </>
+      }
+    </>
   );
 };
 
