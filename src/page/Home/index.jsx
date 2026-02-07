@@ -83,6 +83,30 @@ const Home = () => {
     <>
       <div className="h-[540px] xl:h-[650px]">
         <div className='bg-[url("/assets/home/main-bg.jpg")] bg-cover bg-center h-[440px] xl:h-[550px] w-full relative'>
+        <div className="hidden sm:block absolute left-1/2 top-10 md:top-16 xl:top-32 -translate-x-1/2 text-center text-white px-4">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl font-semibold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+              Commercial Spaces Made Simple. Transparent. Direct.
+            </h1>
+            <p className="mt-3 text-sm md:text-base xl:text-lg max-w-[880px] mx-auto opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
+              Discover verified commercial properties for rent or sale — directly
+              from owners, tenants, and trusted agents. No inflated quotes. No
+              endless calls. Just quick, clean, real deals.
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button
+                className="text-white bg-orange rounded-md text-base md:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[180px]"
+                // onClick={() => navigate("/search-property")}
+              >
+                Search Properties
+              </Button>
+              <Button
+                className="text-orange bg-white border border-orange rounded-md text-base md:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[200px] text-nowrap"
+                // onClick={() => navigate("/list-property")}
+              >
+                List Your Property Free
+              </Button>
+            </div>
+          </div>
           <Card cardClassName="bg-white rounded-2xl shadow-[-5px_0px_20px_0px_#00000040] absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-[12%] md:translate-y-[60%] xl:translate-y-[97%] md:max-w-[900px] w-[90%] z-40">
             <Tabs
               defaultActive="Buy"
