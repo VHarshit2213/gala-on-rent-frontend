@@ -61,3 +61,9 @@ export const TypeOfProperty = [
   // { id: "commercial office", value: "commercial office" },
   { id: "commercial office", value: "Office" },
 ];
+
+// state with city for signup
+export const stateCityData = {
+  GUJARAT: ["GANDHINAGAR", "AHMEDABAD", "NADIAD", "ANAND", "VADODRA", "BHARUCH", "ANKLESHWAR", "SURAT", "NAVSARI", "VALSAD", "VAPI", "SILVASSA", "DAMAN", "UMARGAM", "SANAND", "VIRAMGAM", "MORBI", "RAJKOT", "JAMNAGAR", "JUNAGADH", "BHAVNAGAR", "DHOLERA", "BHUJ"],
+  MAHARASHTRA: ["DAHANU", "PALGHAR", "VIRAR", "NALASOPARA", "VASAI", "BHAYANDAR", "BORIVALI", "ANDHERI", "BANDRA", "DADAR", "MUMBAI CENTRAL", "CHURCHGATE", "NAVI MUMBAI", "THANE", "BHIWANDI", "KALYAN", "PADGHA", "SHAHAPUR", "NASHIK", "PUNE", "SATARA", "KOLHAPUR", "SOLAPUR", "NAGPUR"]
+};

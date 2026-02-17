@@ -45,7 +45,8 @@ const Landing = () => {
                   navigate("/signup")}}>
                 SELL YOUR COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
-              <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[13px] md:text-[15px] py-[12px] px-[20px] xsm:px-[29px] tracking-wide bg-[#D04F4D] cursor-pointer">
+              <p className="text-white rounded-b-[7px] rounded-r-[7px] font-bold text-[13px] md:text-[15px] py-[12px] px-[20px] xsm:px-[29px] tracking-wide bg-[#D04F4D] cursor-pointer"
+                onClick={() => navigate("/home")}>
                 BUY ANY COMMERCIAL PROPERTY / OFFICE / SHOP
               </p>
             </div>

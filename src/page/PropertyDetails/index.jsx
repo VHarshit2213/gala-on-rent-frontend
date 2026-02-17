@@ -189,7 +189,7 @@ const PropertyDetails = () => {
     validationSchema: contactValidationSchema,
     onSubmit: (values) => {
       const message = `Name: ${values.name}%0APhone number: ${values.phone}%0AEmail: ${values.email}%0AProperty Link: ${pageUrl}`;
-      const phoneNumber = User_data?.Phone_number;
+      const phoneNumber = User_data?.Phone_number || User_data?.phone_number ;
       const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
       window.open(url, "_blank");
     },
@@ -471,7 +471,7 @@ const PropertyDetails = () => {
                           2699 Green Valley, Highland Lake, FL
                         </p> */}
                           <p className="text-xs font-semibold">
-                            {User_data?.Phone_number}
+                            {User_data?.Phone_number || User_data?.phone_number }
                           </p>
                         </div>
                       </div>

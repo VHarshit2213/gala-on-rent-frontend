@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card, CardBody, Select, ThemeButton } from "../../components/common";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
@@ -11,20 +10,21 @@ import { resetUserData } from "../../reducer/auth/redux";
 import RegisterInfo from "./RegisterInfo";
 import { fetchSignUp } from "../../reducer/auth/thunk";
 import Cookies from "js-cookie";
+import { stateCityData } from "../../constants/constant";
 
 const ValidationSchema = () =>
   Yup.object().shape({
     person_name: Yup.string().required("Full Name is required"),
     Property_belongsto: Yup.string().required("Please select one option"),
+    state: Yup.string().required("Please select a state"),
     city: Yup.string().required("Please select a city"),
     email: Yup.string().email("Invalid email").required("email is required"),
     user_name: Yup.string()
       .matches(/^[a-zA-Z0-9@_-]+$/, "Only letters, numbers, @, _ and - are allowed. No spaces or special characters.")
       .required("User Name is required"),
     password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .max(8, "Password must be 8 characters")
-      // .matches(/^\S{8,}$/, "Password must be at least 8 characters")
+      .min(4, "Minimum 4 characters required")
+      .matches(/^[a-zA-Z0-9]+$/, "Only letters and numbers are allowed")
       .required("Password is required"),
     phone_number: Yup.string()
       .required("Phone number is required")
@@ -41,18 +41,15 @@ const ValidationSchema = () =>
       ),
   });
 
-  const options = [
-  { id: "MUMBAI", value: "MUMBAI" },
-  { id: "PUNE", value: "PUNE" },
-  { id: "THANE", value: "THANE" },
-  { id: "NAGPUR", value: "NAGPUR" },
-];
+const stateOptions = Object.keys(stateCityData).map((state) => ({
+  id: state,
+  value: state,
+}));
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const propertyType = useSelector((state) => state.propertyType.type);
   const navigate = useNavigate();
-  const [select, setSelected] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -62,6 +59,7 @@ const SignUp = () => {
       phone_number: "",
       password : "",
       Property_belongsto: "",
+      state: "",
       city: "",
       user_type : propertyType ,
     },
@@ -120,7 +118,7 @@ const SignUp = () => {
                   <form className="grid grid-cols-2 gap-3 mt-5" onSubmit={formik.handleSubmit}>
                     <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                       <label htmlFor="fullName" className="font-medium text-base">
-                        Full Name
+                        Full Name <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -135,10 +133,15 @@ const SignUp = () => {
                           : "border-gray-300"
                           }`}
                       />
+                      {formik.touched.person_name && formik.errors.person_name && (
+                        <p className="text-red-500 text-xs xsm:text-sm">
+                          {formik.errors.person_name}
+                        </p>
+                      )}
                     </div>
                     <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                       <label htmlFor="email" className="font-medium">
-                        Email Id
+                        Email Id <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -153,10 +156,15 @@ const SignUp = () => {
                           : "border-gray-300"
                           }`}
                       />
+                      {formik.touched.email && formik.errors.email && (
+                        <p className="text-red-500 text-xs xsm:text-sm">
+                          {formik.errors.email}
+                        </p>
+                      )}
                     </div>
-                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                    <div className="flex flex-col gap-1 col-span-2">
                       <label htmlFor="user_name" className="font-medium text-base">
-                        User Name
+                        User Name <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -179,15 +187,54 @@ const SignUp = () => {
                       )}
                     </div>
                     <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
-                      <label className="font-medium">Select City</label>
+                      <label className="font-medium">Select State <span className="text-red-400">*</span></label>
                       <Select
+                        options={stateOptions}
+                        value={
+                          formik.values.state
+                            ? { id: formik.values.state, value: formik.values.state }
+                            : null
+                        }
+                        defaultText="Select State"
                         onChange={(val) => {
-                          setSelected(val);
+                          formik.setFieldValue("state", val?.value || "");
+                          formik.setFieldValue("city", "");
+                        }}
+                        onBlur={() => formik.setFieldTouched("state", true)}
+                        listBoxClass="w-full"
+                        listButtonClass="md:!text-xl text-sm"
+                        className={`border rounded-lg p-[2px] ${formik.touched.state && formik.errors.state
+                            ? "border-red-500"
+                            : "border-gray-300"
+                          }`}
+                        textClass="text-[14px]"
+                      />
+                      {formik.touched.state && formik.errors.state && (
+                        <p className="text-red-500 text-sm">{formik.errors.state}</p>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+                      <label className="font-medium">Select City <span className="text-red-400">*</span></label>
+                      <Select
+                        options={
+                          formik.values.state
+                            ? stateCityData[formik.values.state]?.map((city) => ({
+                              id: city,
+                              value: city,
+                            }))
+                            : []
+                        }
+                        value={
+                          formik.values.city
+                            ? { id: formik.values.city, value: formik.values.city }
+                            : null
+                        }
+                        defaultText="Select City"
+                        onChange={(val) => {
                           formik.setFieldValue("city", val?.value || "");
                         }}
-                        value={select}
-                        defaultText="Select City"
-                        options={options}
+                        onBlur={() => formik.setFieldTouched("city", true)}
+                        disabled={!formik.values.state}
                         listBoxClass="w-full"
                         listButtonClass="md:!text-xl text-sm"
                         className={`border rounded-lg p-[2px] ${formik.touched.city && formik.errors.city
@@ -195,12 +242,14 @@ const SignUp = () => {
                           : "border-gray-300"
                           }`}
                         textClass="text-[14px]"
-                        onBlur={() => formik.setFieldTouched("city", true)}
                       />
+                      {formik.touched.city && formik.errors.city && (
+                        <p className="text-red-500 text-sm">{formik.errors.city}</p>
+                      )}
                     </div>
                     <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                       <label htmlFor="password" className="font-medium">
-                        Password
+                        Password <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -224,7 +273,7 @@ const SignUp = () => {
                     </div>
                     <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
                         <label htmlFor="phone_number" className="font-medium text-base">
-                        Phone No.
+                        Phone No. <span className="text-red-400">*</span>
                       </label>
                       <PhoneInput
                         defaultCountry="in"
@@ -233,7 +282,10 @@ const SignUp = () => {
                           formik.setFieldValue("phone_number", phone);
                         }}
                         onBlur={() => formik.setFieldTouched("phone_number", true)}
-                        className="w-full border border-gray-300 text-sm rounded-md"
+                         className={`w-full px-3 py-[0.5px] border text-sm rounded-md ${formik.touched.password && formik.errors.password
+                          ? "border-red-500"
+                          : "border-gray-300"
+                          }`}
                         inputClassName="!border-b-0"
                       />
                       {formik.touched.phone_number && formik.errors.phone_number && (
@@ -244,7 +296,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="flex flex-col gap-y-2 col-span-2">
-                      <label className="font-medium">Property Belongs To</label>
+                      <label className="font-medium">Property Belongs To <span className="text-red-400">*</span></label>
                       <div className="flex flex-wrap items-center gap-4">
                         {["My Self", "I Am Agent", "Family", "Friends"].map(
                           (label) => (
