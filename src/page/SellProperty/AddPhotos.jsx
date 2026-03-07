@@ -21,7 +21,10 @@ const imageValidationSchema = (hasExistingImages) =>
       : Yup.array()
         .min(1, "Please upload at least 1 photo.")
         .max(10, "You can upload up to 10 photos only."),
-    isAcceptTermsCondition: Yup.boolean()
+    isAcceptTermsCondition: Yup.boolean().oneOf(
+      [true],
+      "Please accept the terms and conditions."
+    ),
   });
 
 const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
@@ -251,18 +254,27 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         )}
       </div>
 
-      <div className="flex gap-2">
-        <input
-          type="checkbox"
-          checked={formik.values.isAcceptTermsCondition}
-          className="accent-orange w-full max-w-4 h-5"
-          onClick={(event) => formik.setFieldValue("isAcceptTermsCondition", event.target.checked)}
-        />
-        <p className="leading-5 font-semibold underline decoration-solid text-blue-600 cursor-pointer" onClick={() => setIsTermsAndConditionsOpen(!isTermsAndConditionsOpen)}>
-          I accept the terms and conditions*
-        </p>
-      </div>
-
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <input
+              type="checkbox"
+              checked={formik.values.isAcceptTermsCondition}
+              className="accent-orange w-full max-w-4 h-5"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="isAcceptTermsCondition"
+            />
+            <p className="leading-5 font-semibold underline decoration-solid text-blue-600 cursor-pointer" onClick={() => setIsTermsAndConditionsOpen(!isTermsAndConditionsOpen)}>
+              I accept the terms and conditions*
+            </p>
+          </div>
+          {formik.touched.isAcceptTermsCondition &&
+            formik.errors.isAcceptTermsCondition && (
+              <p className="text-red-500 text-sm font-medium">
+                {formik.errors.isAcceptTermsCondition}
+              </p>
+            )}
+        </div>
       <ThemeButton
         title={
           formik.isSubmitting
@@ -274,11 +286,11 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         className={`!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base 
         `}
         style={{
-          cursor: formik.values.isAcceptTermsCondition ? "pointer" : "not-allowed",
+          cursor: formik.isSubmitting || !formik.isValid || !formik.dirty ? "not-allowed" : "pointer",
         }}
         titleClass="!capitalize"
         type="submit"
-        disabled={formik.isSubmitting || !formik.values.isAcceptTermsCondition}
+        disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
       />
     </form>
 

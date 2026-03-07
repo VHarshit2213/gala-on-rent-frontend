@@ -26,11 +26,18 @@ const amenities = [
 const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
   const dispatch = useDispatch();
   const { Amenities } = getProperty || [];
+  const normalizedAmenities = Array.isArray(Amenities)
+    ? Amenities
+    : typeof Amenities === "string"
+    ? Amenities.split(",").map((item) => item.trim()).filter(Boolean)
+    : [];
 
   const formik = useFormik({
     enableReinitialize: true,
+    validateOnChange: true,
+    validateOnBlur: true,
     initialValues: {
-      Amenities: (getProperty && Amenities) || [],
+      Amenities: (getProperty && normalizedAmenities) || [],
     },
     validationSchema: Yup.object({
       Amenities: Yup.array().min(1, "Please select at least one amenity."),
@@ -49,10 +56,10 @@ const AddAmenities = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         selected.filter((amenity) => amenity !== id)
       );
     } else {
-      formik.setFieldValue("Amenities", [...selected, id]);
+      formik.setFieldValue("Amenities", [...selected, id], true);
     }
     if (!formik.touched.Amenities) {
-      formik.setFieldTouched("Amenities", true);
+      formik.setFieldTouched("Amenities", true, false);
     }
   };
 

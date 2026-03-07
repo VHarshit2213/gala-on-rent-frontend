@@ -69,7 +69,7 @@ export const Select = ({
 }) => {
     return (
         <div className={`w-full ${className}`}>
-            {label && <label className="block mb-1 text-sm font-medium text-gray-700">{label}</label>}
+            {label && <label className="block mb-1 text-sm">{label}</label>}
             <Listbox value={value} onChange={onChange}>
                 {({ open }) => (
                         <div className={`${listBoxClass} relative mt-1`}>

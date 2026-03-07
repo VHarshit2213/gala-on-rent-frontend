@@ -51,7 +51,7 @@ const AddPriceDetails = ({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="Expected Rent"
-            className={`p-2 border rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+            className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${
               formik.touched.Financials && formik.errors.Financials
                 ? "border-red-500"
                 : "border-gray-300"

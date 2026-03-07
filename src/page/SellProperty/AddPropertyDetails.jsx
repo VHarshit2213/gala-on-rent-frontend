@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { appendPropertyDetails } from "../../reducer/propertyDetails/redux";
-import { cityAreaData, TypeOfProperty } from "../../constants/constant";
+import { cityAreaData, stateCityData, TypeOfProperty } from "../../constants/constant";
 
 // if change or add carpetAreaUnits value also change or add areaUnits variable value
 const carpetAreaUnits = [
@@ -144,17 +144,19 @@ const AddPropertyDetails = ({
     },
   });
 
-  const cityOptions = Object.keys(cityAreaData).map((city) => ({
+  const allCities = Object.values(stateCityData).flat();
+
+  const cityOptions = allCities.map((city) => ({
     id: city,
     value: city,
   }));
 
-  const areaOptions = formik.values.city
-    ? cityAreaData[formik.values.city].map((area) => ({
-        id: area,
-        value: area,
-      }))
-    : [];
+  // const areaOptions = formik.values.city
+  //   ? cityAreaData[formik.values.city].map((area) => ({
+  //       id: area,
+  //       value: area,
+  //     }))
+  //   : [];
 
   return (
     <div>
@@ -182,7 +184,7 @@ const AddPropertyDetails = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="Building Name / Plot No, Floor, Road, Area, Landmark"
-                className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+                className={`p-2.5 border border-gray rounded-lg w-full placeholder:text-sm text-sm ${
                   formik.touched.address && formik.errors.address
                     ? "border-red-500"
                     : "border-gray-300"
@@ -194,7 +196,6 @@ const AddPropertyDetails = ({
               <Select
                 onChange={(val) => {
                   formik.setFieldValue("city", val?.value || "");
-                  formik.setFieldValue("popularArea", "");
                 }}
                 value={cityOptions.find(
                   (opt) => opt.value === formik.values.city
@@ -215,24 +216,17 @@ const AddPropertyDetails = ({
               <label className="text-sm lg:text-base font-medium">
                 Popular Area Name *
               </label>
-              <Select
-                onChange={(val) =>
-                  formik.setFieldValue("popularArea", val?.value || "")
-                }
-                value={areaOptions.find(
-                  (opt) => opt.value === formik.values.popularArea
-                )}
-                defaultText="select popular area"
-                options={areaOptions}
-                disabled={!formik.values.city}
-                listBoxClass="w-full"
-                listButtonClass="md:!text-xl text-sm"
-                className={`border rounded-lg p-[2px] ${
-                  formik.touched.popularArea && formik.errors.popularArea
+              <input
+                type="text"
+                name="popularArea"
+                placeholder="Enter popular area"
+                value={formik.values.popularArea}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${formik.touched.popularArea && formik.errors.popularArea
                     ? "border-red-500"
                     : "border-gray-300"
-                }`}
-                textClass="text-[14px]"
+                  }`}
               />
             </div>
             <div className="flex flex-col gap-y-1">
@@ -247,7 +241,7 @@ const AddPropertyDetails = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="Enter Pincode"
-                className={`p-2 border border-gray rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+                className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${
                   formik.touched.pincode && formik.errors.pincode
                     ? "border-red-500"
                     : "border-gray-300"
@@ -311,7 +305,7 @@ const AddPropertyDetails = ({
       value={formik.values.carpetArea}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      className={`p-2 border rounded-lg w-full sm:w-1/2 lg:w-full placeholder:text-gray placeholder:text-xs ${
+      className={`p-2.5 border rounded-lg w-full sm:w-1/2 lg:w-full placeholder:text-sm text-sm ${
         formik.touched.carpetArea && formik.errors.carpetArea
           ? "border-red-500"
           : "border-gray-300"
@@ -326,7 +320,7 @@ const AddPropertyDetails = ({
           value={formik.values.otherAreaUnit || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className={`p-2 border rounded-lg w-full placeholder:text-gray placeholder:text-xs ${
+          className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${
             formik.touched.otherAreaUnit && formik.errors.otherAreaUnit
               ? "border-red-500"
               : "border-gray-300"
@@ -348,7 +342,7 @@ const AddPropertyDetails = ({
             ? "border-red-500"
             : "border-gray-300"
         }`}
-        textClass="text-[14px]"
+        textClass="text-[14px] text-black"
       />
 
       
@@ -376,7 +370,7 @@ const AddPropertyDetails = ({
                       ? "border-red-500"
                       : "border-gray-300"
                   }`}
-                  textClass="text-[14px]"
+                  textClass="text-[14px] text-black"
                 />
               </div>
           <div className="flex flex-col gap-y-1">
@@ -390,7 +384,7 @@ const AddPropertyDetails = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values?.otherArea}
-              className={`p-2 border border-gray rounded-lg w-full ${
+              className={`p-2.5 border border-gray rounded-lg w-full placeholder:text-sm text-sm ${
                 formik.touched.otherArea && formik.errors.otherArea
                   ? "border-red-500"
                   : "border-gray-300"
@@ -418,7 +412,7 @@ const AddPropertyDetails = ({
                   ? "border-red-500"
                   : "border-gray-300"
               }`}
-              textClass="text-[14px]"
+              textClass="text-[14px] text-black"
             />
           </div>
           <div className="flex flex-col gap-y-1">
@@ -432,7 +426,7 @@ const AddPropertyDetails = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values?.availableFrom}
-              className={`p-2 border border-gray rounded-lg w-full ${
+              className={`p-2.5 border border-gray rounded-lg w-full placeholder:text-sm text-sm ${
                 formik.touched.availableFrom && formik.errors.availableFrom
                   ? "border-red-500"
                   : "border-gray-300"
@@ -462,7 +456,7 @@ const AddPropertyDetails = ({
                     value={item}
                     checked={formik.values.suitableFor.includes(item)}
                     onChange={formik.handleChange}
-                    className="w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
+                    className="accent-orange w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
                   />
                   <label
                     htmlFor={`propertySuitableFor-${item}`}
@@ -518,7 +512,7 @@ const AddPropertyDetails = ({
               value={formik.values.hp}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`p-2 border rounded-lg w-full ${
+              className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${
                 formik.touched.hp && formik.errors.hp
                   ? "border-red-500"
                   : "border-gray-300"
@@ -546,7 +540,7 @@ const AddPropertyDetails = ({
                     checked={formik.values.waterSupply.includes(item)}
                     onChange={formik.handleChange}
                     id={`propertySuitableFor-${item}`}
-                    className="w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
+                    className="accent-orange w-5 h-5 lg:w-7 lg:h-7 rounded-xl"
                   />
                   <label
                     htmlFor={`propertySuitableFor-${item}`}
@@ -574,7 +568,7 @@ const AddPropertyDetails = ({
               max={3}
               onChange={formik.handleChange}
               value={formik.values.washrooms}
-              className={`p-2 border rounded-lg w-full ${
+              className={`p-2.5 border rounded-lg w-full placeholder:text-sm text-sm ${
                 formik.touched.washrooms && formik.errors.washrooms
                   ? "border-red-500"
                   : "border-gray-300"
@@ -593,7 +587,7 @@ const AddPropertyDetails = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values?.about}
-              className={`p-2 border border-gray rounded-lg w-full ${
+              className={`p-2.5 border border-gray rounded-lg w-full placeholder:text-sm text-sm ${
                 formik.touched.about && formik.errors.about
                   ? "border-red-500"
                   : "border-gray-300"

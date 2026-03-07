@@ -135,6 +135,7 @@ const Home = () => {
                         options={cityOptions}
                         listBoxClass="md:max-w-fit w-full"
                         listButtonClass="md:!text-xl text-sm"
+                        textClass="text-black"
                       />
                       {formik.touched.city && formik.errors.city && (
                         <div className="text-red-500 text-sm pl-3">
@@ -165,6 +166,7 @@ const Home = () => {
                           options={areaOptions}
                           listBoxClass="w-full"
                           listButtonClass="md:!text-xl text-sm"
+                          textClass="text-black"
                         />
                         {formik.touched.popularArea &&
                           formik.errors.popularArea && (

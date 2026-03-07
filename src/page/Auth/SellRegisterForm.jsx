@@ -173,7 +173,7 @@ const SellRegisterForm = () => {
                         ? "border-red-500"
                         : "border-gray-300"
                     }`}
-                    textClass="text-[14px]"
+                    textClass="text-[14px] text-black"
                     onBlur={() => formik.setFieldTouched("city", true)}
                   />
                 </div>

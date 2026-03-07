@@ -207,7 +207,7 @@ const SignUp = () => {
                             ? "border-red-500"
                             : "border-gray-300"
                           }`}
-                        textClass="text-[14px]"
+                        textClass="text-[14px] text-black"
                       />
                       {formik.touched.state && formik.errors.state && (
                         <p className="text-red-500 text-sm">{formik.errors.state}</p>
@@ -241,7 +241,7 @@ const SignUp = () => {
                           ? "border-red-500"
                           : "border-gray-300"
                           }`}
-                        textClass="text-[14px]"
+                        textClass="text-[14px] text-black"
                       />
                       {formik.touched.city && formik.errors.city && (
                         <p className="text-red-500 text-sm">{formik.errors.city}</p>
