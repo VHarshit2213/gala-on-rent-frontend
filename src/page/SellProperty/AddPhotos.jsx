@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { X } from 'lucide-react';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
+const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 
 const imageValidationSchema = (hasExistingImages) =>
   Yup.object({
@@ -20,7 +21,12 @@ const imageValidationSchema = (hasExistingImages) =>
       ? Yup.array().max(10, "You can upload up to 10 photos only.")
       : Yup.array()
         .min(1, "Please upload at least 1 photo.")
-        .max(10, "You can upload up to 10 photos only."),
+        .max(10, "You can upload up to 10 photos only.")
+        .test(
+          "fileSize",
+          "Image must be 10MB or smaller",
+          (files) => files ? files.every((file) => file.size <= MAX_IMAGE_SIZE_BYTES) : false
+        ),
     isAcceptTermsCondition: Yup.boolean().oneOf(
       [true],
       "Please accept the terms and conditions."
@@ -43,17 +49,30 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
-      const mappedFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
+      const totalFiles = files.length + acceptedFiles.length;
+
+      if (totalFiles > 10) {
+        toast.error("You can upload up to 10 photos only.");
+      }
+
+      const validFiles = acceptedFiles.map(file =>
+        Object.assign(file, { preview: URL.createObjectURL(file) })
       );
-      const combinedFiles = [...files, ...mappedFiles].slice(0, 10);
+
+      const combinedFiles = [...files, ...validFiles].slice(0, 10);
 
       setFiles(combinedFiles);
       formik.setFieldValue("image", combinedFiles);
     },
+    onDropRejected: (rejectedFiles) => {
+      rejectedFiles.forEach(file => {
+        if (file.file.size > MAX_IMAGE_SIZE_BYTES) {
+          toast.error("Image must be 10MB or smaller");
+        }
+      });
+    },
     maxFiles: 10,
+    maxSize: MAX_IMAGE_SIZE_BYTES,
   });
 
   const handleDeleteImage = (indexToDelete) => {
@@ -63,11 +82,21 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
     const updatedFiles = files.filter((_, idx) => idx !== indexToDelete);
     setFiles(updatedFiles);
     formik.setFieldValue("image", updatedFiles);
+
+    formik.setFieldTouched("image", true, true); 
   };
 
   const handleReplaceImage = (e, indexToReplace) => {
     const newFile = e.target.files[0];
     if (!newFile) return;
+
+    if (newFile.size > MAX_IMAGE_SIZE_BYTES) {
+      toast.error("Image must be 10MB or smaller");
+      // Reset input value so same file can trigger change again
+      e.target.value = null;
+
+      return;
+    }
 
     // Clean up old preview URL
     URL.revokeObjectURL(files[indexToReplace]?.preview);
@@ -285,9 +314,6 @@ const AddPhotos = ({ activeTab, setActiveTab, getProperty, propertyId }) => {
         }
         className={`!max-w-full !justify-center !text-xs xsm:!text-sm lg:!text-base 
         `}
-        style={{
-          cursor: formik.isSubmitting || !formik.isValid || !formik.dirty ? "not-allowed" : "pointer",
-        }}
         titleClass="!capitalize"
         type="submit"
         disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}

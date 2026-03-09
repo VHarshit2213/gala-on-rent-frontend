@@ -6,15 +6,18 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export const ThemeButton = ({ className,titleClass, title, icon, children, type="button",...rest }) => {
+export const ThemeButton = ({ className,titleClass, title, icon, children, type="button",disabled = false,...rest }) => {
     return (
       <Button
-        className={`uppercase ${titleClass} ${className} group bg-orange hover:bg-dark hover:border-dark text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0 cursor-pointer text-sm xsm:text-base`}
+        className={`uppercase ${titleClass} ${className} group text-white rounded-full px-3 py-2 w-full max-w-fit gap-3 flex justify-between items-center text-center mx-auto border-0  text-sm xsm:text-base ${disabled ? "bg-orange/50 cursor-not-allowed hover:bg-orange/50 hover:border-orange/50" : "bg-orange cursor-pointer hover:bg-dark hover:border-dark"}`}
         type={type}
+        disabled={disabled}
+        aria-disabled={disabled}
         {...rest}
       >
         {title}
-        <div className="p-1 xsm:p-2 rounded-full border border-orange text-orange bg-white transition-all duration-300 group-hover:border-dark group-hover:text-dark">
+        <div className={`p-1 xsm:p-2 rounded-full border bg-white transition-all duration-300 ${disabled ? "border-orange/50 text-orange/50" : "border-orange text-orange group-hover:border-dark group-hover:text-dark"}
+      `}>
           {icon ? icon : <GrLinkNext />}
         </div>
       </Button>

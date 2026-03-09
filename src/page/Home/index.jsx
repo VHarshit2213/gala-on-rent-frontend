@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoClose, IoSearchOutline } from "react-icons/io5";
 import {
   Card,
   Tabs,
@@ -23,11 +23,147 @@ import {
   fetchAllProperties,
   fetchFilteredProperties,
 } from "../../reducer/properties/thunk";
+import ReactSelect from "react-select";
+
+const customSelectStyles = {
+  control: (base, state) => ({
+    ...base,
+    border: "none",
+    boxShadow: "none",
+    backgroundColor: "white",
+    padding: "4px 0",
+    fontSize: "20px",
+    cursor: "pointer",
+  }),
+
+  placeholder: (base) => ({
+    ...base,
+    color: "#6b7280",
+    fontSize: "20px",
+  }),
+
+  menu: (base) => ({
+    ...base,
+    borderRadius: "6px",
+    border: "1px solid #d1d5db",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+    zIndex: 50,
+  }),
+
+  menuList: (base) => ({
+    ...base,
+    maxHeight: "300px",
+    overflowY: "auto",
+    padding: "4px",
+  }),
+
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isFocused ? "#6366f1" : "white",
+    color: state.isFocused ? "white" : "#4b5563",
+    fontSize: "14px",
+    padding: "8px 12px",
+    cursor: "pointer",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "#111827",
+  }),
+  input: (base) => ({
+    ...base,
+    color: "#111827",
+  }),
+
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#9ca3af",
+  }),
+};
 
 const searchValidationSchema = Yup.object({
   city: Yup.string().required("please select City."),
   popularArea: Yup.string().required("please select Area/Locality."),
 });
+
+// property code model
+const CodeModal = ({ show, onClose, onSubmit }) => {
+  const [enteredCode, setEnteredCode] = useState("");
+
+  const handleSearch = () => {
+    if (enteredCode.trim() !== "") {
+      onSubmit(enteredCode.trim());
+    }
+  };
+
+  const handleEnterPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  useEffect(() => {
+    if (!show) setEnteredCode("");
+
+    if (show) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [show]);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-80 backdrop-blur-sm">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-125">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold">Enter Code</h2>
+          <button
+            onClick={onClose}
+            aria-label="Close modal"
+            className="text-gray-500 hover:text-gray-700 focus:outline-none"
+          >
+            <IoClose size={24} />
+          </button>
+        </div>
+        <input
+          type="text"
+          value={enteredCode}
+          onChange={(e) => setEnteredCode(e.target.value)}
+          onKeyDown={handleEnterPress}
+          placeholder="Enter code here"
+          className="w-full max-w-md border border-gray-300 rounded-md px-4 py-2 mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+        />
+        <div className="flex justify-end gap-4">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 rounded-md border border-gray-300 text-lg cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSearch}
+            disabled={enteredCode.trim() === ""}
+            className={`px-4 py-1 rounded-md transition ${enteredCode.trim() === ""
+              ? "bg-orange/50 text-white cursor-not-allowed"
+              : "bg-orange text-white hover:bg-dark cursor-pointer"
+              }`}
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -35,6 +171,7 @@ const Home = () => {
   const { allProperty, loading } = useSelector((state) => state.property);
 
   const [activeTab, setActiveTab] = useState("Buy");
+  const [showCodeModal, setShowCodeModal] = useState(false);
 
   const tabToPayloadMap = {
     Buy: "Sell",
@@ -62,18 +199,29 @@ const Home = () => {
   });
 
   const cityOptions = Object.keys(cityAreaData).map((city) => ({
-    id: city,
     value: city,
+    label: city,
   }));
 
   const areaOptions = formik.values.city
     ? cityAreaData[formik.values.city].map((area) => ({
-        id: area,
-        value: area,
-      }))
+      value: area,
+      label: area,
+    }))
     : [];
 
+  const selectedAreaOption =
+    areaOptions.find((opt) => opt.value === formik.values.popularArea) ||
+    (formik.values.popularArea
+      ? { label: formik.values.popularArea, value: formik.values.popularArea }
+      : null);
+
   const tabs = ["Buy", "Rent"];
+
+  const handleCodeSubmit = (code) => {
+    setShowCodeModal(false);
+    navigate(`/search-property?city=${"mumbai"}`);
+  };
 
   useEffect(() => {
     dispatch(fetchAllProperties());
@@ -94,14 +242,14 @@ const Home = () => {
             </p>
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button
-                className="text-white bg-orange rounded-md text-base md:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[180px]"
-                // onClick={() => navigate("/search-property")}
+                className="text-white bg-orange rounded-md text-base l:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[180px] cursor-pointer"
+                onClick={() => setShowCodeModal(true)}
               >
-                Search Properties
+                Search Properties via Code
               </Button>
               <Button
-                className="text-orange bg-white border border-orange rounded-md text-base md:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[200px] text-nowrap"
-                // onClick={() => navigate("/list-property")}
+                className="text-orange bg-white border border-orange rounded-md text-base l:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[200px] text-nowrap cursor-pointer"
+              onClick={() => navigate("/")}
               >
                 List Your Property Free
               </Button>
@@ -126,7 +274,7 @@ const Home = () => {
                       <Select
                         onChange={(val) => {
                           formik.setFieldValue("city", val?.value || "");
-                          formik.setFieldValue("area", "");
+                          // formik.setFieldValue("area", "");
                         }}
                         value={cityOptions.find(
                           (opt) => opt.value === formik.values.city
@@ -152,21 +300,24 @@ const Home = () => {
                         placeholder="Search for locality, landmark, project, or builder"
                         className="max-w-[420px] w-full text-md focus:outline-0"
                       /> */}
-                        <Select
-                          onChange={(val) =>
-                            formik.setFieldValue(
-                              "popularArea",
-                              val?.value || ""
-                            )
-                          }
-                          value={areaOptions.find(
-                            (opt) => opt.value === formik.values.popularArea
-                          )}
-                          defaultText="select Area / Locality"
+                        <ReactSelect
                           options={areaOptions}
-                          listBoxClass="w-full"
-                          listButtonClass="md:!text-xl text-sm"
-                          textClass="text-black"
+                          placeholder="Type or select Area / Locality"
+                          value={selectedAreaOption}
+                          onChange={(option) => {
+                            formik.setFieldValue("popularArea", option?.value || "");
+                          }}
+                          onInputChange={(input, meta) => {
+                            if (meta.action === "input-change") {
+                              formik.setFieldValue("popularArea", input);
+                            }
+                          }}
+                          onBlur={() => {
+                            formik.setFieldTouched("popularArea", true);
+                          }}
+                          isSearchable
+                          styles={customSelectStyles}
+                          className="w-full"
                         />
                         {formik.touched.popularArea &&
                           formik.errors.popularArea && (
@@ -290,6 +441,12 @@ const Home = () => {
           />
         </div>
       </div>
+
+      <CodeModal
+        show={showCodeModal}
+        onClose={() => setShowCodeModal(false)}
+        onSubmit={handleCodeSubmit}
+      />
     </>
   );
 };
