@@ -27,7 +27,11 @@ const AddPriceDetails = ({
     },
     validationSchema: priceValidationSchema,
     onSubmit: (values) => {
-      dispatch(appendPropertyDetails(values));
+      const formattedValues = {
+        ...values,
+        Financials: Number(values.Financials.replace(/,/g, "")),
+      };
+      dispatch(appendPropertyDetails(formattedValues));
       setActiveTab(activeTab + 1);
     },
   });

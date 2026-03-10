@@ -12,7 +12,7 @@ const SellPropertySidebarHeader = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation();
   const path = location.pathname;
-  const userName = localStorage.getItem("username");  
+  const userName = localStorage.getItem("username") || "User";
     const [isUerModal,setIsUserModal] = useState(false)
   const isUserModalRef = useRef(null)
   const menu = [
@@ -35,7 +35,7 @@ const SellPropertySidebarHeader = ({ children }) => {
 
   // logout function
   const handleLogout = () => {
-    localStorage.removeItem("userDetails")
+    localStorage.removeItem("username")
     setIsUserModal(false);
     navigate("/login"); 
   } 

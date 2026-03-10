@@ -86,7 +86,7 @@ const customSelectStyles = {
 
 const searchValidationSchema = Yup.object({
   city: Yup.string().required("please select City."),
-  popularArea: Yup.string().required("please select Area/Locality."),
+  popularArea: Yup.string().required("please type or select Area/Locality."),
 });
 
 // property code model
@@ -293,7 +293,7 @@ const Home = () => {
                     </div>
                     <div className="md:border-r border-[#D9D9D9DD] md:h-20 mx-10"></div>
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between py-[30px] w-full">
-                      <div className="flex flex-col items-center text-base w-full">
+                      <div className="flex flex-col items-center text-base w-full relative">
                         {/* <IoSearchOutline size={25} /> */}
                         {/* <input
                         type="text"
@@ -321,7 +321,7 @@ const Home = () => {
                         />
                         {formik.touched.popularArea &&
                           formik.errors.popularArea && (
-                            <div className="pl-3 self-start text-red-500 text-sm">
+                            <div className="absolute left-3 -bottom-4 text-red-500 text-sm">
                               {formik.errors.popularArea}
                             </div>
                           )}

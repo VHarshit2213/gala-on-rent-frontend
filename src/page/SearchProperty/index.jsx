@@ -183,9 +183,9 @@ const SearchProperty = () => {
             </div>
             <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
               <div className="flex flex-col gap-1">
-                <p className="text-sm font-normal text-[#747474]">
+                {/* <p className="text-sm font-normal text-[#747474]">
                   Showing 1 - 30 of 427
-                </p>
+                </p> */}
                 <p className="text-sm md:text-base lg:text-lg font-medium text-[#222222] capitalize">
                   Property
                   {lookingTo && ` for ${lookingTo}`}
