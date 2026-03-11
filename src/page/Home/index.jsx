@@ -122,10 +122,10 @@ const CodeModal = ({ show, onClose, onSubmit }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-80 backdrop-blur-sm">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-125">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">Enter Code</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-80 backdrop-blur-sm px-4">
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-125">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Enter Code</h2>
           <button
             onClick={onClose}
             aria-label="Close modal"
@@ -140,19 +140,19 @@ const CodeModal = ({ show, onClose, onSubmit }) => {
           onChange={(e) => setEnteredCode(e.target.value)}
           onKeyDown={handleEnterPress}
           placeholder="Enter code here"
-          className="w-full max-w-md border border-gray-300 rounded-md px-4 py-2 mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="w-full max-w-md border border-gray-300 rounded-md px-3 sm:px-4 py-2 mb-4 sm:mb-6 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-3 sm:gap-4">
           <button
             onClick={onClose}
-            className="px-6 py-2 rounded-md border border-gray-300 text-lg cursor-pointer"
+            className="px-4 sm:px-6 py-2 rounded-md border border-gray-300 text-lg cursor-pointer"
           >
             Cancel
           </button>
           <button
             onClick={handleSearch}
             disabled={enteredCode.trim() === ""}
-            className={`px-4 py-1 rounded-md transition ${enteredCode.trim() === ""
+            className={`px-4 sm:px-5 py-1 rounded-md transition ${enteredCode.trim() === ""
               ? "bg-orange/50 text-white cursor-not-allowed"
               : "bg-orange text-white hover:bg-dark cursor-pointer"
               }`}
@@ -231,24 +231,24 @@ const Home = () => {
     <>
       <div className="h-[540px] xl:h-[650px]">
         <div className='bg-[url("/assets/home/main-bg.jpg")] bg-cover bg-center h-[440px] xl:h-[550px] w-full relative'>
-        <div className="hidden sm:block absolute left-1/2 top-10 md:top-16 xl:top-32 -translate-x-1/2 text-center text-white px-4">
-            <h1 className="text-2xl md:text-3xl xl:text-4xl font-semibold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+          <div className="absolute left-1/2 top-10 md:top-16 xl:top-32 -translate-x-1/2 text-center text-white px-4">
+            <h1 className="hidden sm:block text-2xl md:text-3xl xl:text-4xl font-semibold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
               Commercial Spaces Made Simple. Transparent. Direct.
             </h1>
-            <p className="mt-3 text-sm md:text-base xl:text-lg max-w-[880px] mx-auto opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
+            <p className="hidden sm:block mt-3 text-sm md:text-base xl:text-lg max-w-[880px] mx-auto opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
               Discover verified commercial properties for rent or sale — directly
               from owners, tenants, and trusted agents. No inflated quotes. No
               endless calls. Just quick, clean, real deals.
             </p>
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="mt-16 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button
-                className="text-white bg-orange rounded-md text-base l:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[180px] cursor-pointer"
+                className="text-white bg-orange rounded-md text-base lg:text-lg font-normal px-4 py-2 w-full sm:w-auto min-w-[230px] lg:min-w-[180px] cursor-pointer"
                 onClick={() => setShowCodeModal(true)}
               >
                 Search Properties via Code
               </Button>
               <Button
-                className="text-orange bg-white border border-orange rounded-md text-base l:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[200px] text-nowrap cursor-pointer"
+                className="text-orange bg-white border border-orange rounded-md text-base lg:text-lg font-normal px-5 py-2 w-full sm:w-auto min-w-[200px] text-nowrap cursor-pointer"
               onClick={() => navigate("/")}
               >
                 List Your Property Free
@@ -259,8 +259,8 @@ const Home = () => {
             <Tabs
               defaultActive="Buy"
               onChange={(tab) => setActiveTab(tab)}
-              tabClassName="flex gap-15 py-[24px] px-[26px] border-b border-[#D9D9D9DD]"
-              tabButton="font-normal text-xl text-[#939393] pb-2"
+              tabClassName="flex gap-15 py-[20px] md:py-[24px] px-[26px] border-b border-[#D9D9D9DD]"
+              tabButton="font-normal text-lg md:text-xl text-[#939393] pb-2"
               active="font-semibold !text-[#000000] border-b border-orange border-b-3"
               tabContent="px-[20px]"
             >
@@ -292,8 +292,8 @@ const Home = () => {
                       )}
                     </div>
                     <div className="md:border-r border-[#D9D9D9DD] md:h-20 mx-10"></div>
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between py-[30px] w-full">
-                      <div className="flex flex-col items-center text-base w-full relative">
+                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between py-[20px] md:py-[30px] w-full">
+                      <div className="flex flex-col items-center md:text-base w-full relative">
                         {/* <IoSearchOutline size={25} /> */}
                         {/* <input
                         type="text"
