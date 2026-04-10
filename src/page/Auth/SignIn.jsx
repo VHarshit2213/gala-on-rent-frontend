@@ -42,7 +42,7 @@ const SignIn = () => {
           expires.setTime(expires.getTime() + 7 * 60 * 60 * 1000);
           Cookies.set("accessToken", res.payload.data?.token, { expires });
         } else {
-          toast.error(res.payload.data?.message);
+          toast.error(res.payload.data?.message || "Failed to sign in");
         }
       });
     },
