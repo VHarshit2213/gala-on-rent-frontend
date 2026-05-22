@@ -197,9 +197,12 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     const paragraph = aboutRef.current;
-    if (paragraph.scrollHeight > paragraph.clientHeight) {
-      setShowToggleAbout(true);
+    if (!paragraph || !About_the_property?.trim()) {
+      setShowToggleAbout(false);
+      return;
     }
+
+    setShowToggleAbout(paragraph.scrollHeight > paragraph.clientHeight);
   }, [About_the_property, isExpandedAbout]);
 
   useEffect(() => {
@@ -308,39 +311,41 @@ const PropertyDetails = () => {
       </div>
       <div className="flex flex-col md:flex-row gap-3 px-4 xsm:px-10 l:px-30 xl:px-40 py-4.5 w-full bg-[#F8F8F8]">
         <div className="flex-1 lg:w-[62%] md:w-1/2 w-full mb-3 flex flex-col gap-y-5">
-          <div id="ABOUT">
-            <Card cardClassName={"bg-white"}>
-              <p
-                className={`lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray `}
-              >
-                About The Property
-              </p>
-              <p
-                ref={aboutRef}
-                className={`text-xs lg:text-sm font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
-                  isExpandedAbout ? "" : ""
-                }`}
-              >
-                {About_the_property}
-              </p>
-              {showToggleAbout && (
+          {About_the_property?.trim() && (
+            <div id="ABOUT">
+              <Card cardClassName={"bg-white"}>
                 <p
-                  className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center cursor-pointer"
-                  onClick={() => setIsExpandedAbout((prev) => !prev)}
+                  className={`lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray `}
                 >
-                  {/* {isExpandedAbout ? (
-                    <>
-                      Show Less <MdExpandLess size={20} />
-                    </>
-                  ) : (
-                    <>
-                      Read More <MdExpandMore size={20} />
-                    </>
-                  )} */}
+                  About The Property
                 </p>
-              )}
-            </Card>
-          </div>
+                <p
+                  ref={aboutRef}
+                  className={`text-xs lg:text-sm font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray capitalize transition-all duration-300 ${
+                    isExpandedAbout ? "" : ""
+                  }`}
+                >
+                  {About_the_property}
+                </p>
+                {showToggleAbout && (
+                  <p
+                    className="text-orange text-base font-semibold py-3 lg:py-5 px-4 xsm:px-7 flex items-center justify-center cursor-pointer"
+                    onClick={() => setIsExpandedAbout((prev) => !prev)}
+                  >
+                    {/* {isExpandedAbout ? (
+                      <>
+                        Show Less <MdExpandLess size={20} />
+                      </>
+                    ) : (
+                      <>
+                        Read More <MdExpandMore size={20} />
+                      </>
+                    )} */}
+                  </p>
+                )}
+              </Card>
+            </div>
+          )}
           <div id="OVERVIEW">
             <Card cardClassName={"bg-white"}>
               <p className="lg:text-lg font-semibold py-3 lg:py-5 px-4 xsm:px-7 border-b border-gray">
