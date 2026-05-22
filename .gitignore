@@ -22,4 +22,4 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
-.env
+config.bat
