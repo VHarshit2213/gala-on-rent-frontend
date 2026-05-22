@@ -18,7 +18,8 @@ export const filterProperties = (
   area,
   lookingTo,
   propertyType = "",
-  sort = ""
+  sort = "",
+  uniqueCode = ""
 ) => {
   const params = new URLSearchParams();
 
@@ -27,6 +28,7 @@ export const filterProperties = (
   if (lookingTo) params.append("looking_to", lookingTo);
   if (propertyType) params.append("type_of_property", propertyType);
   if (sort) params.append("Financials", sort);
+  if (uniqueCode) params.append("uniqueCode", uniqueCode);
 
   return `/properties/getAllProperties?${params.toString()}`;
 };

@@ -78,16 +78,23 @@ export const fetchSingleProperty = createAsyncThunk(
   }
 );
 
-//get Property By City and area
+//get Property By City and area and uniqueCode
 export const fetchFilteredProperties = createAsyncThunk(
   "property/filterProperties",
   async (
-    { city, area, lookingTo, propertyType = "", sort = "" },
+    { city, area, lookingTo, propertyType = "", sort = "", uniqueCode = "" },
     { rejectWithValue }
   ) => {
     try {
       const response = await api.get(
-        filterProperties(city, area, lookingTo, propertyType, sort)
+        filterProperties(
+          city,
+          area,
+          lookingTo,
+          propertyType,
+          sort,
+          uniqueCode
+        )
       );
       return response;
     } catch (error) {

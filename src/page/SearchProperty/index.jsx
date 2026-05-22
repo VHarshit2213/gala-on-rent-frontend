@@ -48,6 +48,7 @@ const SearchProperty = () => {
   const city = queryParams.get("city");
   const area = queryParams.get("Popular_Area");
   const lookingTo = queryParams.get("looking_to");
+  const uniqueCode = queryParams.get("uniqueCode");
 
   const [isSticky, setIsSticky] = useState(false);
   const [selectedPropertyType, setSelectedPropertyType] = useState(null);
@@ -60,6 +61,7 @@ const SearchProperty = () => {
       lookingTo,
       propertyType: propertyType || "",
       sort: sort || "",
+      uniqueCode: uniqueCode || "",
     };
     dispatch(fetchFilteredProperties(payload));
   };
@@ -92,11 +94,11 @@ const SearchProperty = () => {
   }, []);
 
   useEffect(() => {
-    if (city || area || lookingTo) {
+    if (city || area || lookingTo || uniqueCode) {
       fetchData(null, null);
-      fetchAgentData(1)
+      fetchAgentData(1);
     }
-  }, [city, area, lookingTo]);
+  }, [city, area, lookingTo, uniqueCode]);
 
   if (loading) {
     return <Spinner />;
@@ -170,8 +172,9 @@ const SearchProperty = () => {
           <div className="flex flex-col gap-8 mb-6">
             <div className="flex justify-between text-[#747474] font-normal text-sm">
               <p className="capitalize">
-                Home <span className="text-[#000000]">/</span> {city}{" "}
-                {(lookingTo || area) && (
+                Home <span className="text-[#000000]">/</span>{" "}
+                {uniqueCode ? `Code ${uniqueCode}` : city}
+                {!uniqueCode && (lookingTo || area) && (
                   <>
                     <span className="text-[#000000]">/</span> Property
                     {lookingTo && ` for ${lookingTo}`}
@@ -187,11 +190,13 @@ const SearchProperty = () => {
                   Showing 1 - 30 of 427
                 </p> */}
                 <p className="text-sm md:text-base lg:text-lg font-medium text-[#222222] capitalize">
-                  Property
-                  {lookingTo && ` for ${lookingTo}`}
-                  {(area || lookingTo) &&
-                    ` in ${area ? `${area}, ` : ""}${city}`}
-                  {!area && !lookingTo && ` in ${city}`}
+                  {uniqueCode
+                    ? `Properties by Code ${uniqueCode}`
+                    : `Property${lookingTo ? ` for ${lookingTo}` : ""}${
+                        area || lookingTo
+                          ? ` in ${area ? `${area}, ` : ""}${city}`
+                          : ` in ${city}`
+                      }`}
                 </p>
               </div>
               <div className="flex gap-2 items-center justify-end">

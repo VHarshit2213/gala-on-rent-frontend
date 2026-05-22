@@ -129,7 +129,7 @@ const CodeModal = ({ show, onClose, onSubmit }) => {
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer"
           >
             <IoClose size={24} />
           </button>
@@ -218,9 +218,14 @@ const Home = () => {
 
   const tabs = ["Buy", "Rent"];
 
-  const handleCodeSubmit = (code) => {
+  const handleCodeSubmit = async (code) => {
+    await dispatch(
+      fetchFilteredProperties({
+        uniqueCode: code,
+      })
+    ).unwrap();
     setShowCodeModal(false);
-    navigate(`/search-property?city=${"mumbai"}`);
+    navigate(`/search-property?uniqueCode=${encodeURIComponent(code)}`);
   };
 
   useEffect(() => {
